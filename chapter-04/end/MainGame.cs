@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using chapter_04.States;
+using chapter_04.States.Base;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,6 +11,8 @@ namespace chapter_04
     /// </summary>
     public class MainGame : Game
     {
+        private BaseGameState currentGameState;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -40,6 +44,7 @@ namespace chapter_04
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            currentGameState = new SplashState();
             // TODO: use this.Content to load your game content here
         }
 
@@ -75,8 +80,8 @@ namespace chapter_04
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
+            currentGameState.Render(spriteBatch);
+            
             base.Draw(gameTime);
         }
     }

@@ -1,8 +1,8 @@
 ﻿using chapter_04.States;
 using chapter_04.States.Base;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace chapter_04
 {
@@ -11,7 +11,7 @@ namespace chapter_04
     /// </summary>
     public class MainGame : Game
     {
-        private BaseGameState currentGameState;
+        private BaseGameState _currentGameState;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -44,8 +44,23 @@ namespace chapter_04
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            currentGameState = new SplashState();
-            // TODO: use this.Content to load your game content here
+            SwitchGameState(new SplashState());
+        }
+
+        private void CurrentGameState_OnStateSwitched(object sender, BaseGameState e)
+        {
+            SwitchGameState(e);
+        }
+
+        private void SwitchGameState(BaseGameState gameState)
+        {
+            _currentGameState?.UnloadContent(Content);
+
+            _currentGameState = gameState;
+
+            _currentGameState.LoadContent(Content);
+
+            _currentGameState.OnStateSwitched += CurrentGameState_OnStateSwitched;
         }
 
         /// <summary>
@@ -54,7 +69,7 @@ namespace chapter_04
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            _currentGameState?.UnloadContent(Content);
         }
 
         /// <summary>
@@ -64,10 +79,7 @@ namespace chapter_04
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
+            _currentGameState.HandleInput();
 
             base.Update(gameTime);
         }
@@ -80,7 +92,7 @@ namespace chapter_04
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            currentGameState.Render(spriteBatch);
+            _currentGameState.Render(spriteBatch);
             
             base.Draw(gameTime);
         }

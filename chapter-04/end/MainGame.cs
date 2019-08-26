@@ -1,4 +1,6 @@
-﻿using chapter_04.States;
+﻿using System;
+using chapter_04.Enum;
+using chapter_04.States;
 using chapter_04.States.Base;
 
 using Microsoft.Xna.Framework;
@@ -106,6 +108,17 @@ namespace chapter_04
             _currentGameState.LoadContent(Content);
 
             _currentGameState.OnStateSwitched += CurrentGameState_OnStateSwitched;
+            _currentGameState.OnEventNotification += _currentGameState_OnEventNotification;
+        }
+
+        private void _currentGameState_OnEventNotification(object sender, Enum.Events e)
+        {
+            switch (e)
+            {
+                case Events.GAME_QUIT:
+                    Exit();
+                    break;
+            }
         }
 
         /// <summary>

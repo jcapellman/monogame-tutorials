@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using chapter_04.Enum;
 using chapter_04.Objects.Base;
 
 using Microsoft.Xna.Framework.Content;
@@ -20,6 +21,18 @@ namespace chapter_04.States.Base
         public abstract void HandleInput();
 
         public event EventHandler<BaseGameState> OnStateSwitched;
+
+        public event EventHandler<Events> OnEventNotification;
+
+        protected void NotifyEvent(Events eventType, object argument = null)
+        {
+            OnEventNotification?.Invoke(this, eventType);
+
+            foreach (var gameObject in _gameObjects)
+            {
+                gameObject.OnNotify(eventType);
+            }
+        }
 
         protected void SwitchState(BaseGameState gameState)
         {

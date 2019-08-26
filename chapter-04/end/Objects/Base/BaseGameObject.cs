@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using chapter_04.Enum;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace chapter_04.Objects.Base
@@ -10,6 +11,8 @@ namespace chapter_04.Objects.Base
         private Vector2 _position;
 
         public int zIndex;
+
+        public virtual void OnNotify(Events eventType) { }
 
         public void Render(SpriteBatch spriteBatch)
         {

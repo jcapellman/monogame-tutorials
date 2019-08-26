@@ -5,7 +5,7 @@ namespace chapter_04.Objects.Base
 {
     public class BaseGameObject
     {
-        private Texture2D _texture;
+        protected Texture2D _texture;
 
         private Vector2 _position;
 
@@ -14,6 +14,7 @@ namespace chapter_04.Objects.Base
         public void Render(SpriteBatch spriteBatch)
         {
             // TODO: Drawing call here
+            spriteBatch.Draw(_texture, Vector2.One, Color.White);
         }
     }
 }

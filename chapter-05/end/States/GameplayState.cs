@@ -8,7 +8,7 @@ namespace chapter_05.States
 {
     public class GameplayState : BaseGameState
     {
-        private const string PlayerFighter = "F18";
+        private const string PlayerFighter = "fighter";
 
         private const string BackgroundTexture = "Barren";
 

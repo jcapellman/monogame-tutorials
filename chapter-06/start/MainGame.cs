@@ -29,8 +29,8 @@ namespace chapter_06
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = 1280, 
-                PreferredBackBufferHeight = 720, 
+                PreferredBackBufferWidth = DESIGNED_RESOLUTION_WIDTH, 
+                PreferredBackBufferHeight = DESIGNED_RESOLUTION_HEIGHT, 
                 IsFullScreen = false
             };
             

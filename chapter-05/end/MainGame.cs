@@ -101,7 +101,12 @@ namespace chapter_05
 
         private void SwitchGameState(BaseGameState gameState)
         {
-            _currentGameState?.UnloadContent();
+            if (_currentGameState != null)
+            {
+                _currentGameState.OnStateSwitched -= CurrentGameState_OnStateSwitched;
+                _currentGameState.OnEventNotification -= _currentGameState_OnEventNotification;
+                _currentGameState.UnloadContent();
+            }
 
             _currentGameState = gameState;
 

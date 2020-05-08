@@ -14,7 +14,7 @@ namespace chapter_06.States
 
         public override void LoadContent()
         {
-            AddGameObject(new SplashImage(LoadTexture(BackgroundTexture)));
+            AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
             AddGameObject(new PlayerSprite(LoadTexture(PlayerFighter)));
         }
 

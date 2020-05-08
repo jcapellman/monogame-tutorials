@@ -46,6 +46,7 @@
     <Compile Include="Objects\Base\BaseGameObject.cs" />
     <Compile Include="Objects\PlayerSprite.cs" />
     <Compile Include="Objects\SplashImage.cs" />
+    <Compile Include="Objects\TerrainBackground.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\Base\BaseGameState.cs" />

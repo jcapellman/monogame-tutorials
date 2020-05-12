@@ -2,6 +2,7 @@
 using chapter_06.Objects.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace chapter_06.Objects
 {
@@ -28,7 +29,13 @@ namespace chapter_06.Objects
 
             var rectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
 
-            var 
+            //for (int nbVertical = 0; nbVertical < viewport.Height / _texture.Height + 1; nbVertical++)
+            //{
+            //    for (int nbHorizontal = 0; nbHorizontal < viewport.Width / _texture.Width + 1; nbHorizontal++)
+            //    {
+            //        var origin = new Vector2
+            //    }
+            //}
 
             // TODO: understand how origin works
             var originTop = new Vector2(_position.X, -(_position.Y - _texture.Height));

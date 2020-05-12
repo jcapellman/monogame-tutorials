@@ -1,7 +1,7 @@
 ﻿using chapter_06.Enum;
 using chapter_06.Objects;
 using chapter_06.States.Base;
-
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace chapter_06.States
@@ -27,5 +27,10 @@ namespace chapter_06.States
                 NotifyEvent(Events.GAME_QUIT);
             }
         }
+
+        //public override void Update(GameTime gameTime)
+        //{
+        //    // scroll the background
+        //}
     }
 }

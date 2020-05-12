@@ -5,6 +5,7 @@ using System.Linq;
 using chapter_06.Enum;
 using chapter_06.Objects.Base;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,6 +32,7 @@ namespace chapter_06.States.Base
         }
 
         public abstract void HandleInput();
+        //public virtual void Update(GameTime gameTime) { }
 
         public event EventHandler<BaseGameState> OnStateSwitched;
 
@@ -49,7 +51,7 @@ namespace chapter_06.States.Base
 
             foreach (var gameObject in _gameObjects)
             {
-                gameObject.OnNotify(eventType, argument);
+                gameObject.OnNotify(eventType);
             }
         }
 

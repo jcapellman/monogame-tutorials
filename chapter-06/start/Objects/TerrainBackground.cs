@@ -63,6 +63,8 @@ namespace chapter_06.Objects
             }
 
             // TODO: understand how origin works
+            // answer here? https://gamedev.stackexchange.com/questions/51508/weird-behavior-with-xna-spritebatch-draw-origin/54221
+
             _position.Y = (int)(_position.Y + SCROLLING_SPEED) % _texture.Height;
         }
     }

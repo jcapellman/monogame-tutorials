@@ -19,7 +19,6 @@ namespace chapter_06.Objects
         public override void Render(SpriteBatch spriteBatch)
         {
             var viewport = spriteBatch.GraphicsDevice.Viewport;
-            var viewportRectangle = new Rectangle(0, 0, viewport.Width, viewport.Height);
 
             // draw the texture twice on top of each other with an ever increasing y offset
             // this is to implement the scrolling
@@ -29,38 +28,41 @@ namespace chapter_06.Objects
 
             var rectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
 
-            //for (int nbVertical = 0; nbVertical < viewport.Height / _texture.Height + 1; nbVertical++)
-            //{
-            //    for (int nbHorizontal = 0; nbHorizontal < viewport.Width / _texture.Width + 1; nbHorizontal++)
-            //    {
-            //        var origin = new Vector2
-            //    }
-            //}
+            // For vertical, after figuring out how many textures fit the Height of the viewport, add an extra one for when it scrolls
+            // the reason is once scrolling is under way, an extra texture will be needed to fill the gap that appears at the top of the screen
+            for (int nbVertical = 0; nbVertical < viewport.Height / _texture.Height + 2; nbVertical++)
+            {
+                var y = -(_position.Y + nbVertical * _texture.Height);
+                for (int nbHorizontal = 0; nbHorizontal < viewport.Width / _texture.Width + 1; nbHorizontal++)
+                {
+                    var x = -(_position.X + nbHorizontal * _texture.Width);
+                    var origin = new Vector2(x, y + _texture.Width);
+                    spriteBatch.Draw(_texture, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
+
+                    // -------------
+                    // below is debug squares
+
+                    //var blankWhite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+                    //blankWhite.SetData(new[] { Color.White });
+
+                    //var blankRed = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+                    //blankRed.SetData(new[] { Color.Red });
+
+                    //var blankBlue = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+                    //blankBlue.SetData(new[] { Color.Blue });
+
+                    //if (nbVertical == 0)
+                    //    spriteBatch.Draw(blankWhite, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
+
+                    //if (nbVertical == 1)
+                    //    spriteBatch.Draw(blankRed, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
+
+                    //if (nbVertical == 2)
+                    //    spriteBatch.Draw(blankBlue, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
+                }
+            }
 
             // TODO: understand how origin works
-            var originTop = new Vector2(_position.X, -(_position.Y - _texture.Height));
-            var originMiddle = new Vector2(_position.X, -_position.Y);
-            var originBottom = new Vector2(_position.X, -(_position.Y + _texture.Height));
-
-            spriteBatch.Draw(_texture, rectangle, rectangle, Color.White, 0.0f, originTop, SpriteEffects.None, 0);
-            spriteBatch.Draw(_texture, rectangle, rectangle, Color.White, 0.0f, originMiddle, SpriteEffects.None, 0);
-            spriteBatch.Draw(_texture, rectangle, rectangle, Color.White, 0.0f, originBottom, SpriteEffects.None, 0);
-
-
-            //var blankWhite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            //blankWhite.SetData(new[] { Color.White });
-
-            //var blankRed = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            //blankRed.SetData(new[] { Color.Red });
-
-            //var blankBlue = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            //blankBlue.SetData(new[] { Color.Blue });
-
-
-            //spriteBatch.Draw(blankWhite, rectangle, rectangle, Color.White, 0.0f, originTop, SpriteEffects.None, 0);
-            //spriteBatch.Draw(blankRed, rectangle, rectangle, Color.White, 0.0f, originMiddle, SpriteEffects.None, 0);
-            //spriteBatch.Draw(blankBlue, rectangle, rectangle, Color.White, 0.0f, originBottom, SpriteEffects.None, 0);
-
             _position.Y = (int)(_position.Y + SCROLLING_SPEED) % _texture.Height;
         }
     }

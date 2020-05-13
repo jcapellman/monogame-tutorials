@@ -20,50 +20,19 @@ namespace chapter_06.Objects
         {
             var viewport = spriteBatch.GraphicsDevice.Viewport;
 
-            // draw the texture twice on top of each other with an ever increasing y offset
-            // this is to implement the scrolling
-            // draw background 1 from (position.y - height) to position.y
-            // draw background 2 from (position.y + 1) to (position.y + 1 + height)
-            // but we're moving the origin instead of the object, so Y must be negative instead of positive
+            var sourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
 
-            var rectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
-
-            // For vertical, after figuring out how many textures fit the Height of the viewport, add an extra one for when it scrolls
-            // the reason is once scrolling is under way, an extra texture will be needed to fill the gap that appears at the top of the screen
-            for (int nbVertical = 0; nbVertical < viewport.Height / _texture.Height + 2; nbVertical++)
+            // tile the textures to fill the screen. Add an extra row of tiles above the viewport so they can scroll into view and not leave a gap
+            for (int nbVertical = -1; nbVertical < viewport.Height / _texture.Height + 1; nbVertical++)
             {
-                var y = -(_position.Y + nbVertical * _texture.Height);
+                var y = (int) _position.Y + nbVertical * _texture.Height;
                 for (int nbHorizontal = 0; nbHorizontal < viewport.Width / _texture.Width + 1; nbHorizontal++)
                 {
-                    var x = -(_position.X + nbHorizontal * _texture.Width);
-                    var origin = new Vector2(x, y + _texture.Width);
-                    spriteBatch.Draw(_texture, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
-
-                    // -------------
-                    // below is debug squares
-
-                    //var blankWhite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-                    //blankWhite.SetData(new[] { Color.White });
-
-                    //var blankRed = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-                    //blankRed.SetData(new[] { Color.Red });
-
-                    //var blankBlue = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-                    //blankBlue.SetData(new[] { Color.Blue });
-
-                    //if (nbVertical == 0)
-                    //    spriteBatch.Draw(blankWhite, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
-
-                    //if (nbVertical == 1)
-                    //    spriteBatch.Draw(blankRed, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
-
-                    //if (nbVertical == 2)
-                    //    spriteBatch.Draw(blankBlue, rectangle, rectangle, Color.White, 0.0f, origin, SpriteEffects.None, 0);
+                    var x = (int) _position.X + nbHorizontal * _texture.Width;
+                    var destinationRectangle = new Rectangle(x, y, _texture.Width, _texture.Height);
+                    spriteBatch.Draw(_texture, destinationRectangle, sourceRectangle, Color.White);
                 }
             }
-
-            // TODO: understand how origin works
-            // answer here? https://gamedev.stackexchange.com/questions/51508/weird-behavior-with-xna-spritebatch-draw-origin/54221
 
             _position.Y = (int)(_position.Y + SCROLLING_SPEED) % _texture.Height;
         }

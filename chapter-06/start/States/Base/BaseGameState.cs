@@ -50,7 +50,7 @@ namespace chapter_06.States.Base
 
             foreach (var gameObject in _gameObjects)
             {
-                gameObject.OnNotify(eventType);
+                gameObject.OnNotify(eventType, argument);
             }
         }
 

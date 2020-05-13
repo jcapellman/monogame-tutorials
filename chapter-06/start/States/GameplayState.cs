@@ -54,16 +54,24 @@ namespace chapter_06.States
         private void KeepPlayerInBounds()
         {
             if (_playerSprite.Position.X < 0)
+            {
                 _playerSprite.Position = new Vector2(0, _playerSprite.Position.Y);
+            }
 
             if (_playerSprite.Position.X > _viewportWidth - _playerSprite.Width)
+            {
                 _playerSprite.Position = new Vector2(_viewportWidth - _playerSprite.Width, _playerSprite.Position.Y);
+            }
 
             if (_playerSprite.Position.Y < 0)
+            {
                 _playerSprite.Position = new Vector2(_playerSprite.Position.X, 0);
+            }
 
             if (_playerSprite.Position.Y > _viewportHeight - _playerSprite.Height)
+            {
                 _playerSprite.Position = new Vector2(_playerSprite.Position.X, _viewportHeight - _playerSprite.Height);
+            }
         }
     }
 }

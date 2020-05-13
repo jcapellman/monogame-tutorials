@@ -27,10 +27,5 @@ namespace chapter_06.States
                 NotifyEvent(Events.GAME_QUIT);
             }
         }
-
-        //public override void Update(GameTime gameTime)
-        //{
-        //    // scroll the background
-        //}
     }
 }

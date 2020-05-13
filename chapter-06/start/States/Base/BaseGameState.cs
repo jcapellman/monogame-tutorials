@@ -32,7 +32,6 @@ namespace chapter_06.States.Base
         }
 
         public abstract void HandleInput();
-        //public virtual void Update(GameTime gameTime) { }
 
         public event EventHandler<BaseGameState> OnStateSwitched;
 

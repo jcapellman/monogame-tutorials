@@ -110,7 +110,7 @@ namespace chapter_06
 
             _currentGameState = gameState;
 
-            _currentGameState.Initialize(Content);
+            _currentGameState.Initialize(Content, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 
             _currentGameState.LoadContent();
 

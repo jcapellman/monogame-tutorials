@@ -15,12 +15,16 @@ namespace chapter_06.States.Base
         private const string FallbackTexture = "Empty";
 
         private ContentManager _contentManager;
+        protected int _viewportHeight;
+        protected int _viewportWidth;
 
         private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
 
-        public void Initialize(ContentManager contentManager)
+        public void Initialize(ContentManager contentManager, int viewportWidth, int viewportHeight)
         {
             _contentManager = contentManager;
+            _viewportHeight = viewportHeight;
+            _viewportWidth = viewportWidth;
         }
 
         public abstract void LoadContent();

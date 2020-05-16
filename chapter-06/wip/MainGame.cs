@@ -29,11 +29,11 @@ namespace chapter_06
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = 1280, 
-                PreferredBackBufferHeight = 720, 
+                PreferredBackBufferWidth = DESIGNED_RESOLUTION_WIDTH,
+                PreferredBackBufferHeight = DESIGNED_RESOLUTION_HEIGHT,
                 IsFullScreen = false
             };
-            
+
             Content.RootDirectory = "Content";
         }
 
@@ -61,7 +61,7 @@ namespace chapter_06
         {
             var variance = 0.5;
             var actualAspectRatio = Window.ClientBounds.Width / (float)Window.ClientBounds.Height;
-            
+
             Rectangle scaleRectangle;
 
             if (actualAspectRatio <= DESIGNED_RESOLUTION_ASPECT_RATIO)
@@ -110,7 +110,7 @@ namespace chapter_06
 
             _currentGameState = gameState;
 
-            _currentGameState.Initialize(Content);
+            _currentGameState.Initialize(Content, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 
             _currentGameState.LoadContent();
 
@@ -163,7 +163,7 @@ namespace chapter_06
             spriteBatch.Begin();
 
             _currentGameState.Render(spriteBatch);
-            
+
             spriteBatch.End();
 
             // Now render the scaled content

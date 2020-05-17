@@ -45,8 +45,9 @@
     <Compile Include="Input\Base\BaseInputMapper.cs" />
     <Compile Include="Input\Base\BaseInputCommand.cs" />
     <Compile Include="Input\Base\InputManager.cs" />
+    <Compile Include="Input\GameplayInputCommand.cs" />
     <Compile Include="Input\GameplayInputMapper.cs" />
-    <Compile Include="Input\InputCommand.cs" />
+    <Compile Include="Input\SplashInputCommand.cs" />
     <Compile Include="Input\SplashInputMapper.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Objects\Base\BaseGameObject.cs" />

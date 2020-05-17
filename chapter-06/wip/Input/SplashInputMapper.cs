@@ -9,10 +9,6 @@ namespace chapter_06.Input
         public override IEnumerable<BaseInputCommand> GetKeyboardState(KeyboardState state)
         {
             var commands = new List<SplashInputCommand>();
-            if (state.IsKeyDown(Keys.Escape))
-            {
-                commands.Add(new SplashInputCommand.GameExit());
-            }
 
             if (state.IsKeyDown(Keys.Enter))
             {

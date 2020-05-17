@@ -23,11 +23,6 @@ namespace chapter_06.States
                 {
                     SwitchState(new GameplayState());
                 }
-
-                if (cmd is SplashInputCommand.GameExit)
-                {
-                    NotifyEvent(Events.GAME_QUIT);
-                }
             });
         }
 

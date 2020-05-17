@@ -1,32 +1,27 @@
-﻿namespace chapter_06.Input.Base
+﻿using System.Collections.Generic;
+
+namespace chapter_06.Input.Base
 {
-    //public interface IBaseInputMapper
-    //{
-    //    BaseInputCommand GetKeyboardState();
-    //    BaseInputCommand GetMouseState();
-    //    BaseInputCommand GetGamePadState();
-    //    BaseInputCommand GetTouchState();
-    //}
     public class BaseInputMapper
     {
-        public virtual BaseInputCommand GetKeyboardState()
+        public virtual IEnumerable<BaseInputCommand> GetKeyboardState()
         {
-            return new BaseInputCommand.NothingToDo();
+            return new List<BaseInputCommand>();
         }
 
-        public virtual BaseInputCommand GetMouseState()
+        public virtual IEnumerable<BaseInputCommand> GetMouseState()
         {
-            return new BaseInputCommand.NothingToDo();
+            return new List<BaseInputCommand>();
         }
 
-        public virtual BaseInputCommand GetGamePadState()
+        public virtual IEnumerable<BaseInputCommand> GetGamePadState()
         {
-            return new BaseInputCommand.NothingToDo();
+            return new List<BaseInputCommand>();
         }
         
-        public virtual BaseInputCommand GetTouchState()
+        public virtual IEnumerable<BaseInputCommand> GetTouchState()
         {
-            return new BaseInputCommand.NothingToDo();
+            return new List<BaseInputCommand>();
         }
     }
 }

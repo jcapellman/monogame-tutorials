@@ -20,22 +20,34 @@ namespace chapter_06.Input.Base
             {
                 if (device == InputDevices.KEYBOARD)
                 {
-                    actOnState(_inputMapper.GetKeyboardState());
+                    foreach (var command in _inputMapper.GetKeyboardState())
+                    {
+                        actOnState(command);
+                    }
                 }
 
                 if (device == InputDevices.MOUSE)
                 {
-                    actOnState(_inputMapper.GetMouseState());
+                    foreach (var command in _inputMapper.GetMouseState())
+                    {
+                        actOnState(command);
+                    }
                 }
 
                 if (device == InputDevices.GAMEPAD)
                 {
-                    actOnState(_inputMapper.GetGamePadState());
+                    foreach (var command in _inputMapper.GetGamePadState())
+                    {
+                        actOnState(command);
+                    }
                 }
 
                 if (device == InputDevices.TOUCH)
                 {
-                    actOnState(_inputMapper.GetTouchState());
+                    foreach (var command in _inputMapper.GetTouchState())
+                    {
+                        actOnState(command);
+                    }
                 }
             }
         }

@@ -1,35 +1,37 @@
 ﻿using chapter_06.Input.Base;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace chapter_06.Input
 {
     public class GameplayInputMapper : BaseInputMapper
     {
-        public override BaseInputCommand GetKeyboardState()
+        public override IEnumerable<BaseInputCommand> GetKeyboardState()
         {
+            var commands = new List<GameplayInputCommand>();
             var state = Keyboard.GetState();
 
             if (state.IsKeyDown(Keys.Escape))
             {
-                return new GameplayInputCommand.GameExit();
+                commands.Add(new GameplayInputCommand.GameExit());
             }
 
             if (state.IsKeyDown(Keys.Left))
             {
-                return new GameplayInputCommand.PlayerMoveLeft();
+                commands.Add(new GameplayInputCommand.PlayerMoveLeft());
             }
 
             if (state.IsKeyDown(Keys.Right))
             {
-                return new GameplayInputCommand.PlayerMoveRight();
+                commands.Add(new GameplayInputCommand.PlayerMoveRight());
             }
 
             if (state.IsKeyDown(Keys.Space))
             {
-                return new GameplayInputCommand.PlayerShoots();
+                commands.Add(new GameplayInputCommand.PlayerShoots());
             }
- 
-            return new BaseInputCommand.NothingToDo();
+
+            return commands;
         }
     }
 }

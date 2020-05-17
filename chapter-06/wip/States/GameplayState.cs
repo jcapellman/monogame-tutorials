@@ -1,4 +1,6 @@
 ﻿using chapter_06.Enum;
+using chapter_06.Input;
+using chapter_06.Input.Base;
 using chapter_06.Objects;
 using chapter_06.States.Base;
 
@@ -41,29 +43,30 @@ namespace chapter_06.States
 
         public override void HandleInput(GameTime gameTime)
         {
-            var state = Keyboard.GetState();
-
-            if (state.IsKeyDown(Keys.Escape))
+            InputManager.GetCommands(cmd =>
             {
-                NotifyEvent(Events.GAME_QUIT);
-            }
+                if (cmd is GameplayInputCommand.GameExit)
+                {
+                    NotifyEvent(Events.GAME_QUIT);
+                }
 
-            if (state.IsKeyDown(Keys.Left))
-            {
-                _playerSprite.MoveLeft();
-                KeepPlayerInBounds();
-            }
+                if (cmd is GameplayInputCommand.PlayerMoveLeft)
+                {
+                    _playerSprite.MoveLeft();
+                    KeepPlayerInBounds();
+                }
 
-            if (state.IsKeyDown(Keys.Right))
-            {
-                _playerSprite.MoveRight();
-                KeepPlayerInBounds();
-            }
+                if (cmd is GameplayInputCommand.PlayerMoveRight)
+                {
+                    _playerSprite.MoveRight();
+                    KeepPlayerInBounds();
+                }
 
-            if (state.IsKeyDown(Keys.Space))
-            {
-                Shoot(gameTime);
-            }
+                if (cmd is GameplayInputCommand.PlayerShoots)
+                {
+                    Shoot(gameTime);
+                }
+            });
         }
 
         public override void Update(GameTime gameTime)
@@ -150,5 +153,10 @@ namespace chapter_06.States
             }
         }
 
+        protected override void SetInputManager()
+        {
+            var devices = new List<InputDevices> { InputDevices.KEYBOARD };
+            InputManager = new InputManager(devices, new GameplayInputMapper());
+        }
     }
 }

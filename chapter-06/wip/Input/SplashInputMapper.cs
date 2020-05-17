@@ -6,11 +6,9 @@ namespace chapter_06.Input
 {
     public class SplashInputMapper : BaseInputMapper
     {
-        public override IEnumerable<BaseInputCommand> GetKeyboardState()
+        public override IEnumerable<BaseInputCommand> GetKeyboardState(KeyboardState state)
         {
             var commands = new List<SplashInputCommand>();
-            var state = Keyboard.GetState();
-
             if (state.IsKeyDown(Keys.Escape))
             {
                 commands.Add(new SplashInputCommand.GameExit());

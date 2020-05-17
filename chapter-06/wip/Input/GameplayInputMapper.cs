@@ -6,10 +6,9 @@ namespace chapter_06.Input
 {
     public class GameplayInputMapper : BaseInputMapper
     {
-        public override IEnumerable<BaseInputCommand> GetKeyboardState()
+        public override IEnumerable<BaseInputCommand> GetKeyboardState(KeyboardState state)
         {
             var commands = new List<GameplayInputCommand>();
-            var state = Keyboard.GetState();
 
             if (state.IsKeyDown(Keys.Escape))
             {

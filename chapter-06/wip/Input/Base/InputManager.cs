@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace chapter_06.Input.Base
@@ -14,24 +15,23 @@ namespace chapter_06.Input.Base
 
         public void GetCommands(Action<BaseInputCommand> actOnState)
         {
-            foreach (var command in _inputMapper.GetKeyboardState())
+            var keyboardState = Keyboard.GetState();
+            foreach (var state in _inputMapper.GetKeyboardState(keyboardState))
             {
-                actOnState(command);
+                actOnState(state);
             }
 
-            foreach (var command in _inputMapper.GetMouseState())
+            var mouseState = Mouse.GetState();
+            foreach (var state in _inputMapper.GetMouseState(mouseState))
             {
-                actOnState(command);
+                actOnState(state);
             }
 
-            foreach (var command in _inputMapper.GetGamePadState())
+            // we're going to assume only 1 gamepad is being used
+            var gamePadState = GamePad.GetState(0);
+            foreach (var state in _inputMapper.GetGamePadState(gamePadState))
             {
-                actOnState(command);
-            }
-
-            foreach (var command in _inputMapper.GetTouchState())
-            {
-                actOnState(command);
+                actOnState(state);
             }
         }
     }

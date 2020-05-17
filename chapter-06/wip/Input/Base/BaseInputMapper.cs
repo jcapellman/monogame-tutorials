@@ -1,25 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using System.Collections.Generic;
 
 namespace chapter_06.Input.Base
 {
     public class BaseInputMapper
     {
-        public virtual IEnumerable<BaseInputCommand> GetKeyboardState()
+        public virtual IEnumerable<BaseInputCommand> GetKeyboardState(KeyboardState state)
         {
             return new List<BaseInputCommand>();
         }
 
-        public virtual IEnumerable<BaseInputCommand> GetMouseState()
+        public virtual IEnumerable<BaseInputCommand> GetMouseState(MouseState state)
         {
             return new List<BaseInputCommand>();
         }
 
-        public virtual IEnumerable<BaseInputCommand> GetGamePadState()
-        {
-            return new List<BaseInputCommand>();
-        }
-        
-        public virtual IEnumerable<BaseInputCommand> GetTouchState()
+        public virtual IEnumerable<BaseInputCommand> GetGamePadState(GamePadState state)
         {
             return new List<BaseInputCommand>();
         }

@@ -83,9 +83,15 @@ namespace chapter_06.States
             var newBulletList = new List<BulletSprite>();
             foreach (var bullet in _bulletList)
             {
-                if (bullet.Position.Y > -30)
+                var bulletStillOnScreen = bullet.Position.Y > -30;
+
+                if (bulletStillOnScreen)
                 {
                     newBulletList.Add(bullet);
+                }
+                else
+                {
+                    RemoveGameObject(bullet);
                 }
             }
 

@@ -33,8 +33,7 @@ namespace chapter_06.States
 
         protected override void SetInputManager()
         {
-            var devices = new List<InputDevices> { InputDevices.KEYBOARD };
-            InputManager = new InputManager(devices, new SplashInputMapper());
+            InputManager = new InputManager(new SplashInputMapper());
         }
     }
 }

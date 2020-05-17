@@ -4,7 +4,7 @@ using System.Linq;
 
 using chapter_06.Enum;
 using chapter_06.Objects.Base;
-
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,17 +28,17 @@ namespace chapter_06.States.Base
         }
 
         public abstract void LoadContent();
+        public virtual void Update(GameTime gameTime) { }
+        public abstract void HandleInput(GameTime gameTime);
+
+        public event EventHandler<BaseGameState> OnStateSwitched;
+        public event EventHandler<Events> OnEventNotification;
 
         public void UnloadContent()
         {
             _contentManager.Unload();
         }
 
-        public abstract void HandleInput();
-
-        public event EventHandler<BaseGameState> OnStateSwitched;
-
-        public event EventHandler<Events> OnEventNotification;
 
         protected Texture2D LoadTexture(string textureName)
         {

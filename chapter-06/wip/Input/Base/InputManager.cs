@@ -6,9 +6,9 @@ namespace chapter_06.Input.Base
     public class InputManager
     {
         private readonly List<InputDevices> _activeDevices;
-        private readonly IBaseInputMapper<BaseInputCommand> _inputMapper;
+        private readonly BaseInputMapper _inputMapper;
 
-        public InputManager(List<InputDevices> activeDevices, IBaseInputMapper<BaseInputCommand> inputMapper)
+        public InputManager(List<InputDevices> activeDevices, BaseInputMapper inputMapper)
         {
             _activeDevices = activeDevices;
             _inputMapper = inputMapper;

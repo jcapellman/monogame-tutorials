@@ -3,14 +3,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace chapter_06.Input
 {
-    public class SplashInputMapper : IBaseInputMapper<BaseInputCommand>
+    public class SplashInputMapper : BaseInputMapper
     {
-        public BaseInputCommand GetGamePadState()
-        {
-            return new BaseInputCommand.NothingToDo();
-        }
-
-        public BaseInputCommand GetKeyboardState()
+        public override BaseInputCommand GetKeyboardState()
         {
             var state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.Escape))
@@ -23,16 +18,6 @@ namespace chapter_06.Input
                 return new SplashInputCommand.GameSelect();
             }
 
-            return new BaseInputCommand.NothingToDo();
-        }
-
-        public BaseInputCommand GetMouseState()
-        {
-            return new BaseInputCommand.NothingToDo();
-        }
-
-        public BaseInputCommand GetTouchState()
-        {
             return new BaseInputCommand.NothingToDo();
         }
     }

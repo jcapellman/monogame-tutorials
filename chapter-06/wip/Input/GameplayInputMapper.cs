@@ -3,14 +3,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace chapter_06.Input
 {
-    public class GameplayInputMapper : IBaseInputMapper<BaseInputCommand>
+    public class GameplayInputMapper : BaseInputMapper
     {
-        public BaseInputCommand GetGamePadState()
-        {
-            return new BaseInputCommand.NothingToDo();
-        }
-
-        public BaseInputCommand GetKeyboardState()
+        public override BaseInputCommand GetKeyboardState()
         {
             var state = Keyboard.GetState();
 
@@ -34,16 +29,6 @@ namespace chapter_06.Input
                 return new GameplayInputCommand.PlayerShoots();
             }
  
-            return new BaseInputCommand.NothingToDo();
-        }
-
-        public BaseInputCommand GetMouseState()
-        {
-            return new BaseInputCommand.NothingToDo();
-        }
-
-        public BaseInputCommand GetTouchState()
-        {
             return new BaseInputCommand.NothingToDo();
         }
     }

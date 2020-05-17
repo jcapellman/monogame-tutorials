@@ -1,7 +1,10 @@
-﻿using chapter_06.Objects;
+﻿using chapter_06.Enum;
+using chapter_06.Input;
+using chapter_06.Input.Base;
+using chapter_06.Objects;
 using chapter_06.States.Base;
 
-using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace chapter_06.States
 {
@@ -12,14 +15,20 @@ namespace chapter_06.States
             AddGameObject(new SplashImage(LoadTexture("splash")));
         }
 
-        public override void HandleInput()
+        public override void HandleInput(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            var state = Keyboard.GetState();
-
-            if (state.IsKeyDown(Keys.Enter))
+            InputManager.GetCommands(cmd =>
             {
-                SwitchState(new GameplayState());
-            }
+                if (cmd is SplashInputCommand.GameSelect)
+                {
+                    SwitchState(new GameplayState());
+                }
+            });
+        }
+
+        protected override void SetInputManager()
+        {
+            InputManager = new InputManager(new SplashInputMapper());
         }
     }
 }

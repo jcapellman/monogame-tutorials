@@ -2,8 +2,7 @@
 using chapter_07.Engine.States;
 using chapter_07.Input;
 using chapter_07.Objects;
-
-using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace chapter_07.States
 {
@@ -24,6 +23,8 @@ namespace chapter_07.States
                 }
             });
         }
+
+        public override void UpdateGameState(GameTime _) { }
 
         protected override void SetInputManager()
         {

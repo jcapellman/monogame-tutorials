@@ -49,13 +49,7 @@ namespace chapter_07.States
             // music
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
             var track2 = LoadSound("FutureAmbient_2").CreateInstance();
-            // TODO: move into sound manager
-            // _soundManager.AddSoundtrack(new List<SoundEffectInstance>() { track1, track2 }
-            _soundtracks = new List<SoundEffectInstance>() { track1, track2 };
-            
-            // set index to end because it'll switch to the next song, which is the 1st one.
-            // TODO: move into sound manager
-            _soundtrackIndex = _soundtracks.Count - 1;
+            _soundManager.AddSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -86,7 +80,7 @@ namespace chapter_07.States
             });
         }
 
-        public override void Update(GameTime gameTime)
+        public override void UpdateGameState(GameTime gameTime)
         {
             foreach (var bullet in _bulletList)
             {
@@ -116,29 +110,6 @@ namespace chapter_07.States
             }
 
             _bulletList = newBulletList;
-
-            // make sure we play the next track if the current one is over
-            // TODO: replace with sound manager
-            // _soundManager.PlaySoundtrack();
-            PlayMusic();
-        }
-        private void PlayMusic()
-        {
-            var nbTracks = _soundtracks.Count;
-            var currentTrack = _soundtracks[_soundtrackIndex];
-            var nextTrack =  _soundtracks[(_soundtrackIndex + 1) % nbTracks];
-
-            if (currentTrack.State == SoundState.Stopped)
-            {
-                nextTrack.Play();
-                _soundtrackIndex++;
-
-                if (_soundtrackIndex >= _soundtracks.Count)
-                {
-                    _soundtrackIndex = 0;
-                }
-            }
-
         }
  
         private void Shoot(GameTime gameTime)

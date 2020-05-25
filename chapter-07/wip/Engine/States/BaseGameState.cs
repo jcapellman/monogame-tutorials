@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using chapter_07.Engine.Input;
 using chapter_07.Engine.Objects;
+using chapter_07.Engine.Sound;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -18,6 +19,7 @@ namespace chapter_07.Engine.States
         private ContentManager _contentManager;
         protected int _viewportHeight;
         protected int _viewportWidth;
+        protected SoundManager _soundManager = new SoundManager();
 
         private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
 
@@ -33,8 +35,8 @@ namespace chapter_07.Engine.States
         }
 
         public abstract void LoadContent();
-        public virtual void Update(GameTime gameTime) { }
         public abstract void HandleInput(GameTime gameTime);
+        public abstract void UpdateGameState(GameTime gameTime);
 
         public event EventHandler<BaseGameState> OnStateSwitched;
         public event EventHandler<BaseGameStateEvent> OnEventNotification;
@@ -43,6 +45,12 @@ namespace chapter_07.Engine.States
         public void UnloadContent()
         {
             _contentManager.Unload();
+        }
+
+        public virtual void Update(GameTime gameTime) 
+        {
+            UpdateGameState(gameTime);
+            _soundManager.PlaySoundtrack();
         }
 
         protected Texture2D LoadTexture(string textureName)

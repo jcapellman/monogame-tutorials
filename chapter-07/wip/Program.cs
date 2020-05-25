@@ -1,4 +1,6 @@
-﻿using System;
+﻿using chapter_07.Engine;
+using chapter_07.States;
+using System;
 
 namespace chapter_07
 {
@@ -14,7 +16,7 @@ namespace chapter_07
         [STAThread]
         static void Main()
         {
-            using (var game = new MainGame())
+            using (var game = new MainGame(1280, 720, new SplashState()))
                 game.Run();
         }
     }

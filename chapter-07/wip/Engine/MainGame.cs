@@ -1,11 +1,10 @@
-﻿using chapter_07.Enum;
+﻿using chapter_07.Engine.States;
 using chapter_07.States;
-using chapter_07.States.Base;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace chapter_07
+namespace chapter_07.Engine
 {
     /// <summary>
     /// This is the main type for your game.
@@ -20,21 +19,26 @@ namespace chapter_07
         private RenderTarget2D _renderTarget;
         private Rectangle _renderScaleRectangle;
 
-        private const int DESIGNED_RESOLUTION_WIDTH = 1280;
-        private const int DESIGNED_RESOLUTION_HEIGHT = 720;
+        private int _DesignedResolutinWidth;
+        private int _DesignedResolutionHeight;
+        private float _designedResolutionAspectRatio;
 
-        private const float DESIGNED_RESOLUTION_ASPECT_RATIO = DESIGNED_RESOLUTION_WIDTH / (float)DESIGNED_RESOLUTION_HEIGHT;
+        private BaseGameState _firstGameState;
 
-        public MainGame()
+        public MainGame(int width, int height, BaseGameState firstGameState)
         {
+            Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = DESIGNED_RESOLUTION_WIDTH,
-                PreferredBackBufferHeight = DESIGNED_RESOLUTION_HEIGHT,
+                PreferredBackBufferWidth = width,
+                PreferredBackBufferHeight = height,
                 IsFullScreen = false
             };
 
-            Content.RootDirectory = "Content";
+            _firstGameState = firstGameState;
+            _DesignedResolutinWidth = width;
+            _DesignedResolutionHeight = height;
+            _designedResolutionAspectRatio = width / (float)height;
         }
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace chapter_07
         /// </summary>
         protected override void Initialize()
         {
-            _renderTarget = new RenderTarget2D(graphics.GraphicsDevice, DESIGNED_RESOLUTION_WIDTH, DESIGNED_RESOLUTION_HEIGHT, false,
+            _renderTarget = new RenderTarget2D(graphics.GraphicsDevice, _DesignedResolutinWidth, _DesignedResolutionHeight, false,
                 SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
 
             _renderScaleRectangle = GetScaleRectangle();
@@ -64,16 +68,16 @@ namespace chapter_07
 
             Rectangle scaleRectangle;
 
-            if (actualAspectRatio <= DESIGNED_RESOLUTION_ASPECT_RATIO)
+            if (actualAspectRatio <= _designedResolutionAspectRatio)
             {
-                var presentHeight = (int)(Window.ClientBounds.Width / DESIGNED_RESOLUTION_ASPECT_RATIO + variance);
+                var presentHeight = (int)(Window.ClientBounds.Width / _designedResolutionAspectRatio + variance);
                 var barHeight = (Window.ClientBounds.Height - presentHeight) / 2;
 
                 scaleRectangle = new Rectangle(0, barHeight, Window.ClientBounds.Width, presentHeight);
             }
             else
             {
-                var presentWidth = (int)(Window.ClientBounds.Height * DESIGNED_RESOLUTION_ASPECT_RATIO + variance);
+                var presentWidth = (int)(Window.ClientBounds.Height * _designedResolutionAspectRatio + variance);
                 var barWidth = (Window.ClientBounds.Width - presentWidth) / 2;
 
                 scaleRectangle = new Rectangle(barWidth, 0, presentWidth, Window.ClientBounds.Height);
@@ -91,7 +95,7 @@ namespace chapter_07
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            SwitchGameState(new SplashState());
+            SwitchGameState(_firstGameState);
         }
 
         private void CurrentGameState_OnStateSwitched(object sender, BaseGameState e)
@@ -118,11 +122,11 @@ namespace chapter_07
             _currentGameState.OnEventNotification += _currentGameState_OnEventNotification;
         }
 
-        private void _currentGameState_OnEventNotification(object sender, Enum.Events e)
+        private void _currentGameState_OnEventNotification(object sender, BaseGameStateEvent e)
         {
             switch (e)
             {
-                case Events.GAME_QUIT:
+                case BaseGameStateEvent.GameQuit _:
                     Exit();
                     break;
             }

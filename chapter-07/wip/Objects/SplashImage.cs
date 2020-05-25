@@ -1,4 +1,4 @@
-﻿using chapter_07.Objects.Base;
+﻿using chapter_07.Engine.Objects;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace chapter_07.Objects

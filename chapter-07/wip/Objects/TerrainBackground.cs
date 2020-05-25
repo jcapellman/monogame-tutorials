@@ -1,8 +1,6 @@
-﻿using chapter_07.Enum;
-using chapter_07.Objects.Base;
+﻿using chapter_07.Engine.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace chapter_07.Objects
 {

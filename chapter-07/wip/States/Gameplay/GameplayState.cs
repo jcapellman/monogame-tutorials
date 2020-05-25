@@ -1,14 +1,11 @@
-﻿using chapter_07.Enum;
+﻿using chapter_07.Engine.Input;
+using chapter_07.Engine.States;
 using chapter_07.Input;
-using chapter_07.Input.Base;
 using chapter_07.Objects;
-using chapter_07.States.Base;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 
@@ -52,11 +49,13 @@ namespace chapter_07.States
             // music
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
             var track2 = LoadSound("FutureAmbient_2").CreateInstance();
+            // TODO: move into sound manager
+            // _soundManager.AddSoundtrack(new List<SoundEffectInstance>() { track1, track2 }
             _soundtracks = new List<SoundEffectInstance>() { track1, track2 };
             
             // set index to end because it'll switch to the next song, which is the 1st one.
+            // TODO: move into sound manager
             _soundtrackIndex = _soundtracks.Count - 1;
-            PlayMusic();
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -65,7 +64,7 @@ namespace chapter_07.States
             {
                 if (cmd is GameplayInputCommand.GameExit)
                 {
-                    NotifyEvent(Events.GAME_QUIT);
+                    NotifyEvent(new BaseGameStateEvent.GameQuit());
                 }
 
                 if (cmd is GameplayInputCommand.PlayerMoveLeft)
@@ -119,6 +118,8 @@ namespace chapter_07.States
             _bulletList = newBulletList;
 
             // make sure we play the next track if the current one is over
+            // TODO: replace with sound manager
+            // _soundManager.PlaySoundtrack();
             PlayMusic();
         }
         private void PlayMusic()
@@ -148,6 +149,8 @@ namespace chapter_07.States
                 _isShooting = true;
                 _lastShotAt = gameTime.TotalGameTime;
 
+                // TODO: trigger sound manager event and pass in event type
+                // _soundManager.PlaySound(Bullets);
                 _bulletSound.Play();
             }
         }

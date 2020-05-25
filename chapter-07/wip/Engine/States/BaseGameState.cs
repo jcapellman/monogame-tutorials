@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using chapter_07.Enum;
-using chapter_07.Input.Base;
-using chapter_07.Objects.Base;
+using chapter_07.Engine.Input;
+using chapter_07.Engine.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 
-namespace chapter_07.States.Base
+namespace chapter_07.Engine.States
 {
     public abstract class BaseGameState
     {
@@ -40,7 +37,7 @@ namespace chapter_07.States.Base
         public abstract void HandleInput(GameTime gameTime);
 
         public event EventHandler<BaseGameState> OnStateSwitched;
-        public event EventHandler<Events> OnEventNotification;
+        public event EventHandler<BaseGameStateEvent> OnEventNotification;
         protected abstract void SetInputManager();
 
         public void UnloadContent()
@@ -61,7 +58,8 @@ namespace chapter_07.States.Base
             return song ?? _contentManager.Load<SoundEffect>(FallbackSong);
         }
  
-        protected void NotifyEvent(Events eventType, object argument = null)
+        // TODO: is argument still needed if eventType is a class?
+        protected void NotifyEvent(BaseGameStateEvent eventType, object argument = null)
         {
             OnEventNotification?.Invoke(this, eventType);
 
@@ -69,6 +67,10 @@ namespace chapter_07.States.Base
             {
                 gameObject.OnNotify(eventType, argument);
             }
+
+            // TODO: notify _soundManager
+            // TODO change eventType from enum to a class
+            // _soundManager.OnNotify(eventType, argument);
         }
 
         protected void SwitchState(BaseGameState gameState)

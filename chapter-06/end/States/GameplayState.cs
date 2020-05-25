@@ -27,12 +27,11 @@ namespace chapter_06.States
 
         public override void LoadContent()
         {
-            var terrain = new TerrainBackground(LoadTexture(BackgroundTexture));
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
             _bulletTexture = LoadTexture(BulletTexture);
             _bulletList = new List<BulletSprite>();
 
-            AddGameObject(terrain);
+            AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
             AddGameObject(_playerSprite);
 
             // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom

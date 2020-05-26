@@ -19,7 +19,7 @@ namespace chapter_07.Engine.Objects
             set { _position = value; } 
         }
 
-        public virtual void OnNotify(BaseGameStateEvent eventType, object argument = null) { }
+        public virtual void OnNotify(BaseGameStateEvent gameEvent) { }
 
         public virtual void Render(SpriteBatch spriteBatch)
         {

@@ -66,19 +66,16 @@ namespace chapter_07.Engine.States
             return song ?? _contentManager.Load<SoundEffect>(FallbackSong);
         }
  
-        // TODO: is argument still needed if eventType is a class?
-        protected void NotifyEvent(BaseGameStateEvent eventType, object argument = null)
+        protected void NotifyEvent(BaseGameStateEvent gameEvent)
         {
-            OnEventNotification?.Invoke(this, eventType);
+            OnEventNotification?.Invoke(this, gameEvent);
 
             foreach (var gameObject in _gameObjects)
             {
-                gameObject.OnNotify(eventType, argument);
+                gameObject.OnNotify(gameEvent);
             }
 
-            // TODO: notify _soundManager
-            // TODO change eventType from enum to a class
-            // _soundManager.OnNotify(eventType, argument);
+            _soundManager.OnNotify(gameEvent);
         }
 
         protected void SwitchState(BaseGameState gameState)

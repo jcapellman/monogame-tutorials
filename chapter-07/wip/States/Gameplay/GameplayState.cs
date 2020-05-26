@@ -2,6 +2,7 @@
 using chapter_07.Engine.States;
 using chapter_07.Input;
 using chapter_07.Objects;
+using chapter_07.States.Gameplay;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -24,11 +25,6 @@ namespace chapter_07.States
 
         private List<BulletSprite> _bulletList;
 
-        private List<SoundEffectInstance> _soundtracks;
-        private int _soundtrackIndex = 0;
-
-        private SoundEffect _bulletSound;
-
         public override void LoadContent()
         {
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
@@ -43,10 +39,11 @@ namespace chapter_07.States
             var playerYPos = _viewportHeight - _playerSprite.Height - 30;
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
 
-            // sound effects
-            _bulletSound = LoadSound("bulletSound");
+            // load sound effects and register in the sound manager
+            var bulletSound = LoadSound("bulletSound");
+            _soundManager.RegisterSound(new GameplayEvents.PlayerShoots(), bulletSound);
 
-            // music
+            // load soundtracks into sound manager
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
             var track2 = LoadSound("FutureAmbient_2").CreateInstance();
             _soundManager.AddSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
@@ -120,9 +117,7 @@ namespace chapter_07.States
                 _isShooting = true;
                 _lastShotAt = gameTime.TotalGameTime;
 
-                // TODO: trigger sound manager event and pass in event type
-                // _soundManager.PlaySound(Bullets);
-                _bulletSound.Play();
+                NotifyEvent(new GameplayEvents.PlayerShoots());
             }
         }
 

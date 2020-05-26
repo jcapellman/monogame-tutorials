@@ -1,17 +1,30 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using chapter_07.Engine.States;
+
+using Microsoft.Xna.Framework.Audio;
+using System;
 using System.Collections.Generic;
 
 namespace chapter_07.Engine.Sound
 {
     public class SoundManager
     {
-        private List<SoundEffectInstance> _soundtracks = new List<SoundEffectInstance>();
         private int _soundtrackIndex = -1;
+        private List<SoundEffectInstance> _soundtracks = new List<SoundEffectInstance>();
+        private Dictionary<Type, SoundEffect> _soundBank = new Dictionary<Type, SoundEffect>();
 
         public void AddSoundtrack(List<SoundEffectInstance> tracks)
         {
             _soundtracks = tracks;
             _soundtrackIndex = _soundtracks.Count - 1;
+        }
+
+        public void OnNotify(BaseGameStateEvent gameEvent) 
+        {
+            if (_soundBank.ContainsKey(gameEvent.GetType()))
+            {
+                var sound = _soundBank[gameEvent.GetType()];
+                sound.Play();
+            }
         }
 
         public void PlaySoundtrack()
@@ -34,6 +47,11 @@ namespace chapter_07.Engine.Sound
                     }
                 }
             }
+        }
+
+        public void RegisterSound(BaseGameStateEvent gameEvent, SoundEffect sound)
+        {
+            _soundBank.Add(gameEvent.GetType(), sound);
         }
     }
 }

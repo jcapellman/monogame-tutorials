@@ -12,7 +12,7 @@ namespace chapter_07.Engine.Sound
         private List<SoundEffectInstance> _soundtracks = new List<SoundEffectInstance>();
         private Dictionary<Type, SoundEffect> _soundBank = new Dictionary<Type, SoundEffect>();
 
-        public void AddSoundtrack(List<SoundEffectInstance> tracks)
+        public void SetSoundtrack(List<SoundEffectInstance> tracks)
         {
             _soundtracks = tracks;
             _soundtrackIndex = _soundtracks.Count - 1;
@@ -31,20 +31,22 @@ namespace chapter_07.Engine.Sound
         {
             var nbTracks = _soundtracks.Count;
 
-            if (nbTracks > 0)
+            if (nbTracks <= 0)
             {
-                var currentTrack = _soundtracks[_soundtrackIndex];
-                var nextTrack = _soundtracks[(_soundtrackIndex + 1) % nbTracks];
+                return;
+            }
 
-                if (currentTrack.State == SoundState.Stopped)
+            var currentTrack = _soundtracks[_soundtrackIndex];
+            var nextTrack = _soundtracks[(_soundtrackIndex + 1) % nbTracks];
+
+            if (currentTrack.State == SoundState.Stopped)
+            {
+                nextTrack.Play();
+                _soundtrackIndex++;
+
+                if (_soundtrackIndex >= _soundtracks.Count)
                 {
-                    nextTrack.Play();
-                    _soundtrackIndex++;
-
-                    if (_soundtrackIndex >= _soundtracks.Count)
-                    {
-                        _soundtrackIndex = 0;
-                    }
+                    _soundtrackIndex = 0;
                 }
             }
         }

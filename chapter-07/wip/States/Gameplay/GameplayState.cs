@@ -46,7 +46,7 @@ namespace chapter_07.States
             // load soundtracks into sound manager
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
             var track2 = LoadSound("FutureAmbient_2").CreateInstance();
-            _soundManager.AddSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
+            _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
         }
 
         public override void HandleInput(GameTime gameTime)

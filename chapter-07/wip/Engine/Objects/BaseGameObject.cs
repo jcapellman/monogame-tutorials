@@ -1,8 +1,8 @@
-﻿using chapter_07.Enum;
+﻿using chapter_07.Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace chapter_07.Objects.Base
+namespace chapter_07.Engine.Objects
 {
     public class BaseGameObject
     {
@@ -19,7 +19,7 @@ namespace chapter_07.Objects.Base
             set { _position = value; } 
         }
 
-        public virtual void OnNotify(Events eventType, object argument = null) { }
+        public virtual void OnNotify(BaseGameStateEvent gameEvent) { }
 
         public virtual void Render(SpriteBatch spriteBatch)
         {

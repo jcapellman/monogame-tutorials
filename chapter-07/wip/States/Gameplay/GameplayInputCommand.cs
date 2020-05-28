@@ -1,4 +1,4 @@
-﻿using chapter_07.Input.Base;
+﻿using chapter_07.Engine.Input;
 
 namespace chapter_07.Input
 {

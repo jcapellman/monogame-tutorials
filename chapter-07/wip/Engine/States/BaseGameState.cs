@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using chapter_07.Enum;
-using chapter_07.Input.Base;
-using chapter_07.Objects.Base;
+using chapter_07.Engine.Input;
+using chapter_07.Engine.Objects;
+using chapter_07.Engine.Sound;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 
-namespace chapter_07.States.Base
+namespace chapter_07.Engine.States
 {
     public abstract class BaseGameState
     {
@@ -21,6 +19,7 @@ namespace chapter_07.States.Base
         private ContentManager _contentManager;
         protected int _viewportHeight;
         protected int _viewportWidth;
+        protected SoundManager _soundManager = new SoundManager();
 
         private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
 
@@ -36,16 +35,22 @@ namespace chapter_07.States.Base
         }
 
         public abstract void LoadContent();
-        public virtual void Update(GameTime gameTime) { }
         public abstract void HandleInput(GameTime gameTime);
+        public abstract void UpdateGameState(GameTime gameTime);
 
         public event EventHandler<BaseGameState> OnStateSwitched;
-        public event EventHandler<Events> OnEventNotification;
+        public event EventHandler<BaseGameStateEvent> OnEventNotification;
         protected abstract void SetInputManager();
 
         public void UnloadContent()
         {
             _contentManager.Unload();
+        }
+
+        public virtual void Update(GameTime gameTime) 
+        {
+            UpdateGameState(gameTime);
+            _soundManager.PlaySoundtrack();
         }
 
         protected Texture2D LoadTexture(string textureName)
@@ -61,14 +66,16 @@ namespace chapter_07.States.Base
             return song ?? _contentManager.Load<SoundEffect>(FallbackSong);
         }
  
-        protected void NotifyEvent(Events eventType, object argument = null)
+        protected void NotifyEvent(BaseGameStateEvent gameEvent)
         {
-            OnEventNotification?.Invoke(this, eventType);
+            OnEventNotification?.Invoke(this, gameEvent);
 
             foreach (var gameObject in _gameObjects)
             {
-                gameObject.OnNotify(eventType, argument);
+                gameObject.OnNotify(gameEvent);
             }
+
+            _soundManager.OnNotify(gameEvent);
         }
 
         protected void SwitchState(BaseGameState gameState)

@@ -1,14 +1,12 @@
-﻿using chapter_07.Enum;
+﻿using chapter_07.Engine.Input;
+using chapter_07.Engine.States;
 using chapter_07.Input;
-using chapter_07.Input.Base;
 using chapter_07.Objects;
-using chapter_07.States.Base;
+using chapter_07.States.Gameplay;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 
@@ -27,11 +25,6 @@ namespace chapter_07.States
 
         private List<BulletSprite> _bulletList;
 
-        private List<SoundEffectInstance> _soundtracks;
-        private int _soundtrackIndex = 0;
-
-        private SoundEffect _bulletSound;
-
         public override void LoadContent()
         {
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
@@ -46,17 +39,14 @@ namespace chapter_07.States
             var playerYPos = _viewportHeight - _playerSprite.Height - 30;
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
 
-            // sound effects
-            _bulletSound = LoadSound("bulletSound");
+            // load sound effects and register in the sound manager
+            var bulletSound = LoadSound("bulletSound");
+            _soundManager.RegisterSound(new GameplayEvents.PlayerShoots(), bulletSound);
 
-            // music
+            // load soundtracks into sound manager
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
             var track2 = LoadSound("FutureAmbient_2").CreateInstance();
-            _soundtracks = new List<SoundEffectInstance>() { track1, track2 };
-            
-            // set index to end because it'll switch to the next song, which is the 1st one.
-            _soundtrackIndex = _soundtracks.Count - 1;
-            PlayMusic();
+            _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -65,7 +55,7 @@ namespace chapter_07.States
             {
                 if (cmd is GameplayInputCommand.GameExit)
                 {
-                    NotifyEvent(Events.GAME_QUIT);
+                    NotifyEvent(new BaseGameStateEvent.GameQuit());
                 }
 
                 if (cmd is GameplayInputCommand.PlayerMoveLeft)
@@ -87,7 +77,7 @@ namespace chapter_07.States
             });
         }
 
-        public override void Update(GameTime gameTime)
+        public override void UpdateGameState(GameTime gameTime)
         {
             foreach (var bullet in _bulletList)
             {
@@ -117,27 +107,6 @@ namespace chapter_07.States
             }
 
             _bulletList = newBulletList;
-
-            // make sure we play the next track if the current one is over
-            PlayMusic();
-        }
-        private void PlayMusic()
-        {
-            var nbTracks = _soundtracks.Count;
-            var currentTrack = _soundtracks[_soundtrackIndex];
-            var nextTrack =  _soundtracks[(_soundtrackIndex + 1) % nbTracks];
-
-            if (currentTrack.State == SoundState.Stopped)
-            {
-                nextTrack.Play();
-                _soundtrackIndex++;
-
-                if (_soundtrackIndex >= _soundtracks.Count)
-                {
-                    _soundtrackIndex = 0;
-                }
-            }
-
         }
  
         private void Shoot(GameTime gameTime)
@@ -148,7 +117,7 @@ namespace chapter_07.States
                 _isShooting = true;
                 _lastShotAt = gameTime.TotalGameTime;
 
-                _bulletSound.Play();
+                NotifyEvent(new GameplayEvents.PlayerShoots());
             }
         }
 

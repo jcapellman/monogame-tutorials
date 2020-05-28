@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 
-namespace chapter_07.Input.Base
+namespace chapter_07.Engine.Input
 {
     public class BaseInputMapper
     {

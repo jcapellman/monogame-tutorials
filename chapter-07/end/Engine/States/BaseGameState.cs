@@ -55,15 +55,12 @@ namespace chapter_07.Engine.States
 
         protected Texture2D LoadTexture(string textureName)
         {
-            var texture = _contentManager.Load<Texture2D>(textureName);
-
-            return texture ?? _contentManager.Load<Texture2D>(FallbackTexture);
+            return _contentManager.Load<Texture2D>(textureName);
         }
 
         protected SoundEffect LoadSound(string soundName)
         {
-            var song = _contentManager.Load<SoundEffect>(soundName);
-            return song ?? _contentManager.Load<SoundEffect>(FallbackSong);
+            return _contentManager.Load<SoundEffect>(soundName);
         }
  
         protected void NotifyEvent(BaseGameStateEvent gameEvent)

@@ -47,7 +47,7 @@ namespace chapter_07.Engine.States
             _contentManager.Unload();
         }
 
-        public virtual void Update(GameTime gameTime) 
+        public void Update(GameTime gameTime) 
         {
             UpdateGameState(gameTime);
             _soundManager.PlaySoundtrack();

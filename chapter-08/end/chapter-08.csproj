@@ -45,6 +45,9 @@
     <Compile Include="Engine\Input\BaseInputCommand.cs" />
     <Compile Include="Engine\Input\InputManager.cs" />
     <Compile Include="Engine\Sound\SoundManager.cs" />
+    <Compile Include="States\Dev\DevInputCommand.cs" />
+    <Compile Include="States\Dev\DevInputMapper.cs" />
+    <Compile Include="States\Dev\DevState.cs" />
     <Compile Include="States\Gameplay\GameplayEvents.cs" />
     <Compile Include="States\Gameplay\GameplayInputCommand.cs" />
     <Compile Include="States\Gameplay\GameplayInputMapper.cs" />

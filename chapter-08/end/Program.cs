@@ -19,7 +19,8 @@ namespace chapter_08
         [STAThread]
         static void Main()
         {
-            using (var game = new MainGame(WIDTH, HEIGHT, new SplashState()))
+            //using (var game = new MainGame(WIDTH, HEIGHT, new SplashState()))
+            using (var game = new MainGame(WIDTH, HEIGHT, new DevState()))
                 game.Run();
         }
     }

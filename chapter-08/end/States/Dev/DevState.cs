@@ -32,6 +32,7 @@ namespace chapter_08.States
 
         public override void UpdateGameState(GameTime gameTime) 
         {
+            _exhaustEmitter.Position = new Vector2(_exhaustEmitter.Position.X, _exhaustEmitter.Position.Y - 2f);
             _exhaustEmitter.Update(gameTime);
         }
 

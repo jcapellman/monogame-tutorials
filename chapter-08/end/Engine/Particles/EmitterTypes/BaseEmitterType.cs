@@ -29,6 +29,7 @@ namespace chapter_08.Engine.Particles.EmitterTypes
  
         public float Opacity;
         public float OpacityDeviation;
+        public float OpacityFadingRate = 0;
 
         public float Rotation;
         public float RotationDeviation;

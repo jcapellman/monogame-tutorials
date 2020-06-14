@@ -45,9 +45,12 @@ namespace chapter_08.Engine.Particles
 
         public override void Render(SpriteBatch spriteBatch)
         {
+            var sourceRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height);
+
             foreach (var particle in _activeParticles)
             {
-                spriteBatch.Draw(_texture, particle.Position, Color.White);
+                //spriteBatch.Draw(_texture, particle.Position, Color.White);
+                spriteBatch.Draw(_texture, particle.Position, sourceRectangle, Color.White * particle.Opacity, 0.0f, new Vector2(0, 0), particle.Scale, SpriteEffects.None, zIndex);
             }
         }
 
@@ -92,8 +95,9 @@ namespace chapter_08.Engine.Particles
             var opacity = _emitterType.GenerateOpacity();
             var gravity = _emitterType.Gravity;
             var acceleration = _emitterType.Acceleration;
+            var opacityFadingRate = _emitterType.OpacityFadingRate;
 
-            particle.Activate(lifespan, position, direction, gravity, velocity, acceleration, scale, rotation, opacity, emitionTime);
+            particle.Activate(lifespan, position, direction, gravity, velocity, acceleration, scale, rotation, opacity, opacityFadingRate, emitionTime);
 
             _activeParticles.AddLast(particle);
         }

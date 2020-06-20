@@ -3,12 +3,20 @@ using System;
 
 namespace chapter_08.Engine.Particles.EmitterTypes
 {
-    public class ConeEmitterType : BaseEmitterType
+    public class ConeEmitterType : IEmitterType
     {
-        public Vector2 Direction;
-        public float Spread;
+        public Vector2 Direction { get; private set; }
+        public float Spread { get; private set; }
 
-        public override Vector2 GetParticleDirection()
+        private RandomNumberGenerator _rnd = new RandomNumberGenerator();
+
+        public ConeEmitterType(Vector2 direction, float spread)
+        {
+            Direction = direction;
+            Spread = spread;
+        }
+
+        public Vector2 GetParticleDirection()
         {
             if (Direction == null)
             {
@@ -16,14 +24,14 @@ namespace chapter_08.Engine.Particles.EmitterTypes
             }
 
             var angle = (float) Math.Atan2(Direction.Y, Direction.X);
-            var newAngle = NextRandom(angle - Spread / 2.0f, angle + Spread / 2.0f);
+            var newAngle = _rnd.NextRandom(angle - Spread / 2.0f, angle + Spread / 2.0f);
 
             var particleDirection = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
             particleDirection.Normalize();
             return particleDirection;
         }
 
-        public override Vector2 GetParticlePosition(Vector2 emitterPosition)
+        public Vector2 GetParticlePosition(Vector2 emitterPosition)
         {
             var x = emitterPosition.X;
             var y = emitterPosition.Y;

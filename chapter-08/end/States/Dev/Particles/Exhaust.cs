@@ -2,33 +2,46 @@
 using chapter_08.Engine.Particles.EmitterTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace chapter_08.States.Dev.Particles
 {
-    public class ExhaustType : ConeEmitterType
+    public class ExhaustParticleState : EmitterParticleState
     {
-        public ExhaustType()
-        {
-            Gravity = new Vector2(0, 0);
-            Spread = 1.5f;
-            Acceleration = 0.8f;
-            MinLifespan = TimeSpan.FromSeconds(1.0);
-            MaxLifespan = TimeSpan.FromSeconds(1.5);
-            Velocity = 4.0f;
-            VelocityDeviation = 2.0f;
-            Direction = new Vector2(0, 1.0f); // pointing down
-            Scale = 0.1f;
-            Opacity = 0.4f;
-            OpacityFadingRate = 0.03f;
-        }
+        public override int MinLifespan => 60; // equivalent to 1 second
+
+        public override int MaxLifespan => 90;
+
+        public override float Velocity => 4.0f;
+
+        public override float VelocityDeviation => 1.0f;
+
+        public override float Acceleration => 0.8f;
+
+        public override Vector2 Gravity => new Vector2(0, 0);
+
+        public override float Opacity => 0.4f;
+
+        public override float OpacityDeviation => 0.1f;
+
+        public override float OpacityFadingRate => 0.03f;
+
+        public override float Rotation => 0.0f;
+
+        public override float RotationDeviation => 0.0f;
+
+        public override float Scale => 0.1f;
+
+        public override float ScaleDeviation => 0.05f;
     }
 
     public class ExhaustEmitter : Emitter
     {
         private const int NbParticles = 10;
         private const int MaxParticles = 1000;
+        private static Vector2 Direction = new Vector2(0.0f, 1.0f); // pointing downward
+        private const float Spread = 1.5f;
+
         public ExhaustEmitter(Texture2D texture, Vector2 position) : 
-            base(texture, position, new ExhaustType(), NbParticles, MaxParticles) { }
+            base(texture, position, new ExhaustParticleState(), new ConeEmitterType(Direction, Spread), NbParticles, MaxParticles) { }
     }
 }

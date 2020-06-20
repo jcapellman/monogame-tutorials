@@ -9,9 +9,8 @@ namespace chapter_08.Engine.Particles
         public float Scale { get; private set; }
         public float Opacity { get; private set; }
 
-        private TimeSpan _activatedTime;
-
-        private TimeSpan _lifespan;
+        private int _lifespan; // will tick up every update and monogame updates 60 times per second
+        private int _age;
         private Vector2 _direction;
         private Vector2 _gravity;
         private float _velocity;
@@ -21,10 +20,9 @@ namespace chapter_08.Engine.Particles
 
         public Particle() { }
 
-        public void Activate(TimeSpan lifespan, Vector2 position, Vector2 direction, Vector2 gravity,
+        public void Activate(int lifespan, Vector2 position, Vector2 direction, Vector2 gravity,
                              float velocity, float acceleration,
-                             float scale, float rotation, float opacity, float opacityFadingRate,
-                             TimeSpan activationTime) 
+                             float scale, float rotation, float opacity, float opacityFadingRate)
         {
             _lifespan = lifespan;
             Position = position;
@@ -36,8 +34,7 @@ namespace chapter_08.Engine.Particles
             _rotation = rotation;
             Opacity = opacity;
             _opacityFadingRate = opacityFadingRate;
-
-            _activatedTime = activationTime;
+            _age = 0;
         }
  
         // returns false if it went past its lifespan
@@ -54,7 +51,8 @@ namespace chapter_08.Engine.Particles
             Opacity -= _opacityFadingRate;
 
             // return true if particle can stay alive
-            return gameTime.TotalGameTime - _activatedTime < _lifespan;
+            _age++;
+            return _age < _lifespan;
         }
     }
 }

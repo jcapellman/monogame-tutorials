@@ -11,12 +11,14 @@ namespace chapter_08.Engine.Particles
     {
         private LinkedList<Particle> _activeParticles = new LinkedList<Particle>();
         private LinkedList<Particle> _inactiveParticles = new LinkedList<Particle>();
-        private BaseEmitterType _emitterType;
+        private EmitterParticleState _emitterParticleState;
+        private IEmitterType _emitterType;
         private int _nbParticleEmittedPerUpdate = 0;
         private int _maxNbParticle = 0;
 
-        public Emitter(Texture2D texture, Vector2 position, BaseEmitterType emitterType, int nbParticleEmittedPerUpdate, int maxParticles)
+        public Emitter(Texture2D texture, Vector2 position, EmitterParticleState particleState, IEmitterType emitterType, int nbParticleEmittedPerUpdate, int maxParticles)
         {
+            _emitterParticleState = particleState;
             _emitterType = emitterType;
             _texture = texture;
             _nbParticleEmittedPerUpdate = nbParticleEmittedPerUpdate;
@@ -26,7 +28,7 @@ namespace chapter_08.Engine.Particles
 
         public void Update(GameTime gameTime)
         {
-            EmitParticles(gameTime.TotalGameTime);
+            EmitParticles();
 
             var particleNode = _activeParticles.First;
             while (particleNode != null)
@@ -54,7 +56,7 @@ namespace chapter_08.Engine.Particles
             }
         }
 
-        private void EmitParticles(TimeSpan emitionTime)
+        private void EmitParticles()
         {
             // make sure we're not at max particles
             if (_activeParticles.Count >= _maxNbParticle)
@@ -73,32 +75,32 @@ namespace chapter_08.Engine.Particles
             {
                 var particleNode = _inactiveParticles.First;
 
-                EmitNewParticle(particleNode.Value, emitionTime);
+                EmitNewParticle(particleNode.Value);
                 _inactiveParticles.Remove(particleNode);
             }
 
             for(var i = 0; i < nbToCreate; i++)
             {
                 var particle = new Particle();
-                EmitNewParticle(particle, emitionTime);
+                EmitNewParticle(particle);
             }
         }
 
-        private void EmitNewParticle(Particle particle, TimeSpan emitionTime)
+        private void EmitNewParticle(Particle particle)
         {
-            var lifespan = _emitterType.GenerateLifespan();
+            var lifespan = _emitterParticleState.GenerateLifespan();
+            var velocity = _emitterParticleState.GenerateVelocity();
+            var scale = _emitterParticleState.GenerateScale();
+            var rotation = _emitterParticleState.GenerateRotation();
+            var opacity = _emitterParticleState.GenerateOpacity();
+            var gravity = _emitterParticleState.Gravity;
+            var acceleration = _emitterParticleState.Acceleration;
+            var opacityFadingRate = _emitterParticleState.OpacityFadingRate;
+
             var direction = _emitterType.GetParticleDirection();
             var position = _emitterType.GetParticlePosition(_position);
-            var velocity = _emitterType.GenerateVelocity();
-            var scale = _emitterType.GenerateScale();
-            var rotation = _emitterType.GenerateRotation();
-            var opacity = _emitterType.GenerateOpacity();
-            var gravity = _emitterType.Gravity;
-            var acceleration = _emitterType.Acceleration;
-            var opacityFadingRate = _emitterType.OpacityFadingRate;
 
-            particle.Activate(lifespan, position, direction, gravity, velocity, acceleration, scale, rotation, opacity, opacityFadingRate, emitionTime);
-
+            particle.Activate(lifespan, position, direction, gravity, velocity, acceleration, scale, rotation, opacity, opacityFadingRate);
             _activeParticles.AddLast(particle);
         }
     }

@@ -45,8 +45,10 @@
     <Compile Include="Engine\Input\BaseInputMapper.cs" />
     <Compile Include="Engine\Input\BaseInputCommand.cs" />
     <Compile Include="Engine\Input\InputManager.cs" />
-    <Compile Include="Engine\Particles\EmitterTypes\BaseEmitterType.cs" />
+    <Compile Include="Engine\Particles\EmitterParticleState.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\ConeEmitterType.cs" />
+    <Compile Include="Engine\Particles\EmitterTypes\IEmitterType.cs" />
+    <Compile Include="Engine\Particles\RandomNumberGenerator.cs" />
     <Compile Include="Engine\Particles\Particle.cs" />
     <Compile Include="Engine\Particles\Emitter.cs" />
     <Compile Include="Engine\Particles\System.cs" />

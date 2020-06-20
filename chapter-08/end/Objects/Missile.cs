@@ -23,7 +23,7 @@ namespace chapter_08.Objects
             set 
             { 
                 _position = value;
-                _exhaustEmitter.Position = new Vector2(_position.X + _missileWidth + 2, _position.Y + _missileHeight);
+                _exhaustEmitter.Position = new Vector2(_position.X + _missileWidth + 2, _position.Y + _missileHeight - 10);
             }
         }
 

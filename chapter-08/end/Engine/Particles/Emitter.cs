@@ -51,7 +51,6 @@ namespace chapter_08.Engine.Particles
 
             foreach (var particle in _activeParticles)
             {
-                //spriteBatch.Draw(_texture, particle.Position, Color.White);
                 spriteBatch.Draw(_texture, particle.Position, sourceRectangle, Color.White * particle.Opacity, 0.0f, new Vector2(0, 0), particle.Scale, SpriteEffects.None, zIndex);
             }
         }
@@ -81,8 +80,7 @@ namespace chapter_08.Engine.Particles
 
             for(var i = 0; i < nbToCreate; i++)
             {
-                var particle = new Particle();
-                EmitNewParticle(particle);
+                EmitNewParticle(new Particle());
             }
         }
 

@@ -51,7 +51,6 @@
     <Compile Include="Engine\Particles\RandomNumberGenerator.cs" />
     <Compile Include="Engine\Particles\Particle.cs" />
     <Compile Include="Engine\Particles\Emitter.cs" />
-    <Compile Include="Engine\Particles\System.cs" />
     <Compile Include="Engine\Sound\SoundAttributes.cs" />
     <Compile Include="Engine\Sound\SoundBankItem.cs" />
     <Compile Include="Engine\Sound\SoundManager.cs" />

@@ -25,22 +25,23 @@ namespace chapter_08.Engine.Particles
                              float scale, float rotation, float opacity, float opacityFadingRate)
         {
             _lifespan = lifespan;
-            Position = position;
             _direction = direction;
             _velocity = velocity;
             _gravity = gravity;
             _acceleration = acceleration;
-            Scale = scale;
             _rotation = rotation;
-            Opacity = opacity;
             _opacityFadingRate = opacityFadingRate;
             _age = 0;
+
+            Position = position;
+            Opacity = opacity;
+            Scale = scale;
         }
  
         // returns false if it went past its lifespan
         public bool Update(GameTime gameTime)
         {
-            // TODO: update rotation, scale, opacity
+            // TODO: update rotation and scale
             _velocity *= _acceleration;
             _direction += _gravity;
             

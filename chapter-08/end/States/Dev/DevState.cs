@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace chapter_08.States
 {
+    /// <summary>
+    /// Used to test out new things, like particle engines and shooting missiles
+    /// </summary>
     public class DevState : BaseGameState
     {
         private const string ExhaustTexture = "Cloud";

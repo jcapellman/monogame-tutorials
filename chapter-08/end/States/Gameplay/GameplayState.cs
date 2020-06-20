@@ -1,4 +1,5 @@
 ﻿using chapter_08.Engine.Input;
+using chapter_08.Engine.Objects;
 using chapter_08.Engine.States;
 using chapter_08.Input;
 using chapter_08.Objects;
@@ -117,48 +118,28 @@ namespace chapter_08.States
             }
 
             // get rid of bullets and missiles that have gone out of view
-            CleanBullets();
-            CleanMissiles();
+            _bulletList = CleanObjects(_bulletList);
+            _missileList = CleanObjects(_missileList);
         }
 
-        private void CleanBullets()
+        private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
         {
-            var newBulletList = new List<BulletSprite>();
-            foreach (var bullet in _bulletList)
+            List<T> listOfItemsToKeep = new List<T>();
+            foreach(T item in objectList)
             {
-                var bulletStillOnScreen = bullet.Position.Y > -30;
+                var stillOnScreen = item.Position.Y > -50;
 
-                if (bulletStillOnScreen)
+                if (stillOnScreen)
                 {
-                    newBulletList.Add(bullet);
+                    listOfItemsToKeep.Add(item);
                 }
                 else
                 {
-                    RemoveGameObject(bullet);
+                    RemoveGameObject(item);
                 }
             }
 
-            _bulletList = newBulletList;
-        }
-
-        private void CleanMissiles()
-        {
-            var newMissileList = new List<MissileSprite>();
-            foreach (var missile in _missileList)
-            {
-                var missileStillOnScreen = missile.Position.Y > -50;
-
-                if (missileStillOnScreen)
-                {
-                    newMissileList.Add(missile);
-                }
-                else
-                {
-                    RemoveGameObject(missile);
-                }
-            }
-
-            _missileList = newMissileList;
+            return listOfItemsToKeep;
         }
  
         private void Shoot(GameTime gameTime)

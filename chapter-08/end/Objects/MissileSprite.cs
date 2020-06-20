@@ -16,6 +16,7 @@ namespace chapter_08.Objects
         private int _missileHeight;
         private int _missileWidth;
 
+        // missiles are attached to their own particle emitter
         private ExhaustEmitter _exhaustEmitter;
 
         public override Vector2 Position 
@@ -47,7 +48,7 @@ namespace chapter_08.Objects
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            // need to scale down the sprite)
+            // need to scale down the sprite. The original texture is very big
             var destRectangle = new Rectangle((int) Position.X, (int) Position.Y, _missileWidth, _missileHeight);
             spriteBatch.Draw(_texture, destRectangle, Color.White);
 

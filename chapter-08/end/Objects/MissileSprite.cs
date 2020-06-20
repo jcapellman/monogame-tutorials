@@ -23,7 +23,7 @@ namespace chapter_08.Objects
             set 
             { 
                 _position = value;
-                _exhaustEmitter.Position = new Vector2(_position.X + _missileWidth + 2, _position.Y + _missileHeight - 10);
+                _exhaustEmitter.Position = new Vector2(_position.X + 18, _position.Y + _missileHeight - 10);
             }
         }
 
@@ -48,7 +48,7 @@ namespace chapter_08.Objects
         public override void Render(SpriteBatch spriteBatch)
         {
             // need to scale down the sprite)
-            var destRectangle = new Rectangle((int) Position.X + 33, (int) Position.Y, _missileWidth, _missileHeight);
+            var destRectangle = new Rectangle((int) Position.X, (int) Position.Y, _missileWidth, _missileHeight);
             spriteBatch.Draw(_texture, destRectangle, Color.White);
 
             _exhaustEmitter.Render(spriteBatch);

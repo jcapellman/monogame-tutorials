@@ -204,7 +204,7 @@ namespace chapter_08.States
         private void CreateMissile()
         {
             var missileSprite = new MissileSprite(_missileTexture, _exhaustTexture);
-            missileSprite.Position = new Vector2(_playerSprite.Position.X, _playerSprite.Position.Y - 25);
+            missileSprite.Position = new Vector2(_playerSprite.Position.X + 33, _playerSprite.Position.Y - 25);
 
             _missileList.Add(missileSprite);
             AddGameObject(missileSprite);

@@ -85,6 +85,18 @@
 /processorParam:TextureFormat=Color
 /build:../../assets/png/Fighter.png;Fighter.png
 
+#begin ../../assets/png/Missile05.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../assets/png/Missile05.png;Missile.png
+
 #begin ../../assets/png/splash.png
 /importer:TextureImporter
 /processor:TextureProcessor

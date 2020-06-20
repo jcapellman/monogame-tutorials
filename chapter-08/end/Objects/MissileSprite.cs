@@ -1,11 +1,11 @@
 ﻿using chapter_08.Engine.Objects;
-using chapter_08.States.Dev.Particles;
+using chapter_08.States.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace chapter_08.Objects
 {
-    public class Missile : BaseGameObject
+    public class MissileSprite : BaseGameObject
     {
         private const float StartSpeed = 0.5f;
         private const float Acceleration = 0.15f;
@@ -27,7 +27,7 @@ namespace chapter_08.Objects
             }
         }
 
-        public Missile(Texture2D missleTexture, Texture2D exhaustTexture)
+        public MissileSprite(Texture2D missleTexture, Texture2D exhaustTexture)
         {
             _texture = missleTexture;
             _exhaustEmitter = new ExhaustEmitter(exhaustTexture, _position);

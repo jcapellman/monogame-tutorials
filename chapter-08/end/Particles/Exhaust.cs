@@ -3,7 +3,7 @@ using chapter_08.Engine.Particles.EmitterTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace chapter_08.States.Dev.Particles
+namespace chapter_08.States.Particles
 {
     public class ExhaustParticleState : EmitterParticleState
     {

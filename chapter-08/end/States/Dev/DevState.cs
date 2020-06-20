@@ -2,7 +2,7 @@
 using chapter_08.Engine.States;
 using chapter_08.Input;
 using chapter_08.Objects;
-using chapter_08.States.Dev.Particles;
+using chapter_08.States.Particles;
 using Microsoft.Xna.Framework;
 
 namespace chapter_08.States
@@ -14,7 +14,7 @@ namespace chapter_08.States
         private const string PlayerFighter = "fighter";
 
         private ExhaustEmitter _exhaustEmitter;
-        private Missile _missle;
+        private MissileSprite _missle;
         private PlayerSprite _player;
 
         public override void LoadContent()
@@ -23,7 +23,7 @@ namespace chapter_08.States
             //_exhaustEmitter = new ExhaustEmitter(LoadTexture(ExhaustTexture), exhaustPosition);
             //AddGameObject(_exhaustEmitter);
 
-            _missle = new Missile(LoadTexture(MissileTexture), LoadTexture(ExhaustTexture));
+            _missle = new MissileSprite(LoadTexture(MissileTexture), LoadTexture(ExhaustTexture));
 
             _player = new PlayerSprite(LoadTexture(PlayerFighter));
             _player.Position= new Vector2(500, 500);

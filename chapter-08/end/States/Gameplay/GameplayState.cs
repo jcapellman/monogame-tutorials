@@ -17,19 +17,32 @@ namespace chapter_08.States
         private const string BackgroundTexture = "Barren";
         private const string PlayerFighter = "fighter";
         private const string BulletTexture = "bullet";
+        private const string ExhaustTexture = "Cloud";
+        private const string MissileTexture = "Missile";
+
+        private Texture2D _missileTexture;
+        private Texture2D _exhaustTexture;
+        private Texture2D _bulletTexture;
 
         private PlayerSprite _playerSprite;
-        private Texture2D _bulletTexture;
-        private bool _isShooting;
-        private TimeSpan _lastShotAt;
+
+        private bool _isShootingBullets;
+        private bool _isShootingMissile;
+        private TimeSpan _lastBulletShotAt;
+        private TimeSpan _lastMissileShotAt;
 
         private List<BulletSprite> _bulletList;
+        private List<MissileSprite> _missileList;
 
         public override void LoadContent()
         {
-            _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+            _missileTexture = LoadTexture(MissileTexture);
+            _exhaustTexture = LoadTexture(ExhaustTexture);
             _bulletTexture = LoadTexture(BulletTexture);
+
+            _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
             _bulletList = new List<BulletSprite>();
+            _missileList = new List<MissileSprite>();
 
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
             AddGameObject(_playerSprite);
@@ -41,7 +54,7 @@ namespace chapter_08.States
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound("bulletSound");
-            _soundManager.RegisterSound(new GameplayEvents.PlayerShoots(), bulletSound);
+            _soundManager.RegisterSound(new GameplayEvents.PlayerShootsBullets(), bulletSound);
 
             // load soundtracks into sound manager
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
@@ -84,13 +97,30 @@ namespace chapter_08.States
                 bullet.MoveUp();
             }
 
-            // can't shoot more than every 0.2 seconds
-            if (_lastShotAt != null && gameTime.TotalGameTime - _lastShotAt > TimeSpan.FromSeconds(0.2))
+            foreach (var missile in _missileList)
             {
-                _isShooting = false;
+                missile.Update(gameTime);
             }
 
-            // get rid of bullets that have gone out of view
+            // can't shoot bullets more than every 0.2 second
+            if (_lastBulletShotAt != null && gameTime.TotalGameTime - _lastBulletShotAt > TimeSpan.FromSeconds(0.2))
+            {
+                _isShootingBullets = false;
+            }
+
+            // can't shoot bullets more than every 1 second
+            if (_lastMissileShotAt != null && gameTime.TotalGameTime - _lastMissileShotAt > TimeSpan.FromSeconds(1.0))
+            {
+                _isShootingMissile = false;
+            }
+
+            // get rid of bullets and missiles that have gone out of view
+            CleanBullets();
+            CleanMissiles();
+        }
+
+        private void CleanBullets()
+        {
             var newBulletList = new List<BulletSprite>();
             foreach (var bullet in _bulletList)
             {
@@ -108,16 +138,45 @@ namespace chapter_08.States
 
             _bulletList = newBulletList;
         }
+
+        private void CleanMissiles()
+        {
+            var newMissileList = new List<MissileSprite>();
+            foreach (var missile in _missileList)
+            {
+                var missileStillOnScreen = missile.Position.Y > -50;
+
+                if (missileStillOnScreen)
+                {
+                    newMissileList.Add(missile);
+                }
+                else
+                {
+                    RemoveGameObject(missile);
+                }
+            }
+
+            _missileList = newMissileList;
+        }
  
         private void Shoot(GameTime gameTime)
         {
-            if (!_isShooting)
+            if (!_isShootingBullets)
             {
                 CreateBullets();
-                _isShooting = true;
-                _lastShotAt = gameTime.TotalGameTime;
+                _isShootingBullets = true;
+                _lastBulletShotAt = gameTime.TotalGameTime;
 
-                NotifyEvent(new GameplayEvents.PlayerShoots());
+                NotifyEvent(new GameplayEvents.PlayerShootsBullets());
+            }
+
+            if (!_isShootingMissile)
+            {
+                CreateMissile();
+                _isShootingMissile = true;
+                _lastMissileShotAt = gameTime.TotalGameTime;
+
+                NotifyEvent(new GameplayEvents.PlayerShootsMissile());
             }
         }
 
@@ -138,6 +197,15 @@ namespace chapter_08.States
 
             AddGameObject(bulletSpriteLeft);
             AddGameObject(bulletSpriteRight);
+        }
+
+        private void CreateMissile()
+        {
+            var missileSprite = new MissileSprite(_missileTexture, _exhaustTexture);
+            missileSprite.Position = new Vector2(_playerSprite.Position.X, _playerSprite.Position.Y - 25);
+
+            _missileList.Add(missileSprite);
+            AddGameObject(missileSprite);
         }
 
         private void KeepPlayerInBounds()

@@ -52,6 +52,8 @@
     <Compile Include="Engine\Particles\Particle.cs" />
     <Compile Include="Engine\Particles\Emitter.cs" />
     <Compile Include="Engine\Particles\System.cs" />
+    <Compile Include="Engine\Sound\SoundAttributes.cs" />
+    <Compile Include="Engine\Sound\SoundBankItem.cs" />
     <Compile Include="Engine\Sound\SoundManager.cs" />
     <Compile Include="Objects\MissileSprite.cs" />
     <Compile Include="States\Dev\DevInputCommand.cs" />

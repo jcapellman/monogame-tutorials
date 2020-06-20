@@ -54,7 +54,9 @@ namespace chapter_08.States
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound("bulletSound");
+            var missileSound = LoadSound("missileSound");
             _soundManager.RegisterSound(new GameplayEvents.PlayerShootsBullets(), bulletSound);
+            _soundManager.RegisterSound(new GameplayEvents.PlayerShootsMissile(), missileSound, 0.4f, -0.2f, 0.0f);
 
             // load soundtracks into sound manager
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();

@@ -23,7 +23,7 @@ namespace chapter_08.States.Particles
 
         public override float OpacityDeviation => 0.1f;
 
-        public override float OpacityFadingRate => 0.03f;
+        public override float OpacityFadingRate => 0.86f;
 
         public override float Rotation => 0.0f;
 

@@ -18,7 +18,6 @@ namespace chapter_08.Engine.Particles.EmitterTypes
         public abstract float Velocity { get; }
         public abstract float VelocityDeviation { get; }
         public abstract float Acceleration { get; }
-        //public abstract Vector2 Direction { get; }
         public abstract Vector2 Gravity { get; } 
  
         public abstract float Opacity { get; }

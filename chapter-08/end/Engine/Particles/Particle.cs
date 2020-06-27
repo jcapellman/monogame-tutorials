@@ -49,7 +49,7 @@ namespace chapter_08.Engine.Particles
 
             Position += positionDelta;
 
-            Opacity -= _opacityFadingRate;
+            Opacity *= _opacityFadingRate;
 
             // return true if particle can stay alive
             _age++;

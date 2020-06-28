@@ -32,9 +32,7 @@ namespace chapter_08.Engine.Particles.EmitterTypes
 
         public int GenerateLifespan()
         {
-            var range = MaxLifespan - MinLifespan;
-            var randomAge = _rnd.NextRandom() * range;
-            return MinLifespan + randomAge;
+            return _rnd.NextRandom(MinLifespan, MaxLifespan);
         }
 
         public float GenerateVelocity()

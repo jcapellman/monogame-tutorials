@@ -111,7 +111,7 @@ namespace chapter_08.States
                 _isShootingBullets = false;
             }
 
-            // can't shoot bullets more than every 1 second
+            // can't shoot missiles more than every 1 second
             if (_lastMissileShotAt != null && gameTime.TotalGameTime - _lastMissileShotAt > TimeSpan.FromSeconds(1.0))
             {
                 _isShootingMissile = false;

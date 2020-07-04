@@ -85,6 +85,18 @@
 /processorParam:TextureFormat=Color
 /build:../../assets/png/Empty.png;Empty.png
 
+#begin ../../assets/png/explosion.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../assets/png/explosion.png;explosion.png
+
 #begin ../../assets/png/Fighter.png
 /importer:TextureImporter
 /processor:TextureProcessor

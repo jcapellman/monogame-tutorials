@@ -20,7 +20,7 @@ namespace chapter_09.States.Particles
 
         public override Vector2 Gravity => new Vector2(0, 1);
 
-        public override float Opacity => 0.5f;
+        public override float Opacity => 0.4f;
 
         public override float OpacityDeviation => 0.1f;
 
@@ -30,14 +30,14 @@ namespace chapter_09.States.Particles
 
         public override float RotationDeviation => 0.0f;
 
-        public override float Scale => 0.3f;
+        public override float Scale => 0.5f;
 
         public override float ScaleDeviation => 0.1f;
     }
 
     public class ExplosionEmitter : Emitter
     {
-        private const int NbParticles = 3;
+        private const int NbParticles = 2;
         private const int MaxParticles = 200;
         private const float Radius = 50f;
 

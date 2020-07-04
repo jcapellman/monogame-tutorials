@@ -13,7 +13,7 @@ namespace chapter_09.States
     /// </summary>
     public class DevState : BaseGameState
     {
-        private const string CloudTexture = "Cloud";
+        private const string CloudTexture = "explosion";
         private const string ChopperTexture = "Chopper";
 
         private ChopperSprite _chopper;
@@ -42,12 +42,12 @@ namespace chapter_09.States
         {
             if (_explosion == null && gameTime.TotalGameTime > TimeSpan.FromSeconds(2))
             {
-                _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(280, 80));
+                _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(260, 60));
                 AddGameObject(_explosion);
                 _explodeAt = gameTime.TotalGameTime;
             }
 
-            if (_explosion != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(1.5))
+            if (_explosion != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(1.2))
             {
                 _explosion.Deactivate();
             }

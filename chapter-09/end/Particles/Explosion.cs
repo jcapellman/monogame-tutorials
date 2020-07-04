@@ -2,14 +2,15 @@
 using chapter_09.Engine.Particles.EmitterTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace chapter_09.States.Particles
 {
     public class ExplosionParticleState : EmitterParticleState
     {
-        public override int MinLifespan => 60; // equivalent to 1 second
+        public override int MinLifespan => 180; // equivalent to 3 seconds
 
-        public override int MaxLifespan => 90;
+        public override int MaxLifespan => 240;
 
         public override float Velocity => 2.0f;
 
@@ -23,7 +24,7 @@ namespace chapter_09.States.Particles
 
         public override float OpacityDeviation => 0.1f;
 
-        public override float OpacityFadingRate => 0.97f;
+        public override float OpacityFadingRate => 0.92f;
 
         public override float Rotation => 0.0f;
 

@@ -45,11 +45,18 @@ namespace chapter_09.States
                 _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(280, 80));
                 AddGameObject(_explosion);
                 _explodeAt = gameTime.TotalGameTime;
+                RemoveGameObject(_chopper);
             }
 
-            if (_explodeAt != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(2))
+            if (_explosion != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(1.5))
+            {
+                _explosion.Deactivate();
+            }
+
+            if (_explosion != null && gameTime.TotalGameTime > TimeSpan.FromSeconds(10))
                 RemoveGameObject(_explosion);
-            else if (_explosion != null)
+
+            if (_explosion != null)
                 _explosion.Update(gameTime);
         }
 

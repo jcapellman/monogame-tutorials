@@ -15,6 +15,7 @@ namespace chapter_09.Engine.Particles
         private IEmitterType _emitterType;
         private int _nbParticleEmittedPerUpdate = 0;
         private int _maxNbParticle = 0;
+        private bool _active = true;
 
         public Emitter(Texture2D texture, Vector2 position, EmitterParticleState particleState, IEmitterType emitterType, int nbParticleEmittedPerUpdate, int maxParticles)
         {
@@ -28,7 +29,10 @@ namespace chapter_09.Engine.Particles
 
         public void Update(GameTime gameTime)
         {
-            EmitParticles();
+            if (_active)
+            {
+                EmitParticles();
+            }
 
             var particleNode = _activeParticles.First;
             while (particleNode != null)
@@ -53,6 +57,10 @@ namespace chapter_09.Engine.Particles
             {
                 spriteBatch.Draw(_texture, particle.Position, sourceRectangle, Color.White * particle.Opacity, 0.0f, new Vector2(0, 0), particle.Scale, SpriteEffects.None, zIndex);
             }
+        }
+        public void Deactivate()
+        {
+            _active = false;
         }
 
         private void EmitParticles()

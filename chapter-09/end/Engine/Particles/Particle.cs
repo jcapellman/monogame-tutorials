@@ -44,6 +44,7 @@ namespace chapter_09.Engine.Particles
             // TODO: update rotation and scale
             _velocity *= _acceleration;
             _direction += _gravity;
+            _direction.Normalize();
             
             var positionDelta = _direction * _velocity;
 

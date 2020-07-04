@@ -46,6 +46,7 @@
     <Compile Include="Engine\Input\BaseInputCommand.cs" />
     <Compile Include="Engine\Input\InputManager.cs" />
     <Compile Include="Engine\Particles\EmitterParticleState.cs" />
+    <Compile Include="Engine\Particles\EmitterTypes\CircleEmitterType.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\ConeEmitterType.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\IEmitterType.cs" />
     <Compile Include="Engine\Particles\RandomNumberGenerator.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Engine\Sound\SoundManager.cs" />
     <Compile Include="Objects\MissileSprite.cs" />
     <Compile Include="Objects\ChopperSprite.cs" />
+    <Compile Include="Particles\Explosion.cs" />
     <Compile Include="States\Dev\DevInputCommand.cs" />
     <Compile Include="States\Dev\DevInputMapper.cs" />
     <Compile Include="States\Dev\DevState.cs" />

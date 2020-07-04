@@ -4,6 +4,7 @@ using chapter_09.Input;
 using chapter_09.Objects;
 using chapter_09.States.Particles;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace chapter_09.States
 {
@@ -12,15 +13,17 @@ namespace chapter_09.States
     /// </summary>
     public class DevState : BaseGameState
     {
-        private const string ExhaustTexture = "Cloud";
+        private const string CloudTexture = "Cloud";
         private const string ChopperTexture = "Chopper";
 
         private ChopperSprite _chopper;
+        private ExplosionEmitter _explosion;
+        private TimeSpan _explodeAt;
 
         public override void LoadContent()
         {
             _chopper = new ChopperSprite(LoadTexture(ChopperTexture));
-            _chopper.Position = new Vector2(500, 500);
+            _chopper.Position = new Vector2(300, 100);
             AddGameObject(_chopper);
         }
 
@@ -37,6 +40,17 @@ namespace chapter_09.States
 
         public override void UpdateGameState(GameTime gameTime) 
         {
+            if (_explosion == null && gameTime.TotalGameTime > TimeSpan.FromSeconds(2))
+            {
+                _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(280, 80));
+                AddGameObject(_explosion);
+                _explodeAt = gameTime.TotalGameTime;
+            }
+
+            if (_explodeAt != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(2))
+                RemoveGameObject(_explosion);
+            else if (_explosion != null)
+                _explosion.Update(gameTime);
         }
 
         protected override void SetInputManager()

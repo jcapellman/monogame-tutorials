@@ -40,10 +40,10 @@ namespace chapter_09.States
         private TimeSpan _lastBulletShotAt;
         private TimeSpan _lastMissileShotAt;
 
-        private List<BulletSprite> _bulletList;
-        private List<MissileSprite> _missileList;
-        private List<ExplosionEmitter> _explosionList;
-        private List<ChopperSprite> _enemyList;
+        private List<BulletSprite> _bulletList = new List<BulletSprite>();
+        private List<MissileSprite> _missileList = new List<MissileSprite>();
+        private List<ExplosionEmitter> _explosionList = new List<ExplosionEmitter>();
+        private List<ChopperSprite> _enemyList = new List<ChopperSprite>();
 
         private ChopperGenerator _chopperGenerator;
 
@@ -56,21 +56,8 @@ namespace chapter_09.States
             _chopperTexture = LoadTexture(ChopperTexture);
 
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
-            _bulletList = new List<BulletSprite>();
-            _missileList = new List<MissileSprite>();
-            _explosionList = new List<ExplosionEmitter>();
-            _enemyList = new List<ChopperSprite>();
-
-            _chopperGenerator = new ChopperGenerator(_chopperTexture, 4, AddChopper);
-            _chopperGenerator.GenerateChoppers();
 
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
-            AddGameObject(_playerSprite);
-
-            // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom
-            var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
-            var playerYPos = _viewportHeight - _playerSprite.Height - 30;
-            _playerSprite.Position = new Vector2(playerXPos, playerYPos);
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound("bulletSound");
@@ -82,8 +69,10 @@ namespace chapter_09.States
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
             var track2 = LoadSound("FutureAmbient_2").CreateInstance();
             _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
-        }
 
+            ResetGame();
+        }
+        
         public override void HandleInput(GameTime gameTime)
         {
             InputManager.GetCommands(cmd =>
@@ -166,13 +155,65 @@ namespace chapter_09.States
 
             playerCollisionDetector.DetectCollisions(_playerSprite, (chopper, player) =>
             {
-                NotifyEvent(new BaseGameStateEvent.GameQuit());
+                KillPlayer();
             });
 
             // get rid of bullets and missiles that have gone out of view
             _bulletList = CleanObjects(_bulletList);
             _missileList = CleanObjects(_missileList);
             _enemyList = CleanObjects(_enemyList);
+        }
+
+        private void ResetGame()
+        {
+            if (_chopperGenerator != null)
+            {
+                _chopperGenerator.StopGenerating();
+            }
+
+            foreach(var bullet in _bulletList)
+            {
+                RemoveGameObject(bullet);
+            }
+
+            foreach(var missile in _missileList)
+            {
+                RemoveGameObject(missile);
+            }
+
+            foreach(var chopper in _enemyList)
+            {
+                RemoveGameObject(chopper);
+            }
+
+            foreach(var explosion in _explosionList)
+            {
+                RemoveGameObject(explosion);
+            }
+
+            _bulletList = new List<BulletSprite>();
+            _missileList = new List<MissileSprite>();
+            _explosionList = new List<ExplosionEmitter>();
+            _enemyList = new List<ChopperSprite>();
+
+            _chopperGenerator = new ChopperGenerator(_chopperTexture, 4, AddChopper);
+            _chopperGenerator.GenerateChoppers();
+
+            AddGameObject(_playerSprite);
+
+            // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom
+            var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
+            var playerYPos = _viewportHeight - _playerSprite.Height - 30;
+            _playerSprite.Position = new Vector2(playerXPos, playerYPos);
+        }
+
+        private async void KillPlayer()
+        {
+            AddExplosion(_playerSprite.Position);
+            RemoveGameObject(_playerSprite);
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            ResetGame();
         }
 
         private void AddChopper(ChopperSprite chopper)

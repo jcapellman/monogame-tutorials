@@ -46,6 +46,12 @@ namespace chapter_09.States.Gameplay
             _timer.Start();
         }
 
+        public void StopGenerating()
+        {
+            _timer.Stop();
+            _generating = false;
+        }
+
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             List<(int, Vector2)> path;
@@ -79,8 +85,7 @@ namespace chapter_09.States.Gameplay
             _choppersGenerated++;
             if (_choppersGenerated == _maxChoppers)
             {
-                _timer.Stop();
-                _generating = false;
+                StopGenerating();
             }
         }
     }

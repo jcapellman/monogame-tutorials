@@ -17,29 +17,57 @@ namespace chapter_09.Engine.Objects
         public int zIndex;
         public event EventHandler<BaseGameStateEvent> OnObjectChanged;
 
+        public bool Destroyed { get; private set; }
+
         public int Width { get { return _texture.Width; } }
         public int Height { get { return _texture.Height; } }
         public virtual Vector2 Position 
         { 
             get { return _position; } 
-            set { _position = value; } 
+            set 
+            {
+                var deltaX = value.X - _position.X;
+                var deltaY = value.Y - _position.Y;
+                _position = value; 
+
+                foreach(var bb in _boundingBoxes)
+                {
+                    bb.Position = new Vector2(bb.Position.X + deltaX, bb.Position.Y + deltaY);
+                }
+            } 
+        }
+
+        public List<BoundingBox> BoundingBoxes
+        {
+            get
+            {
+                return _boundingBoxes;
+            }
         }
 
         public virtual void OnNotify(BaseGameStateEvent gameEvent) { }
 
         public virtual void Render(SpriteBatch spriteBatch)
         {
-            Render(spriteBatch, false);
+            spriteBatch.Draw(_texture, _position, Color.White);
         }
 
-        public virtual void Render(SpriteBatch spriteBatch, bool displayBoundingBox)
+        public void RenderBoundingBoxes(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _position, Color.White);
-
-            if (displayBoundingBox)
+            if (_boundingBoxTexture == null)
             {
-                RenderBoundingBoxes(spriteBatch);
+                CreateBoundingBoxTexture(spriteBatch.GraphicsDevice);
             }
+
+            foreach (var bb in _boundingBoxes)
+            {
+                spriteBatch.Draw(_boundingBoxTexture, bb.Rectangle, Color.Red);
+            }
+        }
+
+        public void Destroy()
+        {
+            Destroyed = true;
         }
         
         public void SendEvent(BaseGameStateEvent e)
@@ -56,19 +84,6 @@ namespace chapter_09.Engine.Objects
         {
             _boundingBoxTexture = new Texture2D(graphicsDevice, 1, 1);
             _boundingBoxTexture.SetData<Color>(new Color[] { Color.White });
-        }
-
-        protected void RenderBoundingBoxes(SpriteBatch spriteBatch)
-        {
-            if (_boundingBoxTexture == null)
-            {
-                CreateBoundingBoxTexture(spriteBatch.GraphicsDevice);
-            }
-
-            foreach (var bb in _boundingBoxes)
-            {
-                spriteBatch.Draw(_boundingBoxTexture, bb.Rectangle, Color.Red);
-            }
         }
     }
 }

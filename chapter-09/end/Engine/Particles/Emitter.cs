@@ -17,6 +17,8 @@ namespace chapter_09.Engine.Particles
         private int _maxNbParticle = 0;
         private bool _active = true;
 
+        public int Age { get; set; }
+
         public Emitter(Texture2D texture, Vector2 position, EmitterParticleState particleState, IEmitterType emitterType, int nbParticleEmittedPerUpdate, int maxParticles)
         {
             _emitterParticleState = particleState;
@@ -25,6 +27,7 @@ namespace chapter_09.Engine.Particles
             _nbParticleEmittedPerUpdate = nbParticleEmittedPerUpdate;
             _maxNbParticle = maxParticles;
             Position = position;
+            Age = 0;
         }
 
         public void Update(GameTime gameTime)
@@ -47,6 +50,8 @@ namespace chapter_09.Engine.Particles
 
                 particleNode = nextNode;
             }
+
+            Age++;
         }
 
         public override void Render(SpriteBatch spriteBatch)

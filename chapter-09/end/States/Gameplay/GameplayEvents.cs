@@ -7,15 +7,8 @@ namespace chapter_09.States.Gameplay
     {
         public class PlayerShootsBullets : GameplayEvents { }
         public class PlayerShootsMissile : GameplayEvents { }
-
-        public class Collision : GameplayEvents 
-        {
-            public BaseGameObject HitBy { get; private set; }
-            public Collision(BaseGameObject hitBy)
-            {
-                HitBy = hitBy;
-            }
-        }
+        public class MissileHitsChopper : GameplayEvents { }
+        public class BulletHitsChopper : GameplayEvents { }
 
         public class EnemyLostLife : GameplayEvents
         {

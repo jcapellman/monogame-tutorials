@@ -11,6 +11,7 @@ namespace chapter_09.Objects
         public BulletSprite(Texture2D texture)
         {
             _texture = texture;
+            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(9, 4), 10, 22));
         }
 
         public void MoveUp()

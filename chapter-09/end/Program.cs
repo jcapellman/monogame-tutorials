@@ -19,7 +19,7 @@ namespace chapter_09
         [STAThread]
         static void Main()
         {
-            using (var game = new MainGame(WIDTH, HEIGHT, new DevState()))
+            using (var game = new MainGame(WIDTH, HEIGHT, new GameplayState()))
                 game.Run();
         }
     }

@@ -29,9 +29,10 @@ namespace chapter_09.Objects
         public ChopperSprite(Texture2D texture)
         {
             _texture = texture;
+            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(-16, -63), 34, 98));
         }
 
-        public override void Render(SpriteBatch spriteBatch, bool displayBoundingBox)
+        public override void Render(SpriteBatch spriteBatch)
         {
             var chopperRect = new Rectangle(0, 0, ChopperWidth, ChopperHeight);
             var chopperDestRect = new Rectangle(_position.ToPoint(), new Point(ChopperWidth, ChopperHeight));
@@ -43,33 +44,18 @@ namespace chapter_09.Objects
             spriteBatch.Draw(_texture, bladesDestRect, bladesRect, Color.White, _angle, new Vector2(BladesCenterX, BladesCenterY), SpriteEffects.None, 0f);
 
             _angle += BladeSpeed;
-
-            if (displayBoundingBox)
-            {
-                RenderBoundingBoxes(spriteBatch);
-            }
         }
 
         public override void OnNotify(BaseGameStateEvent gameEvent)
         {
             switch (gameEvent)
             {
-                case GameplayEvents.Collision c:
-                    HandleCollision(c);
-                    break;
-            }
-        }
-
-        private void HandleCollision(GameplayEvents.Collision c)
-        {
-            switch (c.HitBy) 
-            {
-                case MissileSprite _:
+                case GameplayEvents.MissileHitsChopper _:
                     _life -= 25;
                     SendEvent(new GameplayEvents.EnemyLostLife(_life));
                     break;
 
-                case BulletSprite _:
+                case GameplayEvents.BulletHitsChopper _:
                     _life -= 5;
                     SendEvent(new GameplayEvents.EnemyLostLife(_life));
                     break;

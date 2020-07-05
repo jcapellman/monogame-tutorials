@@ -2,6 +2,7 @@
 {
     public class BaseGameStateEvent 
     {
+        public class Nothing : BaseGameStateEvent { }
         public class GameQuit : BaseGameStateEvent { }
     }
 }

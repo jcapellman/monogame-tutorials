@@ -16,6 +16,7 @@ namespace chapter_09.Engine.States
         private const string FallbackTexture = "Empty";
         private const string FallbackSong = "EmptySound";
 
+        protected bool _debug = false;
         private ContentManager _contentManager;
         protected int _viewportHeight;
         protected int _viewportWidth;
@@ -95,6 +96,11 @@ namespace chapter_09.Engine.States
             foreach (var gameObject in _gameObjects.OrderBy(a => a.zIndex))
             {
                 gameObject.Render(spriteBatch);
+
+                if (_debug)
+                {
+                    gameObject.RenderBoundingBoxes(spriteBatch);
+                }
             }
         }
     }

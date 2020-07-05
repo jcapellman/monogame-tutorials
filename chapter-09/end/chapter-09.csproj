@@ -46,6 +46,7 @@
     <Compile Include="Engine\Input\BaseInputCommand.cs" />
     <Compile Include="Engine\Input\InputManager.cs" />
     <Compile Include="Engine\Objects\BoundingBox.cs" />
+    <Compile Include="Engine\Objects\AABBCollisionDetector.cs" />
     <Compile Include="Engine\Particles\EmitterParticleState.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\CircleEmitterType.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\ConeEmitterType.cs" />

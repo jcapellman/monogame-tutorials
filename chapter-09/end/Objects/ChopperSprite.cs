@@ -1,4 +1,6 @@
 ﻿using chapter_09.Engine.Objects;
+using chapter_09.Engine.States;
+using chapter_09.States.Gameplay;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,12 +24,14 @@ namespace chapter_09.Objects
 
         private float _angle = 0.0f;
 
+        private int _life = 100;
+
         public ChopperSprite(Texture2D texture)
         {
             _texture = texture;
         }
 
-        public override void Render(SpriteBatch spriteBatch)
+        public override void Render(SpriteBatch spriteBatch, bool displayBoundingBox)
         {
             var chopperRect = new Rectangle(0, 0, ChopperWidth, ChopperHeight);
             var chopperDestRect = new Rectangle(_position.ToPoint(), new Point(ChopperWidth, ChopperHeight));
@@ -39,6 +43,37 @@ namespace chapter_09.Objects
             spriteBatch.Draw(_texture, bladesDestRect, bladesRect, Color.White, _angle, new Vector2(BladesCenterX, BladesCenterY), SpriteEffects.None, 0f);
 
             _angle += BladeSpeed;
+
+            if (displayBoundingBox)
+            {
+                RenderBoundingBoxes(spriteBatch);
+            }
+        }
+
+        public override void OnNotify(BaseGameStateEvent gameEvent)
+        {
+            switch (gameEvent)
+            {
+                case GameplayEvents.Collision c:
+                    HandleCollision(c);
+                    break;
+            }
+        }
+
+        private void HandleCollision(GameplayEvents.Collision c)
+        {
+            switch (c.HitBy) 
+            {
+                case MissileSprite _:
+                    _life -= 25;
+                    SendEvent(new GameplayEvents.EnemyLostLife(_life));
+                    break;
+
+                case BulletSprite _:
+                    _life -= 5;
+                    SendEvent(new GameplayEvents.EnemyLostLife(_life));
+                    break;
+            }
         }
     }
 }

@@ -46,13 +46,18 @@ namespace chapter_09.Objects
             _speed = _speed + Acceleration;
         }
 
-        public override void Render(SpriteBatch spriteBatch)
+        public override void Render(SpriteBatch spriteBatch, bool renderBoundingBox = false)
         {
             // need to scale down the sprite. The original texture is very big
             var destRectangle = new Rectangle((int) Position.X, (int) Position.Y, _missileWidth, _missileHeight);
             spriteBatch.Draw(_texture, destRectangle, Color.White);
 
             _exhaustEmitter.Render(spriteBatch);
+
+            if (renderBoundingBox)
+            {
+                RenderBoundingBoxes(spriteBatch);
+            }
         }
     }
 }

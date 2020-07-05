@@ -3,13 +3,13 @@ using chapter_09.Engine.States;
 using chapter_09.States.Gameplay;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.Collections.Generic;
 
 namespace chapter_09.Objects
 {
     public class ChopperSprite : BaseGameObject
     {
-        private const float Speed = 8.0f;
+        private const float Speed = 4.0f;
         private const float BladeSpeed = 0.2f;
         private const int ChopperWidth = 44;
         private const int ChopperHeight = 98;
@@ -25,19 +25,37 @@ namespace chapter_09.Objects
 
         private float _angle = 0.0f;
 
-        private int _life = 100;
+        private int _age = 0;
+        private Vector2 _direction = new Vector2(0, 0);
+        private int _life = 50;
         private bool _justHit = false;
         private int _hitAt = 0;
 
-        public ChopperSprite(Texture2D texture)
+        private List<(int, Vector2)> _path;
+
+        public ChopperSprite(Texture2D texture, List<(int, Vector2)> path)
         {
             _texture = texture;
+            _path = path;
             AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(-16, -63), 34, 98));
         }
 
         public void Update()
         {
+            foreach(var p in _path)
+            {
+                int pAge = p.Item1;
+                Vector2 pDirection = p.Item2;
 
+                if (_age > pAge)
+                {
+                    _direction = pDirection;
+                }
+            }
+
+            Position = Position + (_direction * Speed);
+
+            _age++;
         }
 
         public override void Render(SpriteBatch spriteBatch)

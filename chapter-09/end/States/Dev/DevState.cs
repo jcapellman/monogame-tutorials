@@ -22,7 +22,7 @@ namespace chapter_09.States
 
         public override void LoadContent()
         {
-            _chopper = new ChopperSprite(LoadTexture(ChopperTexture));
+            _chopper = new ChopperSprite(LoadTexture(ChopperTexture), new System.Collections.Generic.List<(int, Vector2)>());
             _chopper.Position = new Vector2(300, 100);
             AddGameObject(_chopper);
         }

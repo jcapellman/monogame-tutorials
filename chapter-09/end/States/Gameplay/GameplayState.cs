@@ -31,6 +31,7 @@ namespace chapter_09.States
         private Texture2D _exhaustTexture;
         private Texture2D _bulletTexture;
         private Texture2D _explosionTexture;
+        private Texture2D _chopperTexture;
 
         private PlayerSprite _playerSprite;
 
@@ -44,18 +45,24 @@ namespace chapter_09.States
         private List<ExplosionEmitter> _explosionList;
         private List<ChopperSprite> _enemyList;
 
+        private ChopperGenerator _chopperGenerator;
+
         public override void LoadContent()
         {
             _missileTexture = LoadTexture(MissileTexture);
             _exhaustTexture = LoadTexture(ExhaustTexture);
             _bulletTexture = LoadTexture(BulletTexture);
             _explosionTexture = LoadTexture(ExplosionTexture);
+            _chopperTexture = LoadTexture(ChopperTexture);
 
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
             _bulletList = new List<BulletSprite>();
             _missileList = new List<MissileSprite>();
             _explosionList = new List<ExplosionEmitter>();
             _enemyList = new List<ChopperSprite>();
+
+            _chopperGenerator = new ChopperGenerator(_chopperTexture, 4, AddChopper);
+            _chopperGenerator.GenerateChoppers();
 
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
             AddGameObject(_playerSprite);
@@ -64,13 +71,6 @@ namespace chapter_09.States
             var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
             var playerYPos = _viewportHeight - _playerSprite.Height - 30;
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
-
-            // test chopper sprite
-            var chopperSprite = new ChopperSprite(LoadTexture(ChopperTexture));
-            chopperSprite.Position = new Vector2(300, 100);
-            chopperSprite.OnObjectChanged += _chopperSprite_OnObjectChanged;
-            _enemyList.Add(chopperSprite);
-            AddGameObject(chopperSprite);
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound("bulletSound");
@@ -166,6 +166,13 @@ namespace chapter_09.States
             // get rid of bullets and missiles that have gone out of view
             _bulletList = CleanObjects(_bulletList);
             _missileList = CleanObjects(_missileList);
+        }
+
+        private void AddChopper(ChopperSprite chopper)
+        {
+            chopper.OnObjectChanged += _chopperSprite_OnObjectChanged;
+            _enemyList.Add(chopper);
+            AddGameObject(chopper);
         }
 
         private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject

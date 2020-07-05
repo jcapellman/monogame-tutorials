@@ -64,6 +64,7 @@
     <Compile Include="States\Dev\DevInputMapper.cs" />
     <Compile Include="States\Dev\DevState.cs" />
     <Compile Include="Particles\Exhaust.cs" />
+    <Compile Include="States\Gameplay\ChopperGenerator.cs" />
     <Compile Include="States\Gameplay\GameplayEvents.cs" />
     <Compile Include="States\Gameplay\GameplayInputCommand.cs" />
     <Compile Include="States\Gameplay\GameplayInputMapper.cs" />

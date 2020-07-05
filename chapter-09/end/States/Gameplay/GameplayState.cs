@@ -144,10 +144,11 @@ namespace chapter_09.States
             }
 
             // check for bullet collisions
-            var bulletCollisionDectector = new AABBCollisionDetector<BulletSprite, ChopperSprite>(_bulletList);
-            var missileCollisionDectector = new AABBCollisionDetector<MissileSprite, ChopperSprite>(_missileList);
+            var bulletCollisionDetector = new AABBCollisionDetector<BulletSprite, ChopperSprite>(_bulletList);
+            var missileCollisionDetector = new AABBCollisionDetector<MissileSprite, ChopperSprite>(_missileList);
+            var playerCollisionDetector = new AABBCollisionDetector<ChopperSprite, PlayerSprite>(_enemyList);
 
-            bulletCollisionDectector.DetectCollisions(_enemyList, (bullet, chopper) =>
+            bulletCollisionDetector.DetectCollisions(_enemyList, (bullet, chopper) =>
             {
                 var hitEvent = new GameplayEvents.BulletHitsChopper();
                 chopper.OnNotify(hitEvent);
@@ -155,12 +156,17 @@ namespace chapter_09.States
                 bullet.Destroy();
             });
 
-            missileCollisionDectector.DetectCollisions(_enemyList, (missile, chopper) =>
+            missileCollisionDetector.DetectCollisions(_enemyList, (missile, chopper) =>
             {
                 var hitEvent = new GameplayEvents.MissileHitsChopper();
                 chopper.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 missile.Destroy();
+            });
+
+            playerCollisionDetector.DetectCollisions(_playerSprite, (chopper, player) =>
+            {
+                NotifyEvent(new BaseGameStateEvent.GameQuit());
             });
 
             // get rid of bullets and missiles that have gone out of view

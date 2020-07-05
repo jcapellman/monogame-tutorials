@@ -7,6 +7,7 @@ namespace chapter_09.States.Gameplay
     {
         public class PlayerShootsBullets : GameplayEvents { }
         public class PlayerShootsMissile : GameplayEvents { }
+        public class PlayerDies : GameplayEvents { }
         public class MissileHitsChopper : GameplayEvents { }
         public class BulletHitsChopper : GameplayEvents { }
 

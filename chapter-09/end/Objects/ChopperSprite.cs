@@ -27,7 +27,7 @@ namespace chapter_09.Objects
 
         private int _age = 0;
         private Vector2 _direction = new Vector2(0, 0);
-        private int _life = 50;
+        private int _life = 30;
         private bool _justHit = false;
         private int _hitAt = 0;
 
@@ -112,7 +112,7 @@ namespace chapter_09.Objects
                 case GameplayEvents.BulletHitsChopper _:
                     _justHit = true;
                     _hitAt = 0;
-                    _life -= 5;
+                    _life -= 10;
                     SendEvent(new GameplayEvents.EnemyLostLife(_life));
                     break;
             }

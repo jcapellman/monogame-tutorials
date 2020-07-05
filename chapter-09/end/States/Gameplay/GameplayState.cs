@@ -172,6 +172,7 @@ namespace chapter_09.States
             // get rid of bullets and missiles that have gone out of view
             _bulletList = CleanObjects(_bulletList);
             _missileList = CleanObjects(_missileList);
+            _enemyList = CleanObjects(_enemyList);
         }
 
         private void AddChopper(ChopperSprite chopper)
@@ -201,7 +202,7 @@ namespace chapter_09.States
             return listOfItemsToKeep;
         }
 
-        private async void _chopperSprite_OnObjectChanged(object sender, BaseGameStateEvent e)
+        private void _chopperSprite_OnObjectChanged(object sender, BaseGameStateEvent e)
         {
             var chopper = (ChopperSprite)sender;
             switch (e)
@@ -210,9 +211,7 @@ namespace chapter_09.States
                     if (ge.CurrentLife <= 0)
                     {
                         AddExplosion(new Vector2(chopper.Position.X - 40, chopper.Position.Y - 40));
-                        await Task.Delay(TimeSpan.FromSeconds(0.5));
-                        RemoveGameObject(chopper);
-                        _enemyList.Remove(chopper);
+                        chopper.Destroy();
                     }
                     break;
             }

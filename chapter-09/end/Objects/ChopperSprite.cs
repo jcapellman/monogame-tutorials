@@ -27,7 +27,7 @@ namespace chapter_09.Objects
 
         private int _age = 0;
         private Vector2 _direction = new Vector2(0, 0);
-        private int _life = 30;
+        private int _life = 40;
         private bool _justHit = false;
         private int _hitAt = 0;
 

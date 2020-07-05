@@ -124,6 +124,11 @@ namespace chapter_09.States
                 missile.Update(gameTime);
             }
 
+            foreach (var chopper in _enemyList)
+            {
+                chopper.Update();
+            }
+
             UpdateExplosions(gameTime);
 
             // can't shoot bullets more than every 0.2 second

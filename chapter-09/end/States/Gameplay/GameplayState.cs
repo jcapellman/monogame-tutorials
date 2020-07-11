@@ -34,6 +34,7 @@ namespace chapter_09.States
         private Texture2D _chopperTexture;
 
         private PlayerSprite _playerSprite;
+        private bool _playerDead;
 
         private bool _isShootingBullets;
         private bool _isShootingMissile;
@@ -82,19 +83,19 @@ namespace chapter_09.States
                     NotifyEvent(new BaseGameStateEvent.GameQuit());
                 }
 
-                if (cmd is GameplayInputCommand.PlayerMoveLeft)
+                if (cmd is GameplayInputCommand.PlayerMoveLeft && !_playerDead)
                 {
                     _playerSprite.MoveLeft();
                     KeepPlayerInBounds();
                 }
 
-                if (cmd is GameplayInputCommand.PlayerMoveRight)
+                if (cmd is GameplayInputCommand.PlayerMoveRight && !_playerDead)
                 {
                     _playerSprite.MoveRight();
                     KeepPlayerInBounds();
                 }
 
-                if (cmd is GameplayInputCommand.PlayerShoots)
+                if (cmd is GameplayInputCommand.PlayerShoots && !_playerDead)
                 {
                     Shoot(gameTime);
                 }
@@ -212,10 +213,14 @@ namespace chapter_09.States
             var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
             var playerYPos = _viewportHeight - _playerSprite.Height - 30;
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
+
+            _playerDead = false;
         }
 
         private async void KillPlayer()
         {
+            _playerDead = true;
+
             AddExplosion(_playerSprite.Position);
             RemoveGameObject(_playerSprite);
 

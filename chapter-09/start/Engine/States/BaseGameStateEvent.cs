@@ -1,4 +1,4 @@
-﻿namespace chapter_08.Engine.States
+﻿namespace chapter_09.Engine.States
 {
     public class BaseGameStateEvent 
     {

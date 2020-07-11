@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace chapter_08.Engine.Input
+namespace chapter_09.Engine.Input
 {
     public class InputManager
     {

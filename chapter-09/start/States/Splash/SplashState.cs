@@ -1,10 +1,10 @@
-﻿using chapter_08.Engine.Input;
-using chapter_08.Engine.States;
-using chapter_08.Input;
-using chapter_08.Objects;
+﻿using chapter_09.Engine.Input;
+using chapter_09.Engine.States;
+using chapter_09.Input;
+using chapter_09.Objects;
 using Microsoft.Xna.Framework;
 
-namespace chapter_08.States
+namespace chapter_09.States
 {
     public class SplashState : BaseGameState
     {

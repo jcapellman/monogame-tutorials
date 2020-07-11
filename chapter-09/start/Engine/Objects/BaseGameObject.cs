@@ -1,8 +1,8 @@
-﻿using chapter_08.Engine.States;
+﻿using chapter_09.Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace chapter_08.Engine.Objects
+namespace chapter_09.Engine.Objects
 {
     public class BaseGameObject
     {
@@ -13,7 +13,7 @@ namespace chapter_08.Engine.Objects
 
         public int Width { get { return _texture.Width; } }
         public int Height { get { return _texture.Height; } }
-        public Vector2 Position 
+        public virtual Vector2 Position 
         { 
             get { return _position; } 
             set { _position = value; } 

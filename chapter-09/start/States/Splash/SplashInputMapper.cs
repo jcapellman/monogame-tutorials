@@ -1,8 +1,8 @@
-﻿using chapter_08.Engine.Input;
+﻿using chapter_09.Engine.Input;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace chapter_08.Input
+namespace chapter_09.Input
 {
     public class SplashInputMapper : BaseInputMapper
     {

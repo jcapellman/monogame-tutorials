@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,11 +9,12 @@
     <ProjectGuid>{1824E111-581D-4764-9F51-FF0E30FBBAFC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>chapter_08</RootNamespace>
-    <AssemblyName>chapter-08</AssemblyName>
+    <RootNamespace>chapter_09</RootNamespace>
+    <AssemblyName>chapter-09</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -44,7 +45,20 @@
     <Compile Include="Engine\Input\BaseInputMapper.cs" />
     <Compile Include="Engine\Input\BaseInputCommand.cs" />
     <Compile Include="Engine\Input\InputManager.cs" />
+    <Compile Include="Engine\Particles\EmitterParticleState.cs" />
+    <Compile Include="Engine\Particles\EmitterTypes\ConeEmitterType.cs" />
+    <Compile Include="Engine\Particles\EmitterTypes\IEmitterType.cs" />
+    <Compile Include="Engine\Particles\RandomNumberGenerator.cs" />
+    <Compile Include="Engine\Particles\Particle.cs" />
+    <Compile Include="Engine\Particles\Emitter.cs" />
+    <Compile Include="Engine\Sound\SoundAttributes.cs" />
+    <Compile Include="Engine\Sound\SoundBankItem.cs" />
     <Compile Include="Engine\Sound\SoundManager.cs" />
+    <Compile Include="Objects\MissileSprite.cs" />
+    <Compile Include="States\Dev\DevInputCommand.cs" />
+    <Compile Include="States\Dev\DevInputMapper.cs" />
+    <Compile Include="States\Dev\DevState.cs" />
+    <Compile Include="Particles\Exhaust.cs" />
     <Compile Include="States\Gameplay\GameplayEvents.cs" />
     <Compile Include="States\Gameplay\GameplayInputCommand.cs" />
     <Compile Include="States\Gameplay\GameplayInputMapper.cs" />
@@ -75,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="app.config" />
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup />

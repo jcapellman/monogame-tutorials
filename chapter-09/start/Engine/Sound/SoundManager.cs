@@ -1,16 +1,16 @@
-﻿using chapter_08.Engine.States;
-
+﻿using chapter_09.Engine.States;
+using chapter_09.States.Gameplay;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 
-namespace chapter_08.Engine.Sound
+namespace chapter_09.Engine.Sound
 {
     public class SoundManager
     {
         private int _soundtrackIndex = -1;
         private List<SoundEffectInstance> _soundtracks = new List<SoundEffectInstance>();
-        private Dictionary<Type, SoundEffect> _soundBank = new Dictionary<Type, SoundEffect>();
+        private Dictionary<Type, SoundBankItem> _soundBank = new Dictionary<Type, SoundBankItem>();
 
         public void SetSoundtrack(List<SoundEffectInstance> tracks)
         {
@@ -23,7 +23,7 @@ namespace chapter_08.Engine.Sound
             if (_soundBank.ContainsKey(gameEvent.GetType()))
             {
                 var sound = _soundBank[gameEvent.GetType()];
-                sound.Play();
+                sound.Sound.Play(sound.Attributes.Volume, sound.Attributes.Pitch, sound.Attributes.Pan);
             }
         }
 
@@ -53,7 +53,13 @@ namespace chapter_08.Engine.Sound
 
         public void RegisterSound(BaseGameStateEvent gameEvent, SoundEffect sound)
         {
-            _soundBank.Add(gameEvent.GetType(), sound);
+            RegisterSound(gameEvent, sound, 1.0f, 0.0f, 0.0f);
+        }
+
+        internal void RegisterSound(BaseGameStateEvent gameEvent, SoundEffect sound, 
+                                    float volume, float pitch, float pan)
+        {
+            _soundBank.Add(gameEvent.GetType(), new SoundBankItem(sound, new SoundAttributes(volume, pitch, pan)));
         }
     }
 }

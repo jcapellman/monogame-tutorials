@@ -1,8 +1,8 @@
-﻿using chapter_08.Engine;
-using chapter_08.States;
+﻿using chapter_09.Engine;
+using chapter_09.States;
 using System;
 
-namespace chapter_08
+namespace chapter_09
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -19,7 +19,7 @@ namespace chapter_08
         [STAThread]
         static void Main()
         {
-            using (var game = new MainGame(WIDTH, HEIGHT, new SplashState()))
+            using (var game = new MainGame(WIDTH, HEIGHT, new GameplayState()))
                 game.Run();
         }
     }

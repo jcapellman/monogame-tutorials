@@ -1,6 +1,6 @@
-﻿using chapter_08.Engine.Input;
+﻿using chapter_09.Engine.Input;
 
-namespace chapter_08.Input
+namespace chapter_09.Input
 {
     public class SplashInputCommand : BaseInputCommand 
     {

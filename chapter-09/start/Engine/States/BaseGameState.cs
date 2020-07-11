@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using chapter_08.Engine.Input;
-using chapter_08.Engine.Objects;
-using chapter_08.Engine.Sound;
+using chapter_09.Engine.Input;
+using chapter_09.Engine.Objects;
+using chapter_09.Engine.Sound;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace chapter_08.Engine.States
+namespace chapter_09.Engine.States
 {
     public abstract class BaseGameState
     {

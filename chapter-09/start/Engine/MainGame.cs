@@ -1,10 +1,10 @@
-﻿using chapter_08.Engine.States;
-using chapter_08.States;
+﻿using chapter_09.Engine.States;
+using chapter_09.States;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace chapter_08.Engine
+namespace chapter_09.Engine
 {
     /// <summary>
     /// This is the main type for your game.
@@ -19,7 +19,7 @@ namespace chapter_08.Engine
         private RenderTarget2D _renderTarget;
         private Rectangle _renderScaleRectangle;
 
-        private int _DesignedResolutinWidth;
+        private int _DesignedResolutionWidth;
         private int _DesignedResolutionHeight;
         private float _designedResolutionAspectRatio;
 
@@ -36,7 +36,7 @@ namespace chapter_08.Engine
             };
 
             _firstGameState = firstGameState;
-            _DesignedResolutinWidth = width;
+            _DesignedResolutionWidth = width;
             _DesignedResolutionHeight = height;
             _designedResolutionAspectRatio = width / (float)height;
         }
@@ -49,7 +49,7 @@ namespace chapter_08.Engine
         /// </summary>
         protected override void Initialize()
         {
-            _renderTarget = new RenderTarget2D(graphics.GraphicsDevice, _DesignedResolutinWidth, _DesignedResolutionHeight, false,
+            _renderTarget = new RenderTarget2D(graphics.GraphicsDevice, _DesignedResolutionWidth, _DesignedResolutionHeight, false,
                 SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
 
             _renderScaleRectangle = GetScaleRectangle();

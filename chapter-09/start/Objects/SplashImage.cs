@@ -1,7 +1,7 @@
-﻿using chapter_08.Engine.Objects;
+﻿using chapter_09.Engine.Objects;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace chapter_08.Objects
+namespace chapter_09.Objects
 {
     public class SplashImage : BaseGameObject
     {

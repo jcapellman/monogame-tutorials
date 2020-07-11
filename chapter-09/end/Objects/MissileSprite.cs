@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace chapter_09.Objects
 {
-    public class MissileSprite : BaseGameObject
+    public class MissileSprite : BaseGameObject, IGameObjectWithDamage
     {
         private const float StartSpeed = 0.5f;
         private const float Acceleration = 0.15f;
@@ -22,11 +22,19 @@ namespace chapter_09.Objects
         public override Vector2 Position 
         { 
             set 
-            { 
-                _exhaustEmitter.Position = new Vector2(_position.X + 18, _position.Y + _missileHeight - 10);
+            {
+                var emitterOffsetX = 18;
+                var emitterOffsetY = -10;
+
+                var emitterPosX = _position.X + emitterOffsetX;
+                var emitterPosY = _position.Y + _missileHeight + emitterOffsetY;
+
+                _exhaustEmitter.Position = new Vector2(emitterPosX, emitterPosY);
                 base.Position = value;
             }
         }
+
+        public int Damage => 25;
 
         public MissileSprite(Texture2D missleTexture, Texture2D exhaustTexture)
         {
@@ -39,12 +47,18 @@ namespace chapter_09.Objects
 
             // note that the missile is scaled down! so it's bounding box must be scaled down as well
             var bbRatio = (float) _missileWidth / _texture.Width;
-            var bbX = 352 * bbRatio; // 350 is the original X position of the bounding box on the original texture
-            var bbY = 7 * bbRatio;
-            var bbW = 150 * bbRatio;
-            var bbH = 500 * bbRatio; // note that the height doesn't really matter here since the missile goes straight up, only the tip can collide with anything.
 
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(bbX, bbY), bbW, bbH));
+            var bbOriginalPositionX = 352;
+            var bbOriginalPositionY = 7;
+            var bbOriginalWidth = 150;
+            var bbOriginalHeight = 500;
+
+            var bbPositionX = bbOriginalPositionX * bbRatio;
+            var bbPositionY = bbOriginalPositionY * bbRatio;
+            var bbWidth = bbOriginalWidth * bbRatio;
+            var bbHeight = bbOriginalHeight * bbRatio; 
+
+            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(bbPositionX, bbPositionY), bbWidth, bbHeight));
         }
 
         public void Update(GameTime gameTime)

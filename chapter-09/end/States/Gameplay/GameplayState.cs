@@ -119,7 +119,17 @@ namespace chapter_09.States
             }
 
             UpdateExplosions(gameTime);
+            RegulateShootingRate(gameTime);
+            DetectCollisions();
 
+            // get rid of bullets and missiles that have gone out of view
+            _bulletList = CleanObjects(_bulletList);
+            _missileList = CleanObjects(_missileList);
+            _enemyList = CleanObjects(_enemyList);
+        }
+        
+        private void RegulateShootingRate(GameTime gameTime)
+        {
             // can't shoot bullets more than every 0.2 second
             if (_lastBulletShotAt != null && gameTime.TotalGameTime - _lastBulletShotAt > TimeSpan.FromSeconds(0.2))
             {
@@ -131,15 +141,17 @@ namespace chapter_09.States
             {
                 _isShootingMissile = false;
             }
+        }
 
-            // check for bullet collisions
+        private void DetectCollisions()
+        {
             var bulletCollisionDetector = new AABBCollisionDetector<BulletSprite, ChopperSprite>(_bulletList);
             var missileCollisionDetector = new AABBCollisionDetector<MissileSprite, ChopperSprite>(_missileList);
             var playerCollisionDetector = new AABBCollisionDetector<ChopperSprite, PlayerSprite>(_enemyList);
 
             bulletCollisionDetector.DetectCollisions(_enemyList, (bullet, chopper) =>
             {
-                var hitEvent = new GameplayEvents.BulletHitsChopper();
+                var hitEvent = new GameplayEvents.ChopperHitBy(bullet);
                 chopper.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 bullet.Destroy();
@@ -147,7 +159,7 @@ namespace chapter_09.States
 
             missileCollisionDetector.DetectCollisions(_enemyList, (missile, chopper) =>
             {
-                var hitEvent = new GameplayEvents.MissileHitsChopper();
+                var hitEvent = new GameplayEvents.ChopperHitBy(missile);
                 chopper.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 missile.Destroy();
@@ -157,11 +169,6 @@ namespace chapter_09.States
             {
                 KillPlayer();
             });
-
-            // get rid of bullets and missiles that have gone out of view
-            _bulletList = CleanObjects(_bulletList);
-            _missileList = CleanObjects(_missileList);
-            _enemyList = CleanObjects(_enemyList);
         }
 
         private void ResetGame()

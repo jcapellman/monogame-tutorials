@@ -11,23 +11,36 @@ namespace chapter_09.Objects
     {
         private const float Speed = 4.0f;
         private const float BladeSpeed = 0.2f;
+
+        // which chopper do we want from the texture
+        private const int ChopperStartX = 0;
+        private const int ChopperStartY = 0;
         private const int ChopperWidth = 44;
         private const int ChopperHeight = 98;
+
+        // where are the blades on the texture
         private const int BladesStartX = 133;
         private const int BladesStartY = 98;
         private const int BladesWidth = 94;
         private const int BladesHeight = 94;
+
+        // rotation center of the blades
         private const float BladesCenterX = 47.5f;
         private const float BladesCenterY = 47.5f;
+
+        // positioning of the blades on the chopper
         private const int ChopperBladePosX = ChopperWidth / 2;
         private const int ChopperBladePosY = 34;
-        private const float PI = 3.14159f;
 
+        // initial direction and speed of chopper
         private float _angle = 0.0f;
-
-        private int _age = 0;
         private Vector2 _direction = new Vector2(0, 0);
+
+        // track life total and age of chopper
+        private int _age = 0;
         private int _life = 40;
+
+        // chopper will flash red when hit
         private bool _justHit = false;
         private int _hitAt = 0;
 
@@ -60,14 +73,15 @@ namespace chapter_09.Objects
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            var chopperRect = new Rectangle(0, 0, ChopperWidth, ChopperHeight);
+            var chopperRect = new Rectangle(ChopperStartX, ChopperStartY, ChopperWidth, ChopperHeight);
             var chopperDestRect = new Rectangle(_position.ToPoint(), new Point(ChopperWidth, ChopperHeight));
 
             var bladesRect = new Rectangle(BladesStartX, BladesStartY, BladesWidth, BladesHeight);
             var bladesDestRect = new Rectangle(_position.ToPoint(), new Point(BladesWidth, BladesHeight));
 
+            // if the chopper was just hit and is flashing, Color should alternate between OrangeRed and White
             var color = GetColor();
-            spriteBatch.Draw(_texture, chopperDestRect, chopperRect, color, PI, new Vector2(ChopperBladePosX, ChopperBladePosY), SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture, chopperDestRect, chopperRect, color, MathHelper.Pi, new Vector2(ChopperBladePosX, ChopperBladePosY), SpriteEffects.None, 0f);
             spriteBatch.Draw(_texture, bladesDestRect, bladesRect, Color.White, _angle, new Vector2(BladesCenterX, BladesCenterY), SpriteEffects.None, 0f);
 
             _angle += BladeSpeed;
@@ -75,13 +89,16 @@ namespace chapter_09.Objects
 
         private Color GetColor()
         {
+            var maxFlashFrame = 13;
             var color = Color.White;
+
             if (_justHit)
             {
-                // want to flash the chopper 4 times per seconds when it gets hit for a few frames
-                // so every 15 frames, flash for 5 frames.
+                // want to flash the chopper 2 times very quickly whenever it gets hit. Each flash lasts for 4 frames
+                // flash #1: from frame 0 to frame 3
+                // flash #2: from frame 10 to frame 13
                 if ((_hitAt >= 0 && _hitAt < 3) ||
-                    (_hitAt >= 10 && _hitAt < 13))
+                    (_hitAt >= 10 && _hitAt < maxFlashFrame))
                 {
                     color = Color.OrangeRed;
                 }
@@ -89,7 +106,8 @@ namespace chapter_09.Objects
                 _hitAt++;
             }
 
-            if (_hitAt > 60)
+            // reset hit tracking after frame 13
+            if (_hitAt > maxFlashFrame)
             {
                 _justHit = false;
                 _hitAt = 0;
@@ -102,20 +120,18 @@ namespace chapter_09.Objects
         {
             switch (gameEvent)
             {
-                case GameplayEvents.MissileHitsChopper _:
-                    _justHit = true;
-                    _hitAt = 0;
-                    _life -= 25;
-                    SendEvent(new GameplayEvents.EnemyLostLife(_life));
-                    break;
-
-                case GameplayEvents.BulletHitsChopper _:
-                    _justHit = true;
-                    _hitAt = 0;
-                    _life -= 10;
+                case GameplayEvents.ChopperHitBy m:
+                    JustHit(m.HitBy);
                     SendEvent(new GameplayEvents.EnemyLostLife(_life));
                     break;
             }
+        }
+
+        private void JustHit(IGameObjectWithDamage o)
+        {
+            _justHit = true;
+            _hitAt = 0;
+            _life -= o.Damage;
         }
     }
 }

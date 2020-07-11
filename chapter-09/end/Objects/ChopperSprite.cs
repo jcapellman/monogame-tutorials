@@ -41,8 +41,14 @@ namespace chapter_09.Objects
         private int _life = 40;
 
         // chopper will flash red when hit
-        private bool _justHit = false;
         private int _hitAt = 0;
+
+        // bounding box. Note that since this chopper is rotated 180 degrees around its 0,0 origin, 
+        // this causes the bounding box to be further to the left and higher than the original texture coordinates
+        private int BBPosX = -16;
+        private int BBPosY = -63;
+        private int BBWidth = 34;
+        private int BBHeight = 98;
 
         private List<(int, Vector2)> _path;
 
@@ -50,11 +56,12 @@ namespace chapter_09.Objects
         {
             _texture = texture;
             _path = path;
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(-16, -63), 34, 98));
+            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
         }
 
         public void Update()
         {
+            // Choppers follow a path where the direction changes at a certain frame, which is tracked by the chopper's age
             foreach(var p in _path)
             {
                 int pAge = p.Item1;
@@ -87,35 +94,6 @@ namespace chapter_09.Objects
             _angle += BladeSpeed;
         }
 
-        private Color GetColor()
-        {
-            var maxFlashFrame = 13;
-            var color = Color.White;
-
-            if (_justHit)
-            {
-                // want to flash the chopper 2 times very quickly whenever it gets hit. Each flash lasts for 4 frames
-                // flash #1: from frame 0 to frame 3
-                // flash #2: from frame 10 to frame 13
-                if ((_hitAt >= 0 && _hitAt < 3) ||
-                    (_hitAt >= 10 && _hitAt < maxFlashFrame))
-                {
-                    color = Color.OrangeRed;
-                }
-
-                _hitAt++;
-            }
-
-            // reset hit tracking after frame 13
-            if (_hitAt > maxFlashFrame)
-            {
-                _justHit = false;
-                _hitAt = 0;
-            }
-
-            return color;
-        }
-
         public override void OnNotify(BaseGameStateEvent gameEvent)
         {
             switch (gameEvent)
@@ -129,9 +107,32 @@ namespace chapter_09.Objects
 
         private void JustHit(IGameObjectWithDamage o)
         {
-            _justHit = true;
             _hitAt = 0;
             _life -= o.Damage;
+        }
+
+        private Color GetColor()
+        {
+            var color = Color.White;
+            foreach (var flashStartEndFrames in GetFlashStartEndFrames())
+            {
+                if (_hitAt >= flashStartEndFrames.Item1 && _hitAt < flashStartEndFrames.Item2)
+                {
+                    color = Color.OrangeRed;
+                }    
+            }
+
+            _hitAt++;
+            return color;
+        }
+
+        private List<(int, int)> GetFlashStartEndFrames()
+        {
+            return new List<(int, int)>
+            {
+                (0, 3),
+                (10, 13)
+            };
         }
     }
 }

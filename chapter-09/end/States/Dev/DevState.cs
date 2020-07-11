@@ -58,10 +58,14 @@ namespace chapter_09.States
             }
 
             if (_explosion != null && gameTime.TotalGameTime > TimeSpan.FromSeconds(10))
+            {
                 RemoveGameObject(_explosion);
+            }
 
             if (_explosion != null)
+            {
                 _explosion.Update(gameTime);
+            }
         }
 
         protected override void SetInputManager()

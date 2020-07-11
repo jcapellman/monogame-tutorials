@@ -21,7 +21,7 @@ namespace chapter_09.Engine.Particles.EmitterTypes
 
         public Vector2 GetParticlePosition(Vector2 emitterPosition)
         {
-            var newAngle = _rnd.NextRandom(0, 2 * 3.14159f);
+            var newAngle = _rnd.NextRandom(0, 2 * MathHelper.Pi);
             var positionVector = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
             positionVector.Normalize();
 

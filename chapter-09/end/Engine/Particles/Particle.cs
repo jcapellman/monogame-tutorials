@@ -41,7 +41,6 @@ namespace chapter_09.Engine.Particles
         // returns false if it went past its lifespan
         public bool Update(GameTime gameTime)
         {
-            // TODO: update rotation and scale
             _velocity *= _acceleration;
             _direction += _gravity;
             _direction.Normalize();

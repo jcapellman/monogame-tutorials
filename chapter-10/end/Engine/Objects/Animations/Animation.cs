@@ -9,6 +9,7 @@ namespace chapter_10.Engine.Objects.Animations
         private List<AnimationFrame> _frames = new List<AnimationFrame>();
         private int _animationAge = 0;
         private int _lifespan = -1;
+        private bool _isLoop = false;
 
         public int Lifespan {
             get
@@ -58,7 +59,7 @@ namespace chapter_10.Engine.Objects.Animations
         {
             get
             {
-                var newAnimation = new Animation();
+                var newAnimation = new Animation(_isLoop);
                 for (int i = _frames.Count - 1; i >= 0; i--)
                 {
                     newAnimation.AddFrame(_frames[i].SourceRectangle, _frames[i].Lifespan);
@@ -66,6 +67,11 @@ namespace chapter_10.Engine.Objects.Animations
 
                 return newAnimation;
             }
+        }
+
+        public Animation(bool looping)
+        {
+            _isLoop = looping;
         }
 
         public void AddFrame(Rectangle sourceRectangle, int lifespan)
@@ -76,6 +82,11 @@ namespace chapter_10.Engine.Objects.Animations
         public void Update(GameTime gametime)
         {
             _animationAge++;
+
+            if (_isLoop && _animationAge > Lifespan)
+            {
+                _animationAge = 0;
+            }
         }
 
         public void Reset()

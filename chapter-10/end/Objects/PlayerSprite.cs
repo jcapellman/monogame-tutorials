@@ -20,10 +20,10 @@ namespace chapter_10.Objects
         private const int BB2Width = 111;
         private const int BB2Height = 37;
 
-        private Animation _turnLeftAnimation = new Animation();
-        private Animation _turnRightAnimation = new Animation();
-        private Animation _leftToCenterAnimation = new Animation();
-        private Animation _rightToCenterAnimation = new Animation();
+        private Animation _turnLeftAnimation = new Animation(false);
+        private Animation _turnRightAnimation = new Animation(false);
+        private Animation _leftToCenterAnimation = new Animation(false);
+        private Animation _rightToCenterAnimation = new Animation(false);
         private const int AnimationSpeed = 3;
         private const int AnimationCellWidth = 116;
         private const int AnimationCellHeight= 152;

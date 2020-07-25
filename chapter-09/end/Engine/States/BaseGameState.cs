@@ -95,12 +95,12 @@ namespace chapter_09.Engine.States
         {
             foreach (var gameObject in _gameObjects.OrderBy(a => a.zIndex))
             {
-                gameObject.Render(spriteBatch);
-
                 if (_debug)
                 {
                     gameObject.RenderBoundingBoxes(spriteBatch);
                 }
+
+                gameObject.Render(spriteBatch);
             }
         }
     }

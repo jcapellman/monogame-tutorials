@@ -16,13 +16,19 @@ namespace chapter_10.States
 {
     public class GameplayState : BaseGameState
     {
-        private const string BackgroundTexture = "Barren";
-        private const string PlayerFighter = "fighter";
-        private const string BulletTexture = "bullet";
-        private const string ExhaustTexture = "Cloud";
-        private const string MissileTexture = "Missile";
-        private const string ChopperTexture = "Chopper";
-        private const string ExplosionTexture = "explosion";
+        private const string BackgroundTexture = "Sprites/Barren";
+        private const string PlayerFighter = "Sprites/fighter";
+        private const string BulletTexture = "Sprites/bullet";
+        private const string ExhaustTexture = "Sprites/Cloud";
+        private const string MissileTexture = "Sprites/Missile";
+        private const string ChopperTexture = "Sprites/Chopper";
+        private const string ExplosionTexture = "Sprites/explosion";
+
+        private const string BulletSound = "Sounds/bulletSound";
+        private const string MissileSound = "Sounds/missileSound";
+
+        private const string Soundtrack1 = "Music/FutureAmbient_1";
+        private const string Soundtrack2 = "Music/FutureAmbient_2";
 
         private const int MaxExplosionAge = 600; // 10 seconds
         private const int ExplosionActiveLength = 75; // emit particles for 1.2 seconds and let them fade out for 10 seconds
@@ -61,14 +67,14 @@ namespace chapter_10.States
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
 
             // load sound effects and register in the sound manager
-            var bulletSound = LoadSound("bulletSound");
-            var missileSound = LoadSound("missileSound");
+            var bulletSound = LoadSound(BulletSound);
+            var missileSound = LoadSound(MissileSound);
             _soundManager.RegisterSound(new GameplayEvents.PlayerShootsBullets(), bulletSound);
             _soundManager.RegisterSound(new GameplayEvents.PlayerShootsMissile(), missileSound, 0.4f, -0.2f, 0.0f);
 
             // load soundtracks into sound manager
-            var track1 = LoadSound("FutureAmbient_1").CreateInstance();
-            var track2 = LoadSound("FutureAmbient_2").CreateInstance();
+            var track1 = LoadSound(Soundtrack1).CreateInstance();
+            var track2 = LoadSound(Soundtrack2).CreateInstance();
             _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
 
             ResetGame();

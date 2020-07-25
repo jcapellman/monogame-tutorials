@@ -97,18 +97,6 @@
 /processorParam:TextureFormat=Color
 /build:../../assets/png/explosion.png;Sprites/explosion.png
 
-#begin ../../assets/png/Fighter.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../assets/png/Fighter.png;Sprites/Fighter.png
-
 #begin ../../assets/png/FighterAtlas.png
 /importer:TextureImporter
 /processor:TextureProcessor

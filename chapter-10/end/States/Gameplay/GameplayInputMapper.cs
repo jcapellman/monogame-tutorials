@@ -15,19 +15,22 @@ namespace chapter_10.Input
                 commands.Add(new GameplayInputCommand.GameExit());
             }
 
-            if (state.IsKeyDown(Keys.Left))
+            if (state.IsKeyDown(Keys.Space))
             {
-                commands.Add(new GameplayInputCommand.PlayerMoveLeft());
+                commands.Add(new GameplayInputCommand.PlayerShoots());
             }
 
             if (state.IsKeyDown(Keys.Right))
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveRight());
             }
-
-            if (state.IsKeyDown(Keys.Space))
+            else if (state.IsKeyDown(Keys.Left))
             {
-                commands.Add(new GameplayInputCommand.PlayerShoots());
+                commands.Add(new GameplayInputCommand.PlayerMoveLeft());
+            }
+            else
+            {
+                commands.Add(new GameplayInputCommand.PlayerStopsMoving());
             }
 
             return commands;

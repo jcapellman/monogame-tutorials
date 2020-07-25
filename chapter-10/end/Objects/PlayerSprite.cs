@@ -34,6 +34,9 @@ namespace chapter_10.Objects
         private bool _movingLeft = false;
         private bool _movingRight = false;
 
+        public override int Height => AnimationCellHeight;
+        public override int Width => AnimationCellWidth;
+
         public PlayerSprite(Texture2D texture)
         {
             _texture = texture;

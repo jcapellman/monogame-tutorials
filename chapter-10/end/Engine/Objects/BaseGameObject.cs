@@ -19,8 +19,8 @@ namespace chapter_10.Engine.Objects
 
         public bool Destroyed { get; private set; }
 
-        public int Width { get { return _texture.Width; } }
-        public int Height { get { return _texture.Height; } }
+        public virtual int Width { get { return _texture.Width; } }
+        public virtual int Height { get { return _texture.Height; } }
         public virtual Vector2 Position 
         { 
             get { return _position; } 

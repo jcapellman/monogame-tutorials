@@ -30,6 +30,20 @@ namespace chapter_10.Input
                 commands.Add(new DevInputCommand.DevExplode());
             }
 
+            if (state.IsKeyDown(Keys.Right))
+            {
+                commands.Add(new DevInputCommand.DevRight());
+            }
+            else if (state.IsKeyDown(Keys.Left))
+            {
+                commands.Add(new DevInputCommand.DevLeft());
+            }
+            else
+            {
+                commands.Add(new DevInputCommand.DevNotMoving());
+            }
+
+
             return commands;
         }
     }

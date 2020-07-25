@@ -45,6 +45,8 @@
     <Compile Include="Engine\Input\BaseInputMapper.cs" />
     <Compile Include="Engine\Input\BaseInputCommand.cs" />
     <Compile Include="Engine\Input\InputManager.cs" />
+    <Compile Include="Engine\Objects\Animations\Animation.cs" />
+    <Compile Include="Engine\Objects\Animations\AnimationFrame.cs" />
     <Compile Include="Engine\Objects\BoundingBox.cs" />
     <Compile Include="Engine\Objects\AABBCollisionDetector.cs" />
     <Compile Include="Engine\Objects\IGameObjectWithDamage.cs" />

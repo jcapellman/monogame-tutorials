@@ -13,18 +13,14 @@ namespace chapter_10.States
     /// </summary>
     public class DevState : BaseGameState
     {
-        private const string CloudTexture = "explosion";
-        private const string ChopperTexture = "Chopper";
-
-        private ChopperSprite _chopper;
-        private ExplosionEmitter _explosion;
-        private TimeSpan _explodeAt;
+        private const string FighterAtlas = "Sprites/Animations/FighterAtlas";
+        private PlayerSprite _player;
 
         public override void LoadContent()
         {
-            _chopper = new ChopperSprite(LoadTexture(ChopperTexture), new System.Collections.Generic.List<(int, Vector2)>());
-            _chopper.Position = new Vector2(300, 100);
-            AddGameObject(_chopper);
+            _player = new PlayerSprite(LoadTexture(FighterAtlas));
+            _player.Position = new Vector2(200, 400);
+            AddGameObject(_player);
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -35,37 +31,27 @@ namespace chapter_10.States
                 {
                     NotifyEvent(new BaseGameStateEvent.GameQuit());
                 }
+
+                if (cmd is DevInputCommand.DevLeft)
+                {
+                    _player.MoveLeft();
+                }
+
+                if (cmd is DevInputCommand.DevRight)
+                {
+                    _player.MoveRight();
+                }
+
+                if (cmd is DevInputCommand.DevNotMoving)
+                {
+                    _player.StopMoving();
+                }
             });
         }
 
         public override void UpdateGameState(GameTime gameTime) 
         {
-            if (_explosion == null && gameTime.TotalGameTime > TimeSpan.FromSeconds(2))
-            {
-                _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(260, 60));
-                AddGameObject(_explosion);
-                _explodeAt = gameTime.TotalGameTime;
-            }
-
-            if (_explosion != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(1.2))
-            {
-                _explosion.Deactivate();
-            }
-
-            if (_explosion != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(0.5))
-            {
-                RemoveGameObject(_chopper);
-            }
-
-            if (_explosion != null && gameTime.TotalGameTime > TimeSpan.FromSeconds(10))
-            {
-                RemoveGameObject(_explosion);
-            }
-
-            if (_explosion != null)
-            {
-                _explosion.Update(gameTime);
-            }
+            _player.Update(gameTime);
         }
 
         protected override void SetInputManager()

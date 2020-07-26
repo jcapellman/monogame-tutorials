@@ -3,6 +3,7 @@ using chapter_10.Engine.Objects;
 using chapter_10.Engine.States;
 using chapter_10.Input;
 using chapter_10.Objects;
+using chapter_10.Objects.Text;
 using chapter_10.States.Gameplay;
 using chapter_10.States.Particles;
 using Microsoft.Xna.Framework;
@@ -24,11 +25,17 @@ namespace chapter_10.States
         private const string ChopperTexture = "Sprites/Chopper";
         private const string ExplosionTexture = "Sprites/explosion";
 
+        private const string TextFont = "Fonts/Lives";
+        private const string GameOverFont = "Fonts/GameOver";
+
         private const string BulletSound = "Sounds/bulletSound";
         private const string MissileSound = "Sounds/missileSound";
 
         private const string Soundtrack1 = "Music/FutureAmbient_1";
         private const string Soundtrack2 = "Music/FutureAmbient_2";
+
+        private const int StartingPlayerLives = 3;
+        private int _playerLives = StartingPlayerLives;
 
         private const int MaxExplosionAge = 600; // 10 seconds
         private const int ExplosionActiveLength = 75; // emit particles for 1.2 seconds and let them fade out for 10 seconds
@@ -39,8 +46,10 @@ namespace chapter_10.States
         private Texture2D _explosionTexture;
         private Texture2D _chopperTexture;
 
+        private LivesText _livesText;
         private PlayerSprite _playerSprite;
         private bool _playerDead;
+        private bool _gameOver = false;
 
         private bool _isShootingBullets;
         private bool _isShootingMissile;
@@ -54,6 +63,7 @@ namespace chapter_10.States
 
         private ChopperGenerator _chopperGenerator;
 
+
         public override void LoadContent()
         {
             _missileTexture = LoadTexture(MissileTexture);
@@ -63,8 +73,12 @@ namespace chapter_10.States
             _chopperTexture = LoadTexture(ChopperTexture);
 
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+            _livesText = new LivesText(LoadFont(TextFont));
+            _livesText.NbLives = StartingPlayerLives;
+            _livesText.Position = new Vector2(10.0f, 690.0f);
 
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
+            AddGameObject(_livesText);
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound(BulletSound);
@@ -236,12 +250,33 @@ namespace chapter_10.States
         private async void KillPlayer()
         {
             _playerDead = true;
+            _playerLives -= 1;
+            _livesText.NbLives = _playerLives;
 
             AddExplosion(_playerSprite.Position);
             RemoveGameObject(_playerSprite);
 
             await Task.Delay(TimeSpan.FromSeconds(2));
-            ResetGame();
+
+            if (_playerLives > 0)
+            {
+                ResetGame();
+            }
+            else
+            {
+                GameOver();
+            }
+        }
+
+        private void GameOver()
+        {
+            var font = LoadFont(GameOverFont);
+            var gameOverText = new GameOverText(font);
+            var textPositionOnScreen = new Vector2(460, 300);
+
+            gameOverText.Position = textPositionOnScreen;
+            AddGameObject(gameOverText);
+            _gameOver = true;
         }
 
         private void AddChopper(ChopperSprite chopper)

@@ -59,6 +59,11 @@ namespace chapter_10.Engine.States
             return _contentManager.Load<Texture2D>(textureName);
         }
 
+        protected SpriteFont LoadFont(string fontName)
+        {
+            return _contentManager.Load<SpriteFont>(fontName);
+        }
+
         protected SoundEffect LoadSound(string soundName)
         {
             return _contentManager.Load<SoundEffect>(soundName);

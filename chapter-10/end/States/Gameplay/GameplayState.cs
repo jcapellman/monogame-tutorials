@@ -162,7 +162,7 @@ namespace chapter_10.States
 
             if (_gameOver)
             {
-                // draw black rectangle at 50% transparency and redraw game over text
+                // draw black rectangle at 30% transparency
                 var screenBoxTexture = GetScreenBoxTexture(spriteBatch.GraphicsDevice);
                 var viewportRectangle = new Rectangle(0, 0, _viewportWidth, _viewportHeight);
                 spriteBatch.Draw(screenBoxTexture, viewportRectangle, Color.Black * 0.3f);

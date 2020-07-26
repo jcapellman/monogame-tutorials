@@ -166,10 +166,13 @@ namespace chapter_09.States
                 missile.Destroy();
             });
 
-            playerCollisionDetector.DetectCollisions(_playerSprite, (chopper, player) =>
+            if (!_playerDead)
             {
-                KillPlayer();
-            });
+                playerCollisionDetector.DetectCollisions(_playerSprite, (chopper, player) =>
+                {
+                    KillPlayer();
+                });
+            }
         }
 
         private void ResetGame()

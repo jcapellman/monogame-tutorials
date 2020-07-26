@@ -1,0 +1,62 @@
+﻿using chapter_10.Engine.Input;
+using chapter_10.Engine.States;
+using chapter_10.Input;
+using chapter_10.Objects;
+using chapter_10.States.Particles;
+using Microsoft.Xna.Framework;
+using System;
+
+namespace chapter_10.States
+{
+    /// <summary>
+    /// Used to test out new things, like particle engines and shooting missiles
+    /// </summary>
+    public class DevState : BaseGameState
+    {
+        private const string FighterAtlas = "Sprites/Animations/FighterAtlas";
+        private PlayerSprite _player;
+
+        public override void LoadContent()
+        {
+            _player = new PlayerSprite(LoadTexture(FighterAtlas));
+            _player.Position = new Vector2(200, 400);
+            AddGameObject(_player);
+        }
+
+        public override void HandleInput(GameTime gameTime)
+        {
+            InputManager.GetCommands(cmd =>
+            {
+                if (cmd is DevInputCommand.DevQuit)
+                {
+                    NotifyEvent(new BaseGameStateEvent.GameQuit());
+                }
+
+                if (cmd is DevInputCommand.DevLeft)
+                {
+                    _player.MoveLeft();
+                }
+
+                if (cmd is DevInputCommand.DevRight)
+                {
+                    _player.MoveRight();
+                }
+
+                if (cmd is DevInputCommand.DevNotMoving)
+                {
+                    _player.StopMoving();
+                }
+            });
+        }
+
+        public override void UpdateGameState(GameTime gameTime) 
+        {
+            _player.Update(gameTime);
+        }
+
+        protected override void SetInputManager()
+        {
+            InputManager = new InputManager(new DevInputMapper());
+        }
+    }
+}

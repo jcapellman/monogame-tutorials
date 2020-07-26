@@ -96,7 +96,7 @@ namespace chapter_10.Engine.States
             _gameObjects.Remove(gameObject);
         }
 
-        public void Render(SpriteBatch spriteBatch)
+        public virtual void Render(SpriteBatch spriteBatch)
         {
             foreach (var gameObject in _gameObjects.OrderBy(a => a.zIndex))
             {

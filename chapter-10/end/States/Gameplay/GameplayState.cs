@@ -45,6 +45,7 @@ namespace chapter_10.States
         private Texture2D _bulletTexture;
         private Texture2D _explosionTexture;
         private Texture2D _chopperTexture;
+        private Texture2D _screenBoxTexture;
 
         private LivesText _livesText;
         private PlayerSprite _playerSprite;
@@ -62,7 +63,6 @@ namespace chapter_10.States
         private List<ChopperSprite> _enemyList = new List<ChopperSprite>();
 
         private ChopperGenerator _chopperGenerator;
-
 
         public override void LoadContent()
         {
@@ -155,7 +155,31 @@ namespace chapter_10.States
             _missileList = CleanObjects(_missileList);
             _enemyList = CleanObjects(_enemyList);
         }
-        
+
+        public override void Render(SpriteBatch spriteBatch)
+        {
+            base.Render(spriteBatch);
+
+            if (_gameOver)
+            {
+                // draw black rectangle at 50% transparency and redraw game over text
+                var screenBoxTexture = GetScreenBoxTexture(spriteBatch.GraphicsDevice);
+                var viewportRectangle = new Rectangle(0, 0, _viewportWidth, _viewportHeight);
+                spriteBatch.Draw(screenBoxTexture, viewportRectangle, Color.Black * 0.3f);
+            }
+        }
+
+        private Texture2D GetScreenBoxTexture(GraphicsDevice graphicsDevice)
+        {
+            if (_screenBoxTexture == null)
+            {
+                _screenBoxTexture = new Texture2D(graphicsDevice, 1, 1);
+                _screenBoxTexture.SetData<Color>(new Color[] { Color.White });
+            }
+
+            return _screenBoxTexture;
+        }
+
         private void RegulateShootingRate(GameTime gameTime)
         {
             // can't shoot bullets more than every 0.2 second

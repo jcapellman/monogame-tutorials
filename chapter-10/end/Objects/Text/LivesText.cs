@@ -15,7 +15,7 @@ namespace chapter_10.Objects.Text
             set
             {
                 _nbLives = value;
-                Text = "Lives: " + _nbLives;
+                Text = $"Lives: {_nbLives}";
             }
         }
 

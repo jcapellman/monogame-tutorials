@@ -59,6 +59,11 @@ namespace chapter_10.Engine.States
             return _contentManager.Load<Texture2D>(textureName);
         }
 
+        protected SpriteFont LoadFont(string fontName)
+        {
+            return _contentManager.Load<SpriteFont>(fontName);
+        }
+
         protected SoundEffect LoadSound(string soundName)
         {
             return _contentManager.Load<SoundEffect>(soundName);
@@ -91,7 +96,7 @@ namespace chapter_10.Engine.States
             _gameObjects.Remove(gameObject);
         }
 
-        public void Render(SpriteBatch spriteBatch)
+        public virtual void Render(SpriteBatch spriteBatch)
         {
             foreach (var gameObject in _gameObjects.OrderBy(a => a.zIndex))
             {

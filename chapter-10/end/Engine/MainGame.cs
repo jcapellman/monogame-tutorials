@@ -165,7 +165,7 @@ namespace chapter_10.Engine
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
 
             _currentGameState.Render(spriteBatch);
 

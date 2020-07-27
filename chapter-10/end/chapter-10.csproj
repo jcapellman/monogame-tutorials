@@ -47,6 +47,7 @@
     <Compile Include="Engine\Input\InputManager.cs" />
     <Compile Include="Engine\Objects\Animations\Animation.cs" />
     <Compile Include="Engine\Objects\Animations\AnimationFrame.cs" />
+    <Compile Include="Engine\Objects\BaseTextObject.cs" />
     <Compile Include="Engine\Objects\BoundingBox.cs" />
     <Compile Include="Engine\Objects\AABBCollisionDetector.cs" />
     <Compile Include="Engine\Objects\IGameObjectWithDamage.cs" />
@@ -62,6 +63,8 @@
     <Compile Include="Engine\Sound\SoundManager.cs" />
     <Compile Include="Objects\MissileSprite.cs" />
     <Compile Include="Objects\ChopperSprite.cs" />
+    <Compile Include="Objects\Text\GameOverText.cs" />
+    <Compile Include="Objects\Text\LivesText.cs" />
     <Compile Include="Particles\Explosion.cs" />
     <Compile Include="States\Dev\DevInputCommand.cs" />
     <Compile Include="States\Dev\DevInputMapper.cs" />

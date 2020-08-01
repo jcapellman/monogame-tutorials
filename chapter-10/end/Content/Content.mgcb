@@ -151,12 +151,12 @@
 /processorParam:Quality=Best
 /build:../../assets/sounds/missile.wav;Sounds/missileSound.wav
 
-#begin Fonts/File.spritefont
+#begin Fonts/Lives.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/File.spritefont;Fonts/Lives.spritefont
+/build:Fonts/Lives.spritefont;Fonts/Lives.spritefont
 
 #begin Fonts/GameOver.spritefont
 /importer:FontDescriptionImporter

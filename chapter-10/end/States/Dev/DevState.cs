@@ -14,12 +14,12 @@ namespace chapter_10.States
     /// </summary>
     public class DevState : BaseGameState
     {
-        private const string FighterAtlas = "Sprites/Animations/FighterAtlas";
+        private const string FighterSpriteSheet = "Sprites/Animations/FighterSpriteSheet";
         private PlayerSprite _player;
 
         public override void LoadContent()
         {
-            _player = new PlayerSprite(LoadTexture(FighterAtlas));
+            _player = new PlayerSprite(LoadTexture(FighterSpriteSheet));
             _player.Position = new Vector2(200, 400);
             AddGameObject(_player);
 

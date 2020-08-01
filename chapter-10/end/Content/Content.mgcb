@@ -97,7 +97,7 @@
 /processorParam:TextureFormat=Color
 /build:../../assets/png/explosion.png;Sprites/explosion.png
 
-#begin ../../assets/png/FighterAtlas.png
+#begin ../../assets/png/FighterSpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,7 +107,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../../assets/png/FighterAtlas.png;Sprites/Animations/FighterAtlas.png
+/build:../../assets/png/FighterSpriteSheet.png;Sprites/Animations/FighterSpriteSheet.png
 
 #begin ../../assets/png/Missile05.png
 /importer:TextureImporter

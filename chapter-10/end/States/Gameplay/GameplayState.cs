@@ -18,7 +18,7 @@ namespace chapter_10.States
     public class GameplayState : BaseGameState
     {
         private const string BackgroundTexture = "Sprites/Barren";
-        private const string PlayerFighter = "Sprites/Animations/FighterAtlas";
+        private const string PlayerFighter = "Sprites/Animations/FighterSpriteSheet";
         private const string BulletTexture = "Sprites/bullet";
         private const string ExhaustTexture = "Sprites/Cloud";
         private const string MissileTexture = "Sprites/Missile";

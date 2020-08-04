@@ -41,7 +41,7 @@ namespace chapter_11.Objects
         private int _life = 40;
 
         // chopper will flash red when hit
-        private int _hitAt = 0;
+        private int _hitAt = 100;
 
         // bounding box. Note that since this chopper is rotated 180 degrees around its 0,0 origin, 
         // this causes the bounding box to be further to the left and higher than the original texture coordinates
@@ -98,9 +98,9 @@ namespace chapter_11.Objects
         {
             switch (gameEvent)
             {
-                case GameplayEvents.ChopperHitBy m:
+                case GameplayEvents.ObjectHitBy m:
                     JustHit(m.HitBy);
-                    SendEvent(new GameplayEvents.EnemyLostLife(_life));
+                    SendEvent(new GameplayEvents.ObjectLostLife(_life));
                     break;
             }
         }

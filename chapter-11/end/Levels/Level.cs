@@ -13,7 +13,7 @@ namespace chapter_11.Levels
         private int _currentLevelRow;
 
         private TimeSpan _startGameTime;
-        private readonly TimeSpan TickTimeSpan = new TimeSpan(0, 0, 3);
+        private readonly TimeSpan TickTimeSpan = new TimeSpan(0, 0, 2);
 
         public event EventHandler<LevelEvents.GenerateEnemies> OnGenerateEnemies;
         public event EventHandler<LevelEvents.GenerateTurret> OnGenerateTurret;

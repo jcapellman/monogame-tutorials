@@ -9,21 +9,30 @@ namespace chapter_11.States.Gameplay
         public class PlayerShootsMissile : GameplayEvents { }
         public class PlayerDies : GameplayEvents { }
 
-        public class ChopperHitBy : GameplayEvents
+        public class ObjectHitBy : GameplayEvents
         {
             public IGameObjectWithDamage HitBy { get; private set; }
-            public ChopperHitBy(IGameObjectWithDamage gameObject)
+            public ObjectHitBy(IGameObjectWithDamage gameObject)
             {
                 HitBy = gameObject;
             }
         }
 
-        public class EnemyLostLife : GameplayEvents
+        public class ObjectLostLife : GameplayEvents
         {
             public int CurrentLife { get; private set; }
-            public EnemyLostLife(int currentLife)
+            public ObjectLostLife(int currentLife)
             {
                 CurrentLife = currentLife;
+            }
+        }
+
+        public class TurretShoots : GameplayEvents 
+        { 
+            public int NbShots { get; private set; }
+            public TurretShoots(int nbShots)
+            {
+                NbShots = nbShots;
             }
         }
     }

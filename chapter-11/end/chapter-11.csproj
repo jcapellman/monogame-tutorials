@@ -68,6 +68,7 @@
     <Compile Include="Objects\ChopperSprite.cs" />
     <Compile Include="Objects\Text\GameOverText.cs" />
     <Compile Include="Objects\Text\LivesText.cs" />
+    <Compile Include="Objects\TurretSprite.cs" />
     <Compile Include="Particles\Explosion.cs" />
     <Compile Include="States\Dev\DevInputCommand.cs" />
     <Compile Include="States\Dev\DevInputMapper.cs" />

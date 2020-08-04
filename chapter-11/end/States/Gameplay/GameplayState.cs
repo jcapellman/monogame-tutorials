@@ -27,6 +27,9 @@ namespace chapter_11.States
         private const string MissileTexture = "Sprites/Missile";
         private const string ChopperTexture = "Sprites/Chopper";
         private const string ExplosionTexture = "Sprites/explosion";
+        private const string TurretTexture = "Sprites/Turrets/Tower";
+        private const string TurretMG2Texture = "Sprites/Turrets/MG2";
+        private const string TurretBulletTexture = "Sprites/Turrets/Bullet_MG";
 
         private const string TextFont = "Fonts/Lives";
         private const string GameOverFont = "Fonts/GameOver";
@@ -235,7 +238,7 @@ namespace chapter_11.States
 
             bulletCollisionDetector.DetectCollisions(_enemyList, (bullet, chopper) =>
             {
-                var hitEvent = new GameplayEvents.ChopperHitBy(bullet);
+                var hitEvent = new GameplayEvents.ObjectHitBy(bullet);
                 chopper.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 bullet.Destroy();
@@ -243,7 +246,7 @@ namespace chapter_11.States
 
             missileCollisionDetector.DetectCollisions(_enemyList, (missile, chopper) =>
             {
-                var hitEvent = new GameplayEvents.ChopperHitBy(missile);
+                var hitEvent = new GameplayEvents.ObjectHitBy(missile);
                 chopper.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 missile.Destroy();
@@ -368,7 +371,7 @@ namespace chapter_11.States
             var chopper = (ChopperSprite)sender;
             switch (e)
             {
-                case GameplayEvents.EnemyLostLife ge:
+                case GameplayEvents.ObjectLostLife ge:
                     if (ge.CurrentLife <= 0)
                     {
                         AddExplosion(new Vector2(chopper.Position.X - 40, chopper.Position.Y - 40));

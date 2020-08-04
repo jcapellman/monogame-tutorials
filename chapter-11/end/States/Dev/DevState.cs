@@ -14,21 +14,17 @@ namespace chapter_11.States
     /// </summary>
     public class DevState : BaseGameState
     {
-        private const string FighterSpriteSheet = "Sprites/Animations/FighterSpriteSheet";
-        private PlayerSprite _player;
+        private const string TurretTexture = "Sprites/Turrets/Tower";
+        private const string TurretMG2Texture = "Sprites/Turrets/MG2";
+        private const string TurretBulletTexture = "Sprites/Turrets/Bullet_MG";
+
+        private TurretSprite _turret;
 
         public override void LoadContent()
         {
-            _player = new PlayerSprite(LoadTexture(FighterSpriteSheet));
-            _player.Position = new Vector2(200, 400);
-            AddGameObject(_player);
-
-            var font = LoadFont("Fonts/GameOver");
-            var gameOverText = new GameOverText(font);
-            var textPosition = new Vector2(460, 300);
-
-            gameOverText.Position = textPosition;
-            AddGameObject(gameOverText);
+            _turret = new TurretSprite(LoadTexture(TurretTexture), LoadTexture(TurretMG2Texture), 2);
+            _turret.Position = new Vector2(200, 200);
+            AddGameObject(_turret);
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -42,24 +38,20 @@ namespace chapter_11.States
 
                 if (cmd is DevInputCommand.DevLeft)
                 {
-                    _player.MoveLeft();
                 }
 
                 if (cmd is DevInputCommand.DevRight)
                 {
-                    _player.MoveRight();
                 }
 
-                if (cmd is DevInputCommand.DevNotMoving)
+                if (cmd is DevInputCommand.DevShoot)
                 {
-                    _player.StopMoving();
                 }
             });
         }
 
         public override void UpdateGameState(GameTime gameTime) 
         {
-            _player.Update(gameTime);
         }
 
         protected override void SetInputManager()

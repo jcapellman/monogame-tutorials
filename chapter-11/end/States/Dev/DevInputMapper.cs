@@ -34,13 +34,15 @@ namespace chapter_11.Input
             {
                 commands.Add(new DevInputCommand.DevRight());
             }
-            else if (state.IsKeyDown(Keys.Left))
+
+            if (state.IsKeyDown(Keys.Left))
             {
                 commands.Add(new DevInputCommand.DevLeft());
             }
-            else
+
+            if (state.IsKeyDown(Keys.Space))
             {
-                commands.Add(new DevInputCommand.DevNotMoving());
+                commands.Add(new DevInputCommand.DevShoot());
             }
 
 

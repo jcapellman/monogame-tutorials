@@ -12,5 +12,6 @@ namespace chapter_11.Input
         public class DevLeft : DevInputCommand { }
         public class DevRight : DevInputCommand { }
         public class DevNotMoving : DevInputCommand { }
+        public class DevShoot : DevInputCommand { }
     }
 }

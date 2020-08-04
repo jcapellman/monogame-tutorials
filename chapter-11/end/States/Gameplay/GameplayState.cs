@@ -2,6 +2,7 @@
 using chapter_11.Engine.Objects;
 using chapter_11.Engine.States;
 using chapter_11.Input;
+using chapter_11.Levels;
 using chapter_11.Objects;
 using chapter_11.Objects.Text;
 using chapter_11.States.Gameplay;
@@ -51,7 +52,6 @@ namespace chapter_11.States
 
         private LivesText _livesText;
         private PlayerSprite _playerSprite;
-        private TerrainBackground _background;
         private bool _playerDead;
         private bool _gameOver = false;
 
@@ -67,6 +67,8 @@ namespace chapter_11.States
 
         private ChopperGenerator _chopperGenerator;
 
+        private Level _level;
+
         public override void LoadContent()
         {
             _missileTexture = LoadTexture(MissileTexture);
@@ -79,10 +81,10 @@ namespace chapter_11.States
             _livesText = new LivesText(LoadFont(TextFont));
             _livesText.NbLives = StartingPlayerLives;
             _livesText.Position = new Vector2(10.0f, 690.0f);
-
-            _background = new TerrainBackground(LoadTexture(BackgroundTexture), SCOLLING_SPEED);
-            AddGameObject(_background);
             AddGameObject(_livesText);
+
+            var background = new TerrainBackground(LoadTexture(BackgroundTexture), SCOLLING_SPEED);
+            AddGameObject(background);
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound(BulletSound);
@@ -95,9 +97,18 @@ namespace chapter_11.States
             var track2 = LoadSound(Soundtrack2).CreateInstance();
             _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
 
+            _chopperGenerator = new ChopperGenerator(_chopperTexture, AddChopper);
+
+            var levelReader = new LevelReader(_viewportWidth);
+            _level = new Level(levelReader);
+
+            _level.OnGenerateEnemies += _level_OnGenerateEnemies;
+            _level.OnGenerateTurret += _level_OnGenerateTurret;
+            _level.OnLevelStart += _level_OnLevelStart;
+
             ResetGame();
         }
-        
+
         public override void HandleInput(GameTime gameTime)
         {
             InputManager.GetCommands(cmd =>
@@ -133,8 +144,9 @@ namespace chapter_11.States
 
         public override void UpdateGameState(GameTime gameTime)
         {
-            _background.Update(gameTime);
             _playerSprite.Update(gameTime);
+
+            _level.GenerateLevelEvents(gameTime);
 
             foreach (var bullet in _bulletList)
             {
@@ -183,6 +195,21 @@ namespace chapter_11.States
             }
 
             return _screenBoxTexture;
+        }
+
+        private void _level_OnLevelStart(object sender, LevelEvents.StartLevel e)
+        {
+            //TODO
+        }
+
+        private void _level_OnGenerateTurret(object sender, LevelEvents.GenerateTurret e)
+        {
+            //TODO
+        }
+
+        private void _level_OnGenerateEnemies(object sender, LevelEvents.GenerateEnemies e)
+        {
+            _chopperGenerator.GenerateChoppers(e.NbEnemies);
         }
 
         private void RegulateShootingRate(GameTime gameTime)
@@ -263,8 +290,8 @@ namespace chapter_11.States
             _explosionList = new List<ExplosionEmitter>();
             _enemyList = new List<ChopperSprite>();
 
-            _chopperGenerator = new ChopperGenerator(_chopperTexture, 4, AddChopper);
-            _chopperGenerator.GenerateChoppers();
+            //_chopperGenerator = new ChopperGenerator(_chopperTexture, 4, AddChopper);
+            //_chopperGenerator.GenerateChoppers();
 
             AddGameObject(_playerSprite);
 
@@ -274,6 +301,7 @@ namespace chapter_11.States
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
 
             _playerDead = false;
+            _level.Reset();
         }
 
         private async void KillPlayer()

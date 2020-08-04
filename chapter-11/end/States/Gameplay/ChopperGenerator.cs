@@ -21,7 +21,7 @@ namespace chapter_11.States.Gameplay
         private int _choppersGenerated = 0;
         private bool _generating = false;
 
-        public ChopperGenerator(Texture2D texture, int nbChoppers, Action<ChopperSprite> handler)
+        public ChopperGenerator(Texture2D texture, Action<ChopperSprite> handler)
         {
             _texture = texture;
             _chopperHandler = handler;
@@ -29,19 +29,18 @@ namespace chapter_11.States.Gameplay
             _downLeftVector.Normalize();
             _downRightVector.Normalize();
 
-            _maxChoppers = nbChoppers;
-
             _timer = new System.Timers.Timer(500);
             _timer.Elapsed += _timer_Elapsed;
         }
 
-        public void GenerateChoppers()
+        public void GenerateChoppers(int nbChoppers)
         {
             if (_generating)
             {
                 return;
             }
 
+            _maxChoppers = nbChoppers;
             _choppersGenerated = 0;
             _timer.Start();
         }

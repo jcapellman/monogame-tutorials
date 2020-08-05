@@ -6,7 +6,7 @@ namespace chapter_11.Objects
 {
     public class TurretBulletSprite : BaseGameObject
     {
-        private const float BULLET_SPEED = 25.0f;
+        private const float BULLET_SPEED = 18.0f;
         private Vector2 _direction;
         private Vector2 _bulletCenterPosition;
         private float _angle;

@@ -13,16 +13,22 @@ namespace chapter_11.Objects
         private Texture2D _baseTexture;
         private Texture2D _cannonTexture;
 
-        private float _moveSpeed;
-        private const float AngleSpeed = 1.0f;
         private float _angle;
+        private float _moveSpeed;
+        private const float Scale = 0.3f;
+        private const float AngleSpeed = 0.1f;
         private const int BulletsPerShot = 3;
+        private const float CannonCenterPosY = 158;
 
         private int _hitAt = 100;
         private int _life = 40;
 
         private Vector2 _baseCenterPosition;
         private Vector2 _cannonCenterPosition;
+        private float _baseTextureWidth;
+        private float _baseTextureHeight;
+        private float _cannonTextureWidth;
+        private float _cannonTextureHeight;
 
         public event EventHandler<GameplayEvents.TurretShoots> OnTurretShoots;
 
@@ -33,10 +39,15 @@ namespace chapter_11.Objects
             _cannonTexture = cannonTexture;
             _angle = 0.0f;
 
-            _baseCenterPosition = new Vector2(_baseTexture.Width / 2f, _baseTexture.Height / 2f);
-            _cannonCenterPosition = new Vector2(_cannonTexture.Width / 2f, _cannonTexture.Height / 2f);
+            _baseTextureWidth = _baseTexture.Width * Scale;
+            _baseTextureHeight = _baseTexture.Height * Scale;
+            _cannonTextureWidth = _cannonTexture.Width * Scale;
+            _cannonTextureHeight = _cannonTexture.Height * Scale;
 
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(0, 0), _baseTexture.Width, _baseTexture.Height));
+            _baseCenterPosition = new Vector2(_baseTextureWidth / 2f, _baseTextureHeight / 2f);
+            _cannonCenterPosition = new Vector2(_cannonTexture.Width / 2f, CannonCenterPosY);
+
+            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(0, 0), _baseTexture.Width * Scale, _baseTexture.Height * Scale));
         }
 
         public void Update(GameTime gametime)
@@ -46,29 +57,25 @@ namespace chapter_11.Objects
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            var baseRectangle = new Rectangle(0, 0, _baseTexture.Width, _baseTexture.Height);
-            var baseDestRectangle = new Rectangle((int) _position.X, (int) _position.Y, _baseTexture.Width, _baseTexture.Height);
-
-            var cannonPosX = _position.X + _baseCenterPosition.X - _cannonCenterPosition.X;
-            var cannonPosY = _position.Y + _baseCenterPosition.Y - 160;
-            var cannonRectangle = new Rectangle(0, 0, _cannonTexture.Width, _cannonTexture.Height);
-            var cannonDestRectangle = new Rectangle((int) cannonPosX, (int) cannonPosY, _cannonTexture.Width, _cannonTexture.Height);
-            var cannonOrigin = new Vector2(cannonPosX + _cannonCenterPosition.X, cannonPosY + _cannonCenterPosition.Y + 41);
-
             // if the turret was just hit and is flashing, Color should alternate between OrangeRed and White
             var color = GetColor();
 
-            spriteBatch.Draw(_baseTexture, baseDestRectangle, baseRectangle, color, 0, new Vector2(0, 0), SpriteEffects.None, 0f);
-            //spriteBatch.Draw(_cannonTexture, cannonDestRectangle, cannonRectangle, Color.White, _angle, new Vector2(_cannonCenterPosition.X, _cannonCenterPosition.Y), SpriteEffects.None, 0f);
+            var cannonPosX = _position.X + _baseCenterPosition.X;
+            var cannonPosY = _position.Y + _baseCenterPosition.Y;
+            var cannonPosition = new Vector2(cannonPosX, cannonPosY);
 
+            spriteBatch.Draw(_baseTexture, _position, _baseTexture.Bounds, color, 0, new Vector2(0, 0), Scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_cannonTexture, cannonPosition, _cannonTexture.Bounds, Color.White, _angle, _cannonCenterPosition, Scale, SpriteEffects.None, 0f);
+        }
 
+        public void MoveLeft()
+        {
+            _angle -= AngleSpeed;
+        }
 
-
-            //spriteBatch.Draw(_cannonTexture, cannonDestRectangle, cannonRectangle, Color.White, 1, new Vector2(_cannonCenterPosition.X, _cannonCenterPosition.Y), SpriteEffects.None, 0f);
-            spriteBatch.Draw(_cannonTexture, cannonDestRectangle, cannonRectangle, Color.White, 0, new Vector2(0, 0), SpriteEffects.None, 0f);
-            var pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            pixel.SetData<Color>(new Color[] { Color.White });
-            spriteBatch.Draw(pixel, new Rectangle((int) cannonOrigin.X - 3, (int) cannonOrigin.Y - 3, 6, 6), Color.White);
+        public void MoveRight()
+        {
+            _angle += AngleSpeed;
         }
 
         private void Shoot()

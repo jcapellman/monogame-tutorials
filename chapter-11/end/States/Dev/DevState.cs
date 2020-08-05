@@ -38,10 +38,12 @@ namespace chapter_11.States
 
                 if (cmd is DevInputCommand.DevLeft)
                 {
+                    _turret.MoveLeft();
                 }
 
                 if (cmd is DevInputCommand.DevRight)
                 {
+                    _turret.MoveRight();
                 }
 
                 if (cmd is DevInputCommand.DevShoot)

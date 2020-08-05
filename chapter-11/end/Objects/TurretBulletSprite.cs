@@ -31,7 +31,7 @@ namespace chapter_11.Objects
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _position, _texture.Bounds, Color.White, _angle, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture, _position, _texture.Bounds, Color.White, _angle, _bulletCenterPosition, 1f, SpriteEffects.None, 0f);
         }
     }
 }

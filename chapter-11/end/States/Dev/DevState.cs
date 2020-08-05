@@ -46,9 +46,11 @@ namespace chapter_11.States
             // create bullet1
             var bullet1 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
             bullet1.Position = e.Bullet1Position;
+            bullet1.zIndex = -10;
 
             var bullet2 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
             bullet2.Position = e.Bullet2Position;
+            bullet2.zIndex = -10;
 
             AddGameObject(bullet1);
             AddGameObject(bullet2);

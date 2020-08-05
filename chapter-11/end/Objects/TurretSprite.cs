@@ -113,8 +113,16 @@ namespace chapter_11.Objects
 
         public void Shoot()
         {
-            var centerOfCannon = Vector2.Add(_position, _cannonCenterPosition * Scale);
-            var bulletInfo = new GameplayEvents.TurretShoots(centerOfCannon, centerOfCannon, _angle, _direction);
+            var centerOfCannon = Vector2.Add(_position, _baseCenterPosition);
+
+            // find perpendicular vectors to position bullets left and right of the center of the cannon
+            var perpendicularClockwiseDirection = new Vector2(_direction.Y, -_direction.X);
+            var perpendicularCounterClockwiseDirection = new Vector2(-_direction.Y, _direction.X);
+
+            var bullet1Pos = Vector2.Add(centerOfCannon, perpendicularClockwiseDirection * 10);
+            var bullet2Pos = Vector2.Add(centerOfCannon, perpendicularCounterClockwiseDirection * 10);
+
+            var bulletInfo = new GameplayEvents.TurretShoots(bullet1Pos, bullet2Pos, _angle, _direction);
 
             OnTurretShoots?.Invoke(this, bulletInfo);
         }

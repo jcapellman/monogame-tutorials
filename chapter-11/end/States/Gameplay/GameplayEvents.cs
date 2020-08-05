@@ -30,18 +30,17 @@ namespace chapter_11.States.Gameplay
 
         public class TurretShoots : GameplayEvents 
         { 
-            public struct BulletInfo 
-            {
-                public Vector2 Direction;
-                public Vector2 Position;
-            }
+            public Vector2 Direction { get; private set; }
+            public Vector2 Bullet1Position { get; private set; }
+            public Vector2 Bullet2Position { get; private set; }
+            public float Angle { get; private set; }
 
-            public BulletInfo Bullet1 { get; private set; }
-            public BulletInfo Bullet2 { get; private set; }
-            public TurretShoots(BulletInfo bullet1, BulletInfo bullet2)
+            public TurretShoots(Vector2 bullet1Pos, Vector2 bullet2Pos, float angle, Vector2 direction)
             {
-                Bullet1 = bullet1;
-                Bullet2 = bullet2;
+                Direction = direction;
+                Bullet1Position = bullet1Pos;
+                Bullet2Position = bullet2Pos;
+                Angle = angle;
             }
         }
     }

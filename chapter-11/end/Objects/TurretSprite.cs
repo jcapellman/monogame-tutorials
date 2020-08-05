@@ -69,16 +69,18 @@ namespace chapter_11.Objects
             var anglePlayer = Math.Atan2(playerVector.Y, playerVector.X);
             var angleDiff = angleTurret - anglePlayer;
 
-            if (angleDiff > 0.2)
+            var tolerance = 0.1f;
+
+            if (angleDiff > tolerance)
             {
                 MoveLeft();
             }
-            else if (angleDiff < -0.2)
+            else if (angleDiff < -tolerance)
             {
                 MoveRight();
             }
 
-            //if (_angle >= playerAngle - 0.1 || _angle <= playerAngle + 0.1)
+            //if (angleTurret >= anglePlayer - tolerance || angleTurret <= anglePlayer + tolerance)
             //{
             //    Shoot();
             //}
@@ -109,25 +111,12 @@ namespace chapter_11.Objects
             CalculateDirection();
         }
 
-        private void Shoot()
+        public void Shoot()
         {
-            var bullet1 = CreateLeftBullet();
-            var bullet2 = CreateRightBullet();
+            var centerOfCannon = Vector2.Add(_position, _cannonCenterPosition * Scale);
+            var bulletInfo = new GameplayEvents.TurretShoots(centerOfCannon, centerOfCannon, _angle, _direction);
 
-
-            //OnTurretShoots?.Invoke(this, new GameplayEvents.TurretShoots(bullet1, bullet2));
-        }
-
-        private GameplayEvents.TurretShoots.BulletInfo CreateLeftBullet()
-        {
-            // TODO
-            return new GameplayEvents.TurretShoots.BulletInfo();
-        }
-
-        private GameplayEvents.TurretShoots.BulletInfo CreateRightBullet()
-        {
-            // TODO
-            return new GameplayEvents.TurretShoots.BulletInfo();
+            OnTurretShoots?.Invoke(this, bulletInfo);
         }
 
         public override void OnNotify(BaseGameStateEvent gameEvent)

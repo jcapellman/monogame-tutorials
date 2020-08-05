@@ -6,14 +6,19 @@ namespace chapter_11.Objects
 {
     public class TurretBulletSprite : BaseGameObject
     {
-        private const float BULLET_SPEED = 12.0f;
+        private const float BULLET_SPEED = 25.0f;
         private Vector2 _direction;
+        private Vector2 _bulletCenterPosition;
+        private float _angle;
 
-        public TurretBulletSprite(Texture2D texture, Vector2 direction)
+        public TurretBulletSprite(Texture2D texture, Vector2 direction, float angle)
         {
             _texture = texture;
             _direction = direction;
             _direction.Normalize();
+
+            _bulletCenterPosition = new Vector2(_texture.Width / 2, _texture.Height / 2);
+            _angle = angle;
 
             // TODO: find bounding box...
             //AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
@@ -22,6 +27,11 @@ namespace chapter_11.Objects
         public void Update()
         {
             Position = Position + _direction * BULLET_SPEED;
+        }
+
+        public override void Render(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_texture, _position, _texture.Bounds, Color.White, _angle, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
         }
     }
 }

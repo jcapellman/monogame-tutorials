@@ -6,6 +6,7 @@ using chapter_11.Objects.Text;
 using chapter_11.States.Particles;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace chapter_11.States
 {
@@ -23,10 +24,13 @@ namespace chapter_11.States
 
         private TurretSprite _turret;
 
+        private List<TurretBulletSprite> _bullets = new List<TurretBulletSprite>();
+
         public override void LoadContent()
         {
             _turret = new TurretSprite(LoadTexture(TurretTexture), LoadTexture(TurretMG2Texture), 2);
             _turret.Position = new Vector2(605, 200);
+            _turret.OnTurretShoots += _turret_OnTurretShoots;
             AddGameObject(_turret);
 
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
@@ -35,6 +39,22 @@ namespace chapter_11.States
             var playerYPos = _viewportHeight - _playerSprite.Height - 30;
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
             AddGameObject(_playerSprite);
+        }
+
+        private void _turret_OnTurretShoots(object sender, Gameplay.GameplayEvents.TurretShoots e)
+        {
+            // create bullet1
+            var bullet1 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
+            bullet1.Position = e.Bullet1Position;
+
+            var bullet2 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
+            bullet2.Position = e.Bullet2Position;
+
+            AddGameObject(bullet1);
+            AddGameObject(bullet2);
+
+            _bullets.Add(bullet1);
+            _bullets.Add(bullet2);
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -58,6 +78,7 @@ namespace chapter_11.States
 
                 if (cmd is DevInputCommand.DevShoot)
                 {
+                    _turret.Shoot();
                 }
             });
         }
@@ -66,6 +87,11 @@ namespace chapter_11.States
         {
             _playerSprite.Update(gameTime);
             _turret.Update(gameTime, _playerSprite.CenterPosition);
+
+            foreach (var bullet in _bullets)
+            {
+                bullet.Update();
+            }
         }
 
         protected override void SetInputManager()

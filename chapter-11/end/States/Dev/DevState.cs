@@ -18,13 +18,23 @@ namespace chapter_11.States
         private const string TurretMG2Texture = "Sprites/Turrets/MG2";
         private const string TurretBulletTexture = "Sprites/Turrets/Bullet_MG";
 
+        private const string PlayerFighter = "Sprites/Animations/FighterSpriteSheet";
+        private PlayerSprite _playerSprite;
+
         private TurretSprite _turret;
 
         public override void LoadContent()
         {
             _turret = new TurretSprite(LoadTexture(TurretTexture), LoadTexture(TurretMG2Texture), 2);
-            _turret.Position = new Vector2(200, 200);
+            _turret.Position = new Vector2(605, 200);
             AddGameObject(_turret);
+
+            _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+            // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom
+            var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
+            var playerYPos = _viewportHeight - _playerSprite.Height - 30;
+            _playerSprite.Position = new Vector2(playerXPos, playerYPos);
+            AddGameObject(_playerSprite);
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -38,12 +48,12 @@ namespace chapter_11.States
 
                 if (cmd is DevInputCommand.DevLeft)
                 {
-                    _turret.MoveLeft();
+                    _playerSprite.MoveLeft();
                 }
 
                 if (cmd is DevInputCommand.DevRight)
                 {
-                    _turret.MoveRight();
+                    _playerSprite.MoveRight();
                 }
 
                 if (cmd is DevInputCommand.DevShoot)
@@ -54,6 +64,8 @@ namespace chapter_11.States
 
         public override void UpdateGameState(GameTime gameTime) 
         {
+            _playerSprite.Update(gameTime);
+            _turret.Update(gameTime, _playerSprite.CenterPosition);
         }
 
         protected override void SetInputManager()

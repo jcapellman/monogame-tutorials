@@ -14,7 +14,11 @@ namespace chapter_11.Objects
         private Texture2D _cannonTexture;
 
         private float _angle;
+        private Vector2 _direction;
         private float _moveSpeed;
+
+        // with an angle of zero, the turret points up, so track offset for calculations when tracking player
+        private const float AngleOffset = MathHelper.Pi / 2;
         private const float Scale = 0.3f;
         private const float AngleSpeed = 0.1f;
         private const int BulletsPerShot = 3;
@@ -27,9 +31,7 @@ namespace chapter_11.Objects
         private Vector2 _cannonCenterPosition;
         private float _baseTextureWidth;
         private float _baseTextureHeight;
-        private float _cannonTextureWidth;
-        private float _cannonTextureHeight;
-
+        
         public event EventHandler<GameplayEvents.TurretShoots> OnTurretShoots;
 
         public TurretSprite(Texture2D baseTexture, Texture2D cannonTexture, float moveSpeed)
@@ -37,22 +39,49 @@ namespace chapter_11.Objects
             _moveSpeed = moveSpeed;
             _baseTexture = baseTexture;
             _cannonTexture = cannonTexture;
-            _angle = 0.0f;
+            _angle = MathHelper.Pi;  // point down by default
+
+            CalculateDirection();
 
             _baseTextureWidth = _baseTexture.Width * Scale;
             _baseTextureHeight = _baseTexture.Height * Scale;
-            _cannonTextureWidth = _cannonTexture.Width * Scale;
-            _cannonTextureHeight = _cannonTexture.Height * Scale;
 
             _baseCenterPosition = new Vector2(_baseTextureWidth / 2f, _baseTextureHeight / 2f);
             _cannonCenterPosition = new Vector2(_cannonTexture.Width / 2f, CannonCenterPosY);
 
             AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(0, 0), _baseTexture.Width * Scale, _baseTexture.Height * Scale));
         }
-
-        public void Update(GameTime gametime)
+        
+        private void CalculateDirection()
         {
+            _direction = new Vector2((float)Math.Cos(_angle - AngleOffset), (float)Math.Sin(_angle - AngleOffset));
+            _direction.Normalize();
+        }
 
+        public void Update(GameTime gametime, Vector2 currentPlayerCenter)
+        {
+            // compare angle between turretDirection and vector from center of cannon to center of player
+            var centerOfCannon = Vector2.Add(_position, _cannonCenterPosition * Scale);
+            var playerVector = Vector2.Subtract(currentPlayerCenter, centerOfCannon);
+            playerVector.Normalize();
+
+            var angleTurret = Math.Atan2(_direction.Y, _direction.X);
+            var anglePlayer = Math.Atan2(playerVector.Y, playerVector.X);
+            var angleDiff = angleTurret - anglePlayer;
+
+            if (angleDiff > 0.2)
+            {
+                MoveLeft();
+            }
+            else if (angleDiff < -0.2)
+            {
+                MoveRight();
+            }
+
+            //if (_angle >= playerAngle - 0.1 || _angle <= playerAngle + 0.1)
+            //{
+            //    Shoot();
+            //}
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -71,16 +100,34 @@ namespace chapter_11.Objects
         public void MoveLeft()
         {
             _angle -= AngleSpeed;
+            CalculateDirection();
         }
 
         public void MoveRight()
         {
             _angle += AngleSpeed;
+            CalculateDirection();
         }
 
         private void Shoot()
         {
-            OnTurretShoots?.Invoke(this, new GameplayEvents.TurretShoots(BulletsPerShot));
+            var bullet1 = CreateLeftBullet();
+            var bullet2 = CreateRightBullet();
+
+
+            //OnTurretShoots?.Invoke(this, new GameplayEvents.TurretShoots(bullet1, bullet2));
+        }
+
+        private GameplayEvents.TurretShoots.BulletInfo CreateLeftBullet()
+        {
+            // TODO
+            return new GameplayEvents.TurretShoots.BulletInfo();
+        }
+
+        private GameplayEvents.TurretShoots.BulletInfo CreateRightBullet()
+        {
+            // TODO
+            return new GameplayEvents.TurretShoots.BulletInfo();
         }
 
         public override void OnNotify(BaseGameStateEvent gameEvent)

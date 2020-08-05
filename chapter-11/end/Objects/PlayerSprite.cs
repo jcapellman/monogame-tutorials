@@ -37,6 +37,14 @@ namespace chapter_11.Objects
         public override int Height => AnimationCellHeight;
         public override int Width => AnimationCellWidth;
 
+        public Vector2 CenterPosition
+        {
+            get
+            {
+                return Vector2.Add(_position, new Vector2(AnimationCellWidth / 2, AnimationCellHeight / 2));
+            }
+        }
+
         public PlayerSprite(Texture2D texture)
         {
             _texture = texture;

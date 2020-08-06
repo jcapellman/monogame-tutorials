@@ -48,9 +48,11 @@
     <Compile Include="Engine\Objects\Animations\Animation.cs" />
     <Compile Include="Engine\Objects\Animations\AnimationFrame.cs" />
     <Compile Include="Engine\Objects\BaseTextObject.cs" />
-    <Compile Include="Engine\Objects\BoundingBox.cs" />
+    <Compile Include="Engine\Objects\Collisions\BoundingBox.cs" />
     <Compile Include="Engine\Objects\Collisions\AABBCollisionDetector.cs" />
+    <Compile Include="Engine\Objects\Collisions\SegmentAABBCollisionDetector.cs" />
     <Compile Include="Engine\Objects\IGameObjectWithDamage.cs" />
+    <Compile Include="Engine\Objects\Segment.cs" />
     <Compile Include="Engine\Particles\EmitterParticleState.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\CircleEmitterType.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\ConeEmitterType.cs" />

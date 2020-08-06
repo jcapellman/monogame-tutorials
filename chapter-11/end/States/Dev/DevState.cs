@@ -2,10 +2,7 @@
 using chapter_11.Engine.States;
 using chapter_11.Input;
 using chapter_11.Objects;
-using chapter_11.Objects.Text;
-using chapter_11.States.Particles;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace chapter_11.States

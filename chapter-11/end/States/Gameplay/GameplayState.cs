@@ -1,5 +1,6 @@
 ﻿using chapter_11.Engine.Input;
 using chapter_11.Engine.Objects;
+using chapter_11.Engine.Objects.Collisions;
 using chapter_11.Engine.States;
 using chapter_11.Input;
 using chapter_11.Levels;
@@ -67,6 +68,8 @@ namespace chapter_11.States
         private List<MissileSprite> _missileList = new List<MissileSprite>();
         private List<ExplosionEmitter> _explosionList = new List<ExplosionEmitter>();
         private List<ChopperSprite> _enemyList = new List<ChopperSprite>();
+        private List<TurretBulletSprite> _turretBulletList = new List<TurretBulletSprite>();
+        private List<TurretSprite> _turretList = new List<TurretSprite>();
 
         private ChopperGenerator _chopperGenerator;
 
@@ -87,6 +90,7 @@ namespace chapter_11.States
             AddGameObject(_livesText);
 
             var background = new TerrainBackground(LoadTexture(BackgroundTexture), SCOLLING_SPEED);
+            background.zIndex = -100;
             AddGameObject(background);
 
             // load sound effects and register in the sound manager
@@ -108,6 +112,7 @@ namespace chapter_11.States
             _level.OnGenerateEnemies += _level_OnGenerateEnemies;
             _level.OnGenerateTurret += _level_OnGenerateTurret;
             _level.OnLevelStart += _level_OnLevelStart;
+            _level.OnLevelEnd += _level_OnLevelEnd;
 
             ResetGame();
         }
@@ -166,6 +171,17 @@ namespace chapter_11.States
                 chopper.Update();
             }
 
+            foreach (var turret in _turretList)
+            {
+                turret.Update(gameTime, _playerSprite.CenterPosition);
+                turret.Active = turret.Position.Y > 0 && turret.Position.Y < _viewportHeight;
+            }
+
+            foreach (var bullet in _turretBulletList)
+            {
+                bullet.Update();
+            }
+
             UpdateExplosions(gameTime);
             RegulateShootingRate(gameTime);
             DetectCollisions();
@@ -174,6 +190,8 @@ namespace chapter_11.States
             _bulletList = CleanObjects(_bulletList);
             _missileList = CleanObjects(_missileList);
             _enemyList = CleanObjects(_enemyList);
+            _turretBulletList = CleanObjects(_turretBulletList);
+            _turretList = CleanObjects(_turretList, turret => turret.Position.Y > _viewportHeight + 200);
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -205,9 +223,39 @@ namespace chapter_11.States
             //TODO
         }
 
-        private void _level_OnGenerateTurret(object sender, LevelEvents.GenerateTurret e)
+        private void _level_OnLevelEnd(object sender, LevelEvents.EndLevel e)
         {
             //TODO
+        }
+
+        private void _level_OnGenerateTurret(object sender, LevelEvents.GenerateTurret e)
+        {
+            var turret = new TurretSprite(LoadTexture(TurretTexture), LoadTexture(TurretMG2Texture), SCOLLING_SPEED);
+
+            // position the turret offscreen at the top
+            turret.Position = new Vector2(e.XPosition, -100);
+
+            turret.OnTurretShoots += _turret_OnTurretShoots;
+            AddGameObject(turret);
+
+            _turretList.Add(turret);
+        }
+
+        private void _turret_OnTurretShoots(object sender, GameplayEvents.TurretShoots e)
+        {
+            var bullet1 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
+            bullet1.Position = e.Bullet1Position;
+            bullet1.zIndex = -10;
+
+            var bullet2 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
+            bullet2.Position = e.Bullet2Position;
+            bullet2.zIndex = -10;
+
+            AddGameObject(bullet1);
+            AddGameObject(bullet2);
+
+            _turretBulletList.Add(bullet1);
+            _turretBulletList.Add(bullet2);
         }
 
         private void _level_OnGenerateEnemies(object sender, LevelEvents.GenerateEnemies e)
@@ -235,6 +283,7 @@ namespace chapter_11.States
             var bulletCollisionDetector = new AABBCollisionDetector<BulletSprite, ChopperSprite>(_bulletList);
             var missileCollisionDetector = new AABBCollisionDetector<MissileSprite, ChopperSprite>(_missileList);
             var playerCollisionDetector = new AABBCollisionDetector<ChopperSprite, PlayerSprite>(_enemyList);
+            var turretBulletCollisionDetector = new SegmentAABBCollisionDetector<PlayerSprite>(_playerSprite);
 
             bulletCollisionDetector.DetectCollisions(_enemyList, (bullet, chopper) =>
             {
@@ -254,6 +303,17 @@ namespace chapter_11.States
 
             if (!_playerDead)
             {
+                var segments = new List<Segment>();
+                foreach (var bullet in _turretBulletList)
+                {
+                    segments.Add(bullet.CollisionSegment);
+                }
+
+                turretBulletCollisionDetector.DetectCollisions(segments, _ =>
+                {
+                    KillPlayer();
+                });
+
                 playerCollisionDetector.DetectCollisions(_playerSprite, (chopper, player) =>
                 {
                     KillPlayer();
@@ -286,6 +346,16 @@ namespace chapter_11.States
             foreach(var explosion in _explosionList)
             {
                 RemoveGameObject(explosion);
+            }
+
+            foreach(var bullet in _turretBulletList)
+            {
+                RemoveGameObject(bullet);
+            }
+
+            foreach(var turret in _turretList)
+            {
+                RemoveGameObject(turret);
             }
 
             _bulletList = new List<BulletSprite>();
@@ -343,14 +413,14 @@ namespace chapter_11.States
             AddGameObject(chopper);
         }
 
-        private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
+        private List<T> CleanObjects<T>(List<T> objectList, Func<T, bool> predicate) where T : BaseGameObject
         {
             List<T> listOfItemsToKeep = new List<T>();
             foreach(T item in objectList)
             {
-                var offScreen = item.Position.Y < -50;
+                var performRemoval = predicate(item);
 
-                if (offScreen || item.Destroyed)
+                if (performRemoval || item.Destroyed)
                 {
                     RemoveGameObject(item);
                 }
@@ -361,6 +431,11 @@ namespace chapter_11.States
             }
 
             return listOfItemsToKeep;
+        }
+
+        private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
+        {
+            return CleanObjects(objectList, item => item.Position.Y < -50);
         }
 
         private void _chopperSprite_OnObjectChanged(object sender, BaseGameStateEvent e)

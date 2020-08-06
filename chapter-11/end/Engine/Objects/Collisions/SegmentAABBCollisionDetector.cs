@@ -7,35 +7,35 @@ namespace chapter_11.Engine.Objects.Collisions
     public class SegmentAABBCollisionDetector<A> 
         where A : BaseGameObject
     {
-        private Segment _segment;
+        private A _passiveObject;
 
-        public SegmentAABBCollisionDetector(Segment segment)
+        public SegmentAABBCollisionDetector(A passiveObject)
         {
-            _segment = segment;
+            _passiveObject = passiveObject;
         }
 
-        public void DetectCollisions(A activeObject, Action<A> collisionHandler)
+        public void DetectCollisions(Segment segment, Action<A> collisionHandler)
         {
-            if (DetectCollision(_segment, activeObject))
+            if (DetectCollision(_passiveObject, segment))
             {
-                collisionHandler(activeObject);
+                collisionHandler(_passiveObject);
             }
         }
 
-        public void DetectCollisions(List<A> activeObjects, Action<A> collisionHandler)
+        public void DetectCollisions(List<Segment> segments, Action<A> collisionHandler)
         {
-            foreach(var activeObject in activeObjects)
+            foreach(var segment in segments)
             {
-                if (DetectCollision(_segment, activeObject))
+                if (DetectCollision(_passiveObject, segment))
                 {
-                    collisionHandler(activeObject);
+                    collisionHandler(_passiveObject);
                 }
             }
         }
 
-        private bool DetectCollision(Segment segment, A activeObject)
+        private bool DetectCollision(A passiveObject, Segment segment)
         {
-            foreach(var activeBB in activeObject.BoundingBoxes)
+            foreach(var activeBB in passiveObject.BoundingBoxes)
             {
                 if (DetectCollision(segment.P1, activeBB) || DetectCollision(segment.P2, activeBB))
                 {

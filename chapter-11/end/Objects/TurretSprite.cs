@@ -109,6 +109,7 @@ namespace chapter_11.Objects
                 if (angleTurret >= anglePlayer - tolerance && angleTurret <= anglePlayer + tolerance)
                 {
                     _attackMode = true;
+                    Shoot(gameTime);
                 }
             }
 

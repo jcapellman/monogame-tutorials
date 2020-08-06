@@ -17,13 +17,13 @@ namespace chapter_11.Engine.Objects.Collisions
         where P : BaseGameObject
         where A : BaseGameObject
     {
-        private List<P> _passiveObjects;
+        private IEnumerable<P> _passiveObjects;
 
         /// <summary>
         /// Create an instance of the collision detector
         /// </summary>
         /// <param name="passiveObjects">passive objects don't react to collisions</param>
-        public AABBCollisionDetector(List<P> passiveObjects)
+        public AABBCollisionDetector(IEnumerable<P> passiveObjects)
         {
             _passiveObjects = passiveObjects;
         }
@@ -49,7 +49,7 @@ namespace chapter_11.Engine.Objects.Collisions
         /// </summary>
         /// <param name="activeObjects"></param>
         /// <param name="collisionHandler"></param>
-        public void DetectCollisions(List<A> activeObjects, Action<P, A> collisionHandler)
+        public void DetectCollisions(IEnumerable<A> activeObjects, Action<P, A> collisionHandler)
         {
             foreach(var passiveObject in _passiveObjects)
             {

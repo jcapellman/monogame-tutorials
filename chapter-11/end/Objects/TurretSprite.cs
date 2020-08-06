@@ -25,7 +25,7 @@ namespace chapter_11.Objects
         private const float CannonCenterPosY = 158;
 
         private int _hitAt = 100;
-        private int _life = 40;
+        private int _life = 50;
 
         private Vector2 _baseCenterPosition;
         private Vector2 _cannonCenterPosition;

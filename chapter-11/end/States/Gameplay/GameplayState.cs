@@ -248,6 +248,7 @@ namespace chapter_11.States
             turret.Position = new Vector2(e.XPosition, -100);
 
             turret.OnTurretShoots += _turret_OnTurretShoots;
+            turret.OnObjectChanged += _onObjectChanged;
             AddGameObject(turret);
 
             _turretList.Add(turret);
@@ -292,8 +293,8 @@ namespace chapter_11.States
 
         private void DetectCollisions()
         {
-            var bulletCollisionDetector = new AABBCollisionDetector<BulletSprite, ChopperSprite>(_bulletList);
-            var missileCollisionDetector = new AABBCollisionDetector<MissileSprite, ChopperSprite>(_missileList);
+            var bulletCollisionDetector = new AABBCollisionDetector<BulletSprite, BaseGameObject>(_bulletList);
+            var missileCollisionDetector = new AABBCollisionDetector<MissileSprite, BaseGameObject>(_missileList);
             var playerCollisionDetector = new AABBCollisionDetector<ChopperSprite, PlayerSprite>(_enemyList);
             var turretBulletCollisionDetector = new SegmentAABBCollisionDetector<PlayerSprite>(_playerSprite);
 
@@ -309,6 +310,22 @@ namespace chapter_11.States
             {
                 var hitEvent = new GameplayEvents.ObjectHitBy(missile);
                 chopper.OnNotify(hitEvent);
+                _soundManager.OnNotify(hitEvent);
+                missile.Destroy();
+            });
+
+            bulletCollisionDetector.DetectCollisions(_turretList, (bullet, turret) =>
+            {
+                var hitEvent = new GameplayEvents.ObjectHitBy(bullet);
+                turret.OnNotify(hitEvent);
+                _soundManager.OnNotify(hitEvent);
+                bullet.Destroy();
+            });
+
+            missileCollisionDetector.DetectCollisions(_turretList, (missile, turret) =>
+            {
+                var hitEvent = new GameplayEvents.ObjectHitBy(missile);
+                turret.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 missile.Destroy();
             });
@@ -420,7 +437,7 @@ namespace chapter_11.States
 
         private void AddChopper(ChopperSprite chopper)
         {
-            chopper.OnObjectChanged += _chopperSprite_OnObjectChanged;
+            chopper.OnObjectChanged += _onObjectChanged;
             _enemyList.Add(chopper);
             AddGameObject(chopper);
         }
@@ -450,9 +467,9 @@ namespace chapter_11.States
             return CleanObjects(objectList, item => item.Position.Y < -50);
         }
 
-        private void _chopperSprite_OnObjectChanged(object sender, BaseGameStateEvent e)
+        private void _onObjectChanged(object sender, BaseGameStateEvent e)
         {
-            var chopper = (ChopperSprite)sender;
+            var chopper = (BaseGameObject)sender;
             switch (e)
             {
                 case GameplayEvents.ObjectLostLife ge:

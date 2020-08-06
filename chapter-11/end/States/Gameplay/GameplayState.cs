@@ -143,6 +143,18 @@ namespace chapter_11.States
                     _playerSprite.StopMoving();
                 }
 
+                if (cmd is GameplayInputCommand.PlayerMoveUp && !_playerDead)
+                {
+                    _playerSprite.MoveUp();
+                    KeepPlayerInBounds();
+                }
+
+                if (cmd is GameplayInputCommand.PlayerMoveDown && !_playerDead)
+                {
+                    _playerSprite.MoveDown();
+                    KeepPlayerInBounds();
+                }
+
                 if (cmd is GameplayInputCommand.PlayerShoots && !_playerDead)
                 {
                     Shoot(gameTime);

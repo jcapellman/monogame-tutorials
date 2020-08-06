@@ -8,7 +8,8 @@ namespace chapter_11.Objects
 {
     public class PlayerSprite : BaseGameObject
     {
-        private const float PlayerSpeed = 10.0f;
+        private const float PlayerHorizontalSpeed = 10.0f;
+        private const float PlayerVerticalSpeed = 8.0f;
 
         private const int BB1PosX = 29;
         private const int BB1PosY = 2;
@@ -88,7 +89,7 @@ namespace chapter_11.Objects
             _currentAnimation = _turnLeftAnimation;
             _leftToCenterAnimation.Reset();
             _turnRightAnimation.Reset();
-            Position = new Vector2(Position.X - PlayerSpeed, Position.Y);
+            Position = new Vector2(Position.X - PlayerHorizontalSpeed, Position.Y);
         }
 
         public void MoveRight()
@@ -98,7 +99,17 @@ namespace chapter_11.Objects
             _currentAnimation = _turnRightAnimation;
             _rightToCenterAnimation.Reset();
             _turnLeftAnimation.Reset();
-            Position = new Vector2(Position.X + PlayerSpeed, Position.Y);
+            Position = new Vector2(Position.X + PlayerHorizontalSpeed, Position.Y);
+        }
+
+        public void MoveUp()
+        {
+            Position = new Vector2(Position.X, Position.Y - PlayerVerticalSpeed);
+        }
+
+        public void MoveDown()
+        {
+            Position = new Vector2(Position.X, Position.Y + PlayerVerticalSpeed);
         }
         
         public void Update(GameTime gametime)

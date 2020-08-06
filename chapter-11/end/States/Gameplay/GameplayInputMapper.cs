@@ -33,6 +33,16 @@ namespace chapter_11.Input
                 commands.Add(new GameplayInputCommand.PlayerStopsMoving());
             }
 
+            if (state.IsKeyDown(Keys.Up))
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveUp());
+            }
+
+            if (state.IsKeyDown(Keys.Down))
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveDown());
+            }
+
             return commands;
         }
     }

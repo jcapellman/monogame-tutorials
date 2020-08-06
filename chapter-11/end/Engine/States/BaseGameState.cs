@@ -13,10 +13,9 @@ namespace chapter_11.Engine.States
 {
     public abstract class BaseGameState
     {
-        private const string FallbackTexture = "Empty";
-        private const string FallbackSong = "EmptySound";
-
         protected bool _debug = false;
+        protected bool _indestructible = false;
+
         private ContentManager _contentManager;
         protected int _viewportHeight;
         protected int _viewportWidth;

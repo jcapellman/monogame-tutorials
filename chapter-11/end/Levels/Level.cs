@@ -19,6 +19,7 @@ namespace chapter_11.Levels
         public event EventHandler<LevelEvents.GenerateTurret> OnGenerateTurret;
         public event EventHandler<LevelEvents.StartLevel> OnLevelStart;
         public event EventHandler<LevelEvents.EndLevel> OnLevelEnd;
+        public event EventHandler<LevelEvents.NoRowEvent> OnLevelNoRowEvent;
 
         public Level(LevelReader reader)
         {
@@ -74,6 +75,10 @@ namespace chapter_11.Levels
 
                     case LevelEvents.EndLevel s:
                         OnLevelEnd?.Invoke(this, s);
+                        break;
+
+                    case LevelEvents.NoRowEvent n:
+                        OnLevelNoRowEvent?.Invoke(this, n);
                         break;
                 }
             }

@@ -25,5 +25,7 @@ namespace chapter_11.Levels
         public class StartLevel : LevelEvents { }
 
         public class EndLevel : LevelEvents { }
+
+        public class NoRowEvent : LevelEvents { }
     }
 }

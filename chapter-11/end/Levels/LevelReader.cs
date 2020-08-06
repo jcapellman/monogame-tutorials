@@ -54,8 +54,10 @@ namespace chapter_11.Levels
             switch (input) 
             {
                 case "0":
-                case "_":
                     return new BaseGameStateEvent.Nothing();
+                    
+                case "_":
+                    return new LevelEvents.NoRowEvent();
 
                 case "1":
                     var xPosition = elementNumber * _viewportWidth / NB_TILE_ROWS;

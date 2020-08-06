@@ -55,6 +55,7 @@ namespace chapter_11.States
         private Texture2D _screenBoxTexture;
 
         private LivesText _livesText;
+        private GameOverText _levelStartEndText;
         private PlayerSprite _playerSprite;
         private bool _playerDead;
         private bool _gameOver = false;
@@ -89,6 +90,8 @@ namespace chapter_11.States
             _livesText.Position = new Vector2(10.0f, 690.0f);
             AddGameObject(_livesText);
 
+            _levelStartEndText = new GameOverText(LoadFont(GameOverFont));
+
             var background = new TerrainBackground(LoadTexture(BackgroundTexture), SCOLLING_SPEED);
             background.zIndex = -100;
             AddGameObject(background);
@@ -113,6 +116,7 @@ namespace chapter_11.States
             _level.OnGenerateTurret += _level_OnGenerateTurret;
             _level.OnLevelStart += _level_OnLevelStart;
             _level.OnLevelEnd += _level_OnLevelEnd;
+            _level.OnLevelNoRowEvent += _level_OnLevelNoRowEvent;
 
             ResetGame();
         }
@@ -232,12 +236,21 @@ namespace chapter_11.States
 
         private void _level_OnLevelStart(object sender, LevelEvents.StartLevel e)
         {
-            //TODO
+            _levelStartEndText.Text = "Good luck, Player 1!";
+            _levelStartEndText.Position = new Vector2(360, 300);
+            AddGameObject(_levelStartEndText);
         }
 
         private void _level_OnLevelEnd(object sender, LevelEvents.EndLevel e)
         {
-            //TODO
+            _levelStartEndText.Text = "You escaped. Congrats!";
+            _levelStartEndText.Position = new Vector2(360, 300);
+            AddGameObject(_levelStartEndText);
+        }
+
+        private void _level_OnLevelNoRowEvent(object sender, LevelEvents.NoRowEvent e)
+        {
+            RemoveGameObject(_levelStartEndText);
         }
 
         private void _level_OnGenerateTurret(object sender, LevelEvents.GenerateTurret e)
@@ -388,6 +401,8 @@ namespace chapter_11.States
             }
 
             _bulletList = new List<BulletSprite>();
+            _turretBulletList = new List<TurretBulletSprite>();
+            _turretList = new List<TurretSprite>();
             _missileList = new List<MissileSprite>();
             _explosionList = new List<ExplosionEmitter>();
             _enemyList = new List<ChopperSprite>();
@@ -405,6 +420,11 @@ namespace chapter_11.States
 
         private async void KillPlayer()
         {
+            if (_indestructible)
+            {
+                return;
+            }
+
             _playerDead = true;
             _playerLives -= 1;
             _livesText.NbLives = _playerLives;

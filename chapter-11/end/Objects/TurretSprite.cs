@@ -71,7 +71,7 @@ namespace chapter_11.Objects
         public void Update(GameTime gameTime, Vector2 currentPlayerCenter)
         {
             // move turret down
-            _position = Vector2.Add(_position, new Vector2(0, _moveSpeed));
+            Position = Vector2.Add(_position, new Vector2(0, _moveSpeed));
 
             // if turret is not active, it cannot spin or shoot
             if (!Active)

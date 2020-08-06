@@ -49,11 +49,19 @@ namespace chapter_11.Engine.Objects
 
         public virtual void Render(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _position, Color.White);
+            if (!Destroyed)
+            {
+                spriteBatch.Draw(_texture, _position, Color.White);
+            }
         }
 
         public void RenderBoundingBoxes(SpriteBatch spriteBatch)
         {
+            if (Destroyed)
+            {
+                return;
+            }
+
             if (_boundingBoxTexture == null)
             {
                 CreateBoundingBoxTexture(spriteBatch.GraphicsDevice);

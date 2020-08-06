@@ -63,6 +63,11 @@ namespace chapter_11.Objects
 
         public void Update(GameTime gameTime)
         {
+            if (Destroyed)
+            {
+                return;
+            }
+
             _exhaustEmitter.Update(gameTime);
 
             Position = new Vector2(Position.X, Position.Y - _speed);
@@ -71,6 +76,11 @@ namespace chapter_11.Objects
 
         public override void Render(SpriteBatch spriteBatch)
         {
+            if (Destroyed)
+            {
+                return;
+            }
+
             // need to scale down the sprite. The original texture is very big
             var destRectangle = new Rectangle((int) Position.X, (int) Position.Y, _missileWidth, _missileHeight);
             spriteBatch.Draw(_texture, destRectangle, Color.White);

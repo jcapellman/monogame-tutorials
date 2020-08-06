@@ -36,6 +36,8 @@ namespace chapter_11.Objects
         private int _bulletsRemaining;
         private bool _attackMode;
 
+        public bool Active { get; set; }
+
         public event EventHandler<GameplayEvents.TurretShoots> OnTurretShoots;
 
         public TurretSprite(Texture2D baseTexture, Texture2D cannonTexture, float moveSpeed)
@@ -47,6 +49,7 @@ namespace chapter_11.Objects
             _angle = MathHelper.Pi;  // point down by default
             _bulletsRemaining = BulletsPerShot;
             _attackMode = false;
+            Active = false;
 
             CalculateDirection();
 
@@ -69,6 +72,12 @@ namespace chapter_11.Objects
         {
             // move turret down
             _position = Vector2.Add(_position, new Vector2(0, _moveSpeed));
+
+            // if turret is not active, it cannot spin or shoot
+            if (!Active)
+            {
+                return;
+            }
 
             // can either attack and shoot 3 bullets or move. Not both
             if (_attackMode && _bulletsRemaining > 0)

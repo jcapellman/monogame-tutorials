@@ -31,6 +31,7 @@ namespace chapter_11.States
             _turret = new TurretSprite(LoadTexture(TurretTexture), LoadTexture(TurretMG2Texture), 0);
             _turret.Position = new Vector2(605, 200);
             _turret.OnTurretShoots += _turret_OnTurretShoots;
+            _turret.Active = true;
             AddGameObject(_turret);
 
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));

@@ -10,6 +10,15 @@ namespace chapter_11.Objects
         private Vector2 _direction;
         private Vector2 _bulletCenterPosition;
         private float _angle;
+        private Matrix _rotationMatrix;
+
+        public Vector2 CollisionLine 
+        { 
+            get
+            {
+                return Vector2.Transform(_direction * _texture.Height, _rotationMatrix);
+            } 
+        }
 
         public TurretBulletSprite(Texture2D texture, Vector2 direction, float angle)
         {
@@ -20,8 +29,10 @@ namespace chapter_11.Objects
             _bulletCenterPosition = new Vector2(_texture.Width / 2, _texture.Height / 2);
             _angle = angle;
 
-            // TODO: find bounding box...
-            //AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
+            // This bullet will not have a bounding box at this point. We will instead use the intersection
+            // of a line with other bounding boxes. To find the line, we will rotate the texture's height, so we
+            // need to create a rotation matrix
+            _rotationMatrix = Matrix.CreateRotationZ(_angle);
         }
 
         public void Update()

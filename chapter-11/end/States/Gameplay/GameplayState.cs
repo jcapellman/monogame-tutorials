@@ -237,14 +237,14 @@ namespace chapter_11.States
         private void _level_OnLevelStart(object sender, LevelEvents.StartLevel e)
         {
             _levelStartEndText.Text = "Good luck, Player 1!";
-            _levelStartEndText.Position = new Vector2(360, 300);
+            _levelStartEndText.Position = new Vector2(350, 300);
             AddGameObject(_levelStartEndText);
         }
 
         private void _level_OnLevelEnd(object sender, LevelEvents.EndLevel e)
         {
             _levelStartEndText.Text = "You escaped. Congrats!";
-            _levelStartEndText.Position = new Vector2(360, 300);
+            _levelStartEndText.Position = new Vector2(300, 300);
             AddGameObject(_levelStartEndText);
         }
 

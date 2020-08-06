@@ -53,7 +53,13 @@ namespace chapter_11.Engine.Objects.Collisions
         {
             foreach(var passiveObject in _passiveObjects)
             {
+                var copiedList = new List<A>();
                 foreach(var activeObject in activeObjects)
+                {
+                    copiedList.Add(activeObject);
+                }
+
+                foreach(var activeObject in copiedList)
                 {
                     if (DetectCollision(passiveObject, activeObject))
                     {

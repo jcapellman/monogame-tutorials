@@ -49,7 +49,7 @@
     <Compile Include="Engine\Objects\Animations\AnimationFrame.cs" />
     <Compile Include="Engine\Objects\BaseTextObject.cs" />
     <Compile Include="Engine\Objects\BoundingBox.cs" />
-    <Compile Include="Engine\Objects\AABBCollisionDetector.cs" />
+    <Compile Include="Engine\Objects\Collisions\AABBCollisionDetector.cs" />
     <Compile Include="Engine\Objects\IGameObjectWithDamage.cs" />
     <Compile Include="Engine\Particles\EmitterParticleState.cs" />
     <Compile Include="Engine\Particles\EmitterTypes\CircleEmitterType.cs" />

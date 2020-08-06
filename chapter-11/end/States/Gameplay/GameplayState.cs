@@ -293,9 +293,6 @@ namespace chapter_11.States
             _explosionList = new List<ExplosionEmitter>();
             _enemyList = new List<ChopperSprite>();
 
-            //_chopperGenerator = new ChopperGenerator(_chopperTexture, 4, AddChopper);
-            //_chopperGenerator.GenerateChoppers();
-
             AddGameObject(_playerSprite);
 
             // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom

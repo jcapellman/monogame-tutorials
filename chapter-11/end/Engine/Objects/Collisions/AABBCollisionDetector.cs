@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace chapter_11.Engine.Objects
+namespace chapter_11.Engine.Objects.Collisions
 {
     /// <summary>
     /// AABB stands for Aligned Axis Boundind Box

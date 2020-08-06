@@ -12,11 +12,12 @@ namespace chapter_11.Objects
         private float _angle;
         private Matrix _rotationMatrix;
 
-        public Vector2 CollisionLine 
+        public Segment CollisionSegment
         { 
             get
             {
-                return Vector2.Transform(_direction * _texture.Height, _rotationMatrix);
+                var segment = _direction * _texture.Height;
+                return new Segment(_position, Vector2.Transform(segment, _rotationMatrix));
             } 
         }
 

@@ -37,5 +37,32 @@ namespace chapter_11.Engine.Objects
                 return false;
             }
         }
+
+        public bool CollidesWith(Segment segment)
+        {
+            if (CollidesWith(segment.P1) || CollidesWith(segment.P2))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool CollidesWith(Vector2 p)
+        {
+            if (p.X < Position.X + Width &&
+                p.X > Position.X &&
+                p.Y < Position.Y + Height &&
+                p.Y > Position.Y)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

@@ -10,14 +10,13 @@ namespace chapter_11.Objects
         private Vector2 _direction;
         private Vector2 _bulletCenterPosition;
         private float _angle;
-        private Matrix _rotationMatrix;
 
         public Segment CollisionSegment
         { 
             get
             {
                 var segment = _direction * _texture.Height;
-                return new Segment(_position, Vector2.Transform(segment, _rotationMatrix));
+                return new Segment(_position, Vector2.Add(_position, segment));
             } 
         }
 
@@ -29,11 +28,6 @@ namespace chapter_11.Objects
 
             _bulletCenterPosition = new Vector2(_texture.Width / 2, _texture.Height / 2);
             _angle = angle;
-
-            // This bullet will not have a bounding box at this point. We will instead use the intersection
-            // of a line with other bounding boxes. To find the line, we will rotate the texture's height, so we
-            // need to create a rotation matrix
-            _rotationMatrix = Matrix.CreateRotationZ(_angle);
         }
 
         public void Update()

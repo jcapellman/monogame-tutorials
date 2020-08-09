@@ -43,7 +43,7 @@ namespace chapter_11.Levels
 
         public void GenerateLevelEvents(GameTime gameTime)
         {
-            // only generate events every 3 seconds
+            // only generate events every 2 seconds
             if (_startGameTime == null)
             {
                 _startGameTime = gameTime.TotalGameTime;

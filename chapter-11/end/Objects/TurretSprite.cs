@@ -13,8 +13,6 @@ namespace chapter_11.Objects
         private Texture2D _baseTexture;
         private Texture2D _cannonTexture;
 
-        private float _angle;
-        private Vector2 _direction;
         private float _moveSpeed;
 
         // with an angle of zero, the turret points up, so track offset for calculations when tracking player
@@ -51,7 +49,7 @@ namespace chapter_11.Objects
             _attackMode = false;
             Active = false;
 
-            CalculateDirection();
+            _direction = CalculateDirection(AngleOffset);
 
             _baseTextureWidth = _baseTexture.Width * Scale;
             _baseTextureHeight = _baseTexture.Height * Scale;
@@ -62,12 +60,6 @@ namespace chapter_11.Objects
             AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(0, 0), _baseTexture.Width * Scale, _baseTexture.Height * Scale));
         }
         
-        private void CalculateDirection()
-        {
-            _direction = new Vector2((float)Math.Cos(_angle - AngleOffset), (float)Math.Sin(_angle - AngleOffset));
-            _direction.Normalize();
-        }
-
         public void Update(GameTime gameTime, Vector2 currentPlayerCenter)
         {
             // move turret down
@@ -147,13 +139,13 @@ namespace chapter_11.Objects
         public void MoveLeft()
         {
             _angle -= AngleSpeed;
-            CalculateDirection();
+            _direction = CalculateDirection(AngleOffset);
         }
 
         public void MoveRight()
         {
             _angle += AngleSpeed;
-            CalculateDirection();
+            _direction = CalculateDirection(AngleOffset);
         }
 
         public void Shoot(GameTime gameTime)

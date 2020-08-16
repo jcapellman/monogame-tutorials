@@ -12,6 +12,8 @@ namespace chapter_11.Engine.Objects
         protected Texture2D _boundingBoxTexture;
 
         protected Vector2 _position = Vector2.One;
+        protected float _angle;
+        protected Vector2 _direction;
         protected List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
 
         public int zIndex;
@@ -87,6 +89,15 @@ namespace chapter_11.Engine.Objects
         {
             _boundingBoxes.Add(bb);
         }
+
+        protected Vector2 CalculateDirection(float angleOffset = 0.0f)
+        {
+            _direction = new Vector2((float)Math.Cos(_angle - angleOffset), (float)Math.Sin(_angle - angleOffset));
+            _direction.Normalize();
+
+            return _direction;
+        }
+
 
         private void CreateBoundingBoxTexture(GraphicsDevice graphicsDevice)
         {

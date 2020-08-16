@@ -26,8 +26,12 @@ namespace chapter_11.Levels
             var fileName = $"{assemblyName}.Levels.LevelData.Level{nb}.txt";
 
             var stream = assembly.GetManifestResourceStream(fileName);
-            var reader = new StreamReader(stream);
-            var levelString = reader.ReadToEnd();
+
+            string levelString;
+            using (var reader = new StreamReader(stream))
+            {
+                levelString = reader.ReadToEnd();
+            }
 
             var rows = levelString.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             var convertedRows = from r in rows

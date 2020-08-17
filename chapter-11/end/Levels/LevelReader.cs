@@ -26,14 +26,25 @@ namespace chapter_11.Levels
             var fileName = $"{assemblyName}.Levels.LevelData.Level{nb}.txt";
 
             var stream = assembly.GetManifestResourceStream(fileName);
-            var reader = new StreamReader(stream);
-            var levelString = reader.ReadToEnd();
 
-            var rows = levelString.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            var convertedRows = from r in rows
-                                select ToEventRow(r);
+            string levelString;
+            using (var reader = new StreamReader(stream))
+            {
+                levelString = reader.ReadToEnd();
+            }
 
-            return convertedRows.Reverse().ToList();
+            if (levelString != null && levelString.Length > 0)
+            {
+                var rows = levelString.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                var convertedRows = from r in rows
+                                    select ToEventRow(r);
+
+                return convertedRows.Reverse().ToList();
+            }
+            else
+            {
+                return new List<List<BaseGameStateEvent>>();
+            }
         }
 
         private List<BaseGameStateEvent> ToEventRow(string rowString)

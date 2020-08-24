@@ -47,6 +47,7 @@ namespace chapter_11.Engine
             graphics.PreferredBackBufferWidth = _DesignedResolutionWidth;
             graphics.PreferredBackBufferHeight = _DesignedResolutionHeight;
             graphics.IsFullScreen = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
 
             _renderTarget = new RenderTarget2D(graphics.GraphicsDevice, _DesignedResolutionWidth, _DesignedResolutionHeight, false,
